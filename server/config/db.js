@@ -20,21 +20,39 @@ const connectDB = async () => {
   }
 
   isConnecting = true;
-  const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/islam_portfolio';
+  const primaryUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/islam_portfolio';
+  const localUri = 'mongodb://127.0.0.1:27017/islam_portfolio';
 
   try {
-    const conn = await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 8000
+    const conn = await mongoose.connect(primaryUri, {
+      serverSelectionTimeoutMS: 5000
     });
     console.log(`[Database] MongoDB Connected: ${conn.connection.host}`);
     isConnecting = false;
     return true;
   } catch (error) {
-    console.warn(`[Database] Warning: Could not connect to MongoDB server (${error.message}).`);
-    console.warn(`[Database] Running in Fallback / In-Memory cache mode if needed.`);
+    console.warn(`[Database] Warning: Could not connect to primary MongoDB (${error.message}).`);
+
+    // If primary was not local, try fallback to local MongoDB
+    if (primaryUri !== localUri) {
+      try {
+        console.log(`[Database] Attempting connection to local MongoDB: ${localUri}`);
+        const localConn = await mongoose.connect(localUri, {
+          serverSelectionTimeoutMS: 3000
+        });
+        console.log(`[Database] Local MongoDB Connected: ${localConn.connection.host}`);
+        isConnecting = false;
+        return true;
+      } catch (localErr) {
+        console.warn(`[Database] Local MongoDB also unavailable: ${localErr.message}`);
+      }
+    }
+
+    console.warn(`[Database] Running in Fallback / In-Memory cache mode.`);
     isConnecting = false;
     return false;
   }
 };
 
 module.exports = connectDB;
+

@@ -37,6 +37,8 @@ app.use(helmet({
 const allowedOrigins = [
   'https://islam-shahat-portfolio.vercel.app',
   'https://islam-shahat.github.io',
+  'http://localhost:5050',
+  'http://127.0.0.1:5050',
   'http://localhost:5000',
   'http://localhost:5500',
   'http://localhost:5501',
@@ -296,7 +298,7 @@ app.use((err, req, res, next) => {
 
 // Start Server (Only when run directly and not in Vercel Serverless environment)
 if (require.main === module && !process.env.VERCEL) {
-  const PORT = process.env.PORT || 5000;
+  const PORT = process.env.PORT || 5050;
   app.listen(PORT, () => {
     console.log(`
 =====================================================

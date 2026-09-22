@@ -1,7 +1,7 @@
 const getApiBase = () => {
-  if (window.location.protocol === 'file:') return 'http://localhost:5000/api';
-  if (window.location.port && window.location.port !== '5000') {
-    return `http://${window.location.hostname || 'localhost'}:5000/api`;
+  if (window.location.protocol === 'file:') return 'http://localhost:5050/api';
+  if (window.location.port && window.location.port !== '5050') {
+    return `http://${window.location.hostname || 'localhost'}:5050/api`;
   }
   return '/api';
 };
@@ -211,7 +211,7 @@ function switchToTab(tabName) {
     certificates: ['الشهادات والاعتمادات', 'إدارة شهادات الدورات والدبلومات مع معاينات PDF'],
     testimonials: ['آراء العملاء والشركاء', 'إدارة شهادات التقدير وتوصيات العملاء مع إثباتات السكرين شوت'],
     cv: ['إدارة الـ CV والملفات', 'رفع السيرة الذاتية بصيغة PDF وتحديد النسخة المفعّلة للموقع'],
-    skills: ['المهارات والتخصصات', 'إدارة وتقييم مهارات الـ Full-Stack والـ MEAN Stack'],
+    skills: ['المهارات والتخصصات', 'إدارة وتقييم مهارات الـ Full-Stack والـ MERN Stack'],
     files: ['مدير الملفات بالسيرفر', 'عرض وتحميل وإدارة جميع الملفات المرفوعة في السيرفر'],
     inquiries: ['رسائل الزوار', 'متابعة وقراءة استفسارات التواصل الواردة من البورتفوليو'],
     settings: ['إعدادات الحساب', 'تغيير كلمة المرور والبيانات الأمنية لآدمن البورتفوليو']

@@ -1,7 +1,7 @@
 const getApiBase = () => {
-    if (window.location.protocol === 'file:') return 'http://localhost:5000/api';
-    if (window.location.port && window.location.port !== '5000') {
-        return `http://${window.location.hostname || 'localhost'}:5000/api`;
+    if (window.location.protocol === 'file:') return 'http://localhost:5050/api';
+    if (window.location.port && window.location.port !== '5050') {
+        return `http://${window.location.hostname || 'localhost'}:5050/api`;
     }
     return '/api';
 };

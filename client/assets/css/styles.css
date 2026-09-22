@@ -170,6 +170,7 @@ img {
     transform: scale(0.85);
     background: linear-gradient(135deg, #fff 30%, var(--first-color) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
     white-space: nowrap;
@@ -1000,6 +1001,7 @@ html.lenis body {
     font-weight: 800;
     background: linear-gradient(135deg, #ffffff 0%, var(--first-color) 60%, var(--secondary-color) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 0.25rem;
     letter-spacing: -0.5px;
@@ -4832,6 +4834,7 @@ button.home__cv:hover {
     font-family: serif;
     background: linear-gradient(135deg, rgba(0, 242, 254, 0.18) 0%, rgba(77, 166, 255, 0.05) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     pointer-events: none;
     user-select: none;

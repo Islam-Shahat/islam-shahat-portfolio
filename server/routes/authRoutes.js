@@ -45,7 +45,7 @@ const handleLogin = async (req, res) => {
     }
 
     // 2. Fallback authentication check using configured environment variables
-    if (username === envAdminUsername && (password === envAdminPassword || password === 'admin123')) {
+    if (username === envAdminUsername && password === envAdminPassword) {
       return res.json({
         success: true,
         token: generateToken('fallback-admin-id-123'),
