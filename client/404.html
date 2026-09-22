@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Islam Shahat</title>
+    <meta name="description" content="The page you are looking for does not exist. Return to Islam Shahat's Portfolio.">
+    <meta name="robots" content="noindex, follow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon_io/favicon.svg?v=iss7">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon_io/favicon-32x32.png?v=iss7">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon_io/favicon-16x16.png?v=iss7">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon_io/apple-touch-icon.png?v=iss7">
+    <link rel="shortcut icon" href="assets/img/favicon_io/favicon.ico?v=iss7" type="image/x-icon">
+    <link rel="manifest" href="assets/img/favicon_io/site.webmanifest?v=iss7">
+    
+    <!-- Remix Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --body-color: #040a14;
+            --container-color: #0d1522;
+            --first-color: hsl(210, 100%, 65%);
+            --secondary-color: #00f2fe;
+            --title-color: #ffffff;
+            --text-color: #94a3b8;
+            --body-font: 'Montserrat', sans-serif;
+            --second-font: 'Unbounded', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--body-color);
+            color: var(--text-color);
+            font-family: var(--body-font);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            padding: 1.5rem;
+        }
+
+        /* Radial Glow Background */
+        .bg-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, rgba(77, 166, 255, 0.06) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.9) translate(-10%, -10%); opacity: 0.7; }
+            100% { transform: scale(1.15) translate(10%, 10%); opacity: 1; }
+        }
+
+        .container-404 {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 600px;
+            background: rgba(13, 21, 34, 0.75);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 3.5rem 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(0, 242, 254, 0.15);
+        }
+
+        .glitch-404 {
+            font-family: var(--second-font);
+            font-size: clamp(5rem, 15vw, 8.5rem);
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, #ffffff 0%, var(--first-color) 50%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+            filter: drop-shadow(0 0 25px rgba(0, 242, 254, 0.3));
+        }
+
+        .title-404 {
+            font-family: var(--second-font);
+            font-size: 1.5rem;
+            color: var(--title-color);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .desc-404 {
+            font-size: 1rem;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 2.25rem;
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.95rem 2.25rem;
+            background: linear-gradient(135deg, hsl(210, 95%, 58%) 0%, var(--secondary-color) 100%);
+            color: #040a14;
+            font-family: var(--second-font);
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.35);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-home:hover {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, hsl(210, 100%, 68%) 100%);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 14px 40px rgba(0, 242, 254, 0.6);
+            color: #040a14;
+        }
+
+        .btn-home i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-home:hover i {
+            transform: translateX(-4px);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    
+    <main class="container-404">
+        <h1 class="glitch-404">404</h1>
+        <h2 class="title-404">Page Not Found</h2>
+        <p class="desc-404">
+            The page you are looking for might have been moved, renamed, or is temporarily unavailable.
+        </p>
+        <a href="/" class="btn-home">
+            <i class="ri-arrow-left-line"></i> Return to Portfolio
+        </a>
+    </main>
+</body>
+</html>

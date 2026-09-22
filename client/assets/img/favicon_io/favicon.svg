@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#081711"/>
+      <stop offset="40%" stop-color="#0e2a1f"/>
+      <stop offset="100%" stop-color="#040b08"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#06b6d4" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded Squircle Base -->
+  <rect x="18" y="18" width="476" height="476" rx="108" fill="url(#bgGrad)" stroke="url(#borderGrad)" stroke-width="20"/>
+
+  <!-- Radial subtle emerald light aura -->
+  <circle cx="256" cy="256" r="170" fill="#10b981" opacity="0.14"/>
+
+  <!-- Brand Typography: ISS7 -->
+  <text x="256" y="322" 
+        font-family="system-ui, -apple-system, 'Segoe UI', Arial, sans-serif" 
+        font-size="166" 
+        font-weight="900" 
+        letter-spacing="2" 
+        text-anchor="middle">
+    <tspan fill="url(#textGrad)">ISS</tspan><tspan fill="url(#accentGrad)">7</tspan>
+  </text>
+</svg>

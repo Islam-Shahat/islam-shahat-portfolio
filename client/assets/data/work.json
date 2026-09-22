@@ -1,0 +1,167 @@
+{
+    "experience": [
+        {
+            "_id": "exp-mern-2025",
+            "title": "Full Stack MERN Developer",
+            "subtitle": "Freelance & Personal Projects",
+            "company": "Freelance & Personal Projects",
+            "year": "2025 - Present",
+            "startDate": "2025",
+            "endDate": "Present",
+            "description": "Building modern, responsive web applications using React, Node.js, Express, and MongoDB. Developing RESTful APIs, database-driven systems, authentication flows, and responsive user interfaces while focusing on clean architecture and practical solutions.",
+            "orderIndex": 1
+        },
+        {
+            "_id": "exp-webdev-2025",
+            "title": "Web Developer",
+            "subtitle": "Freelance Projects",
+            "company": "Freelance Projects",
+            "year": "2025 - Present",
+            "startDate": "2025",
+            "endDate": "Present",
+            "description": "Developing web solutions for real-world use cases, from designing responsive interfaces to building backend services and integrating databases and APIs. Working across the full development lifecycle, including planning, development, testing, and deployment.",
+            "orderIndex": 2
+        },
+        {
+            "_id": "exp-veranda-2026",
+            "title": "Frontend Developer",
+            "subtitle": "Veranda Cafe — Web Project",
+            "company": "Veranda Cafe — Web Project",
+            "year": "2026",
+            "startDate": "2026",
+            "endDate": "2026",
+            "description": "Developed a responsive cafe website based on a Figma design, focusing on responsive layouts, user experience, and clean implementation. Integrated a Google Sheets-based booking system and collaborated with a team to merge and organize the project code.",
+            "orderIndex": 3
+        }
+    ],
+    "education": [
+        {
+            "_id": "edu-1789326218372",
+            "title": "Bachelor's Degree in Computer Science",
+            "degree": "B.Sc. in Computer Science",
+            "subtitle": "Faculty of Computers and Information, Qena University",
+            "institution": "Faculty of Computers and Information, Qena University",
+            "year": "2024 - 2028",
+            "startDate": "2024",
+            "endDate": "2028",
+            "description": "Third-year Computer Science student (Expected Graduation: 2028). Relevant Coursework: Data Structures, Algorithms, Object-Oriented Programming (C++), Database Systems, Software Engineering, Operating Systems, Computer Networks, and Web Development.",
+            "orderIndex": 1
+        }
+    ],
+    "volunteering": [
+        {
+            "_id": "vol-trackers-2026",
+            "title": "Web Development Instructor & Vice Head",
+            "role": "Web Development Instructor & Vice Head",
+            "subtitle": "Trackers Support Community",
+            "organization": "Trackers Support Community",
+            "location": "Qena, Egypt",
+            "year": "2026 - Present",
+            "startDate": "2026",
+            "endDate": "Present",
+            "description": "Delivering practical web development sessions covering HTML, CSS, and JavaScript while supporting the Trackers team in coordinating learning activities, following up with members, and organizing technical learning tracks through hands-on projects and practical guidance.",
+            "orderIndex": 1
+        },
+        {
+            "_id": "vol-rally-2025",
+            "title": "HR Member",
+            "role": "HR Member",
+            "subtitle": "Rally Egypt — Entrepreneurship Organization",
+            "organization": "Rally Egypt — Entrepreneurship Organization",
+            "year": "2025 - Present",
+            "startDate": "2025",
+            "endDate": "Present",
+            "description": "Supporting student entrepreneurs and startup ideas, helping organize university events and activities, and contributing to communication and team coordination.",
+            "orderIndex": 2
+        },
+        {
+            "_id": "vol-acpc-2025",
+            "title": "Community Organizer",
+            "role": "Community Organizer",
+            "subtitle": "ACPC — Arab Collegiate Programming Contest",
+            "organization": "ACPC — Arab Collegiate Programming Contest",
+            "year": "2025 - Present",
+            "startDate": "2025",
+            "endDate": "Present",
+            "description": "Supporting contest organization and community activities, assisting participants, and helping explain programming solutions and technical concepts.",
+            "orderIndex": 3
+        },
+        {
+            "_id": "vol-egyptgreen-2025",
+            "title": "Team Member",
+            "role": "Team Member",
+            "subtitle": "Egypt Green — Saffer Sustainable Initiative",
+            "organization": "Egypt Green — Saffer Sustainable Initiative",
+            "year": "2026 - Present",
+            "startDate": "2026",
+            "endDate": "Present",
+            "description": "Contributing to a sustainability initiative focused on reducing agricultural waste burning and its environmental impact in Upper Egypt.",
+            "orderIndex": 4
+        }
+    ],
+    "certificates": [
+        {
+            "title": "Python Programming Fundamentals",
+            "name": "Python Programming Fundamentals",
+            "subtitle": "Creativa TIEC Qena",
+            "issuer": "Creativa Hubs",
+            "issuerLogo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+            "year": "July 2026",
+            "issueDate": "July 2026",
+            "duration": "30 Hours",
+            "credentialId": "CREATIVA-PY-102",
+            "skills": [
+                "Python 3",
+                "OOP",
+                "Data Structures",
+                "Scripting"
+            ],
+            "description": "Completed intensive training in Python core programming, data structures, and script automation.",
+            "image": "https://res.cloudinary.com/azk1xpfli/image/upload/v1789469355/portfolio/image/nnzkclycuu6mnbxg8c3v.png",
+            "pdfFile": "https://res.cloudinary.com/azk1xpfli/image/upload/v1789469355/portfolio/image/nnzkclycuu6mnbxg8c3v.png",
+            "link": "https://creativa.gov.eg/",
+            "orderIndex": 1
+        },
+        {
+            "title": "Learn C++ & OOP from Scratch",
+            "name": "Learn C++ & OOP from Scratch",
+            "subtitle": "Udemy",
+            "issuer": "Udemy",
+            "issuerLogo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-plain.svg",
+            "year": "September 2025",
+            "issueDate": "September 2025",
+            "duration": "32 Hours",
+            "credentialId": "UC-CPP-OOP-7712",
+            "skills": [
+                "C++",
+                "OOP",
+                "Memory Management",
+                "Pointers",
+                "Data Structures"
+            ],
+            "description": "Mastered C++ programming fundamentals, object-oriented programming (OOP) principles, memory management, and data structures.",
+            "link": "https://www.udemy.com/",
+            "orderIndex": 2
+        },
+        {
+            "title": "The 2026 ICPC Egyptian Collegiate Programming Contest",
+            "name": "The 2026 ICPC Egyptian Collegiate Programming Contest",
+            "subtitle": "ICPC ECPC Qualifications",
+            "issuer": "ICPC / ECPC",
+            "issuerLogo": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
+            "year": "August 2026",
+            "issueDate": "August 2026",
+            "duration": "Competitive Finalist",
+            "credentialId": "ECPC-QUAL-2026",
+            "skills": [
+                "Algorithms",
+                "Data Structures",
+                "C++",
+                "Competitive Programming"
+            ],
+            "description": "Qualified and competed in the Egyptian Collegiate Programming Contest solving complex algorithmic and data structure problems.",
+            "link": "https://icpc.global/",
+            "orderIndex": 3
+        }
+    ]
+}

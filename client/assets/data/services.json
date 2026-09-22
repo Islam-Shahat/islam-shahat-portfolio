@@ -1,0 +1,59 @@
+[
+  {
+    "title": "01 — Full Stack MERN Development",
+    "description": "Building modern, responsive web applications using React, Node.js, Express.js, and MongoDB, with clean architecture, reusable components, and maintainable code.",
+    "subtitle": "Skills & Tools",
+    "skills": [
+      "React.js",
+      "JavaScript / TypeScript",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "RESTful APIs",
+      "Git & GitHub"
+    ],
+    "icon": "ri-code-s-slash-line"
+  },
+  {
+    "title": "02 — Web Development Instruction",
+    "description": "Delivering practical web development sessions and simplifying programming concepts for Computer Science students, with a focus on hands-on learning and real-world examples.",
+    "subtitle": "Topics",
+    "skills": [
+      "HTML & CSS",
+      "JavaScript",
+      "C++",
+      "Object-Oriented Programming",
+      "Data Structures",
+      "Web Development Fundamentals"
+    ],
+    "icon": "ri-presentation-line"
+  },
+  {
+    "title": "03 — Backend & API Development",
+    "description": "Developing structured backend systems and RESTful APIs with authentication, middleware, asynchronous programming, validation, and scalable server-side architecture.",
+    "subtitle": "Focus Areas",
+    "skills": [
+      "Node.js & Express.js",
+      "RESTful API Design",
+      "JWT Authentication",
+      "Middleware",
+      "Async Programming",
+      "MongoDB Data Modeling"
+    ],
+    "icon": "ri-server-line"
+  },
+  {
+    "title": "04 — Database Design & Core CS",
+    "description": "Designing structured and efficient data systems while applying core Computer Science concepts to real-world software projects.",
+    "subtitle": "Focus Areas",
+    "skills": [
+      "Database Design",
+      "ERD & Relational Models",
+      "SQL",
+      "MongoDB / NoSQL",
+      "C++ & OOP",
+      "Data Structures & Algorithms"
+    ],
+    "icon": "ri-database-2-line"
+  }
+]

@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--=============== SEO METADATA ===============-->
+    <meta name="description"
+        content="Islam Shahat - Full Stack MERN Developer & Computer Science Student at Qena University. Specialized in React.js, Node.js, Express, MongoDB, and RESTful APIs.">
+    <meta name="keywords"
+        content="Islam Shahat, Full Stack Developer, MERN Stack Developer, Software Engineer, Qena, Egypt, React, Node.js, MongoDB, Express, C++, Python">
+    <meta name="author" content="Islam Shahat">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#040d08">
+    <link rel="canonical" href="https://islam-shahat-portfolio.vercel.app/">
+
+    <!--=============== OPEN GRAPH / FACEBOOK METADATA ===============-->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Islam Shahat | Full Stack MERN Developer Portfolio">
+    <meta property="og:description"
+        content="Discover the portfolio of Islam Shahat, a Full Stack MERN Developer and Computer Science student engineering modern web applications.">
+    <meta property="og:url" content="https://islam-shahat-portfolio.vercel.app/">
+    <meta property="og:site_name" content="Islam Shahat Portfolio">
+    <meta property="og:image" content="assets/img/islam_profile.png">
+    <meta property="og:locale" content="en_US">
+
+    <!--=============== TWITTER CARDS METADATA ===============-->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Islam Shahat | Full Stack MERN Developer Portfolio">
+    <meta name="twitter:description"
+        content="Discover the portfolio of Islam Shahat, a Full Stack MERN Developer and Computer Science student engineering modern web applications.">
+    <meta name="twitter:image" content="assets/img/islam_profile.png">
+
+    <!--=============== JSON-LD STRUCTURED DATA ===============-->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://islam-shahat-portfolio.vercel.app/#person",
+          "name": "Islam Shahat",
+          "jobTitle": "Full Stack MERN Developer & Software Engineer",
+          "url": "https://islam-shahat-portfolio.vercel.app/",
+          "image": "https://islam-shahat-portfolio.vercel.app/assets/img/islam_profile.png",
+          "sameAs": [
+            "https://www.linkedin.com/in/islam-shahat/",
+            "https://github.com/islam-shahat",
+            "https://wa.me/201557523934"
+          ],
+          "knowsAbout": [
+            "MongoDB",
+            "Express.js",
+            "React.js",
+            "Node.js",
+            "JavaScript",
+            "C++",
+            "Python",
+            "REST APIs",
+            "Data Structures",
+            "Full Stack Development"
+          ],
+          "alumniOf": {
+            "@type": "EducationalOrganization",
+            "name": "Qena University - Faculty of Computers and Information"
+          },
+          "description": "Full Stack MERN Developer and Computer Science student at Qena University building modern, scalable web applications."
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://islam-shahat-portfolio.vercel.app/#website",
+          "url": "https://islam-shahat-portfolio.vercel.app/",
+          "name": "Islam Shahat | Full Stack Developer Portfolio",
+          "publisher": {
+            "@id": "https://islam-shahat-portfolio.vercel.app/#person"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "ProfessionalService",
+          "name": "Islam Shahat - Web Development & Software Engineering Services",
+          "url": "https://islam-shahat-portfolio.vercel.app/",
+          "provider": {
+            "@id": "https://islam-shahat-portfolio.vercel.app/#person"
+          },
+          "areaServed": "Global",
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Web & Software Engineering Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Full Stack MERN Web Development (React, Node, Express, MongoDB)"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "RESTful API Architecture & Backend Engineering"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Responsive Frontend UI & Video Editing Solutions"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!--=============== FAVICON ===============-->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon_io/favicon.svg?v=iss7">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon_io/favicon-32x32.png?v=iss7">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon_io/favicon-16x16.png?v=iss7">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon_io/apple-touch-icon.png?v=iss7">
+    <link rel="shortcut icon" href="assets/img/favicon_io/favicon.ico?v=iss7" type="image/x-icon">
+    <link rel="manifest" href="assets/img/favicon_io/site.webmanifest?v=iss7">
+
+    <!--=============== REMIX ICONS ===============-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!--=============== SWIPER CSS ===============-->
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+
+    <!--=============== GOOGLE FONTS ===============-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap"
+        rel="stylesheet">
+
+    <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="assets/css/styles.css?v=4.0">
+
+    <title>Islam Shahat | Full Stack MERN Developer Portfolio</title>
+</head>
+
+<body>
+    <!-- BACKGROUND PARTICLES CANVAS -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="header-blob blob-animate"></div>
+
+    <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo">ISS7</a>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li>
+                        <a href="#home" class="nav__link active-link">
+                            <i class="ri-home-5-line nav__icon"></i>
+                            <span class="nav__name">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#about" class="nav__link">
+                            <i class="ri-user-line nav__icon"></i>
+                            <span class="nav__name">About Me</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#services" class="nav__link">
+                            <i class="ri-customer-service-2-line nav__icon"></i>
+                            <span class="nav__name">Services</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#projects" class="nav__link">
+                            <i class="ri-image-line nav__icon"></i>
+                            <span class="nav__name">Projects</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#skills" class="nav__link">
+                            <i class="ri-code-box-line nav__icon"></i>
+                            <span class="nav__name">Skills</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#work" class="nav__link">
+                            <i class="ri-briefcase-3-line nav__icon"></i>
+                            <span class="nav__name">Experience</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#certificates" class="nav__link">
+                            <i class="ri-award-line nav__icon"></i>
+                            <span class="nav__name">Certificates</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#testimonials" class="nav__link">
+                            <i class="ri-chat-quote-line nav__icon"></i>
+                            <span class="nav__name">Reviews</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="nav__link">
+                            <i class="ri-mail-send-line nav__icon"></i>
+                            <span class="nav__name">Contact Me</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Close button for tablet hamburger drawer -->
+                <div class="nav__close" id="nav-close">
+                    <i class="ri-close-line"></i>
+                </div>
+            </div>
+
+            <!-- Toggle button for tablet hamburger -->
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="ri-menu-line"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!--==================== MAIN ====================-->
+    <main class="main">
+        <!-- CUSTOM CURSOR -->
+        <div class="cursor"></div>
+        <div class="cursor-trail cursor-trail-1"></div>
+        <div class="cursor-trail cursor-trail-2"></div>
+        <!--==================== HOME ====================-->
+        <section class="home section" id="home">
+            <!-- THREE.JS INTERACTIVE 3D WEBGL HERO CANVAS -->
+            <canvas id="three-hero-canvas" class="home__three-canvas"></canvas>
+
+            <div class="home__container container grid">
+                <!-- Left side container -->
+                <div class="home__left">
+                    <div class="home__data">
+                        <h3 class="home__greeting">Hello, I'm</h3>
+                        <h1 class="home__name">Islam <br> Shahat</h1>
+                    </div>
+
+                    <div class="home__social">
+                        <a href="https://www.linkedin.com/in/islam-shahat/" target="_blank" class="home__social-link">
+                            <i class="ri-linkedin-box-line"></i>
+                        </a>
+                        <a href="https://github.com/islam-shahat" target="_blank" class="home__social-link">
+                            <i class="ri-github-line"></i>
+                        </a>
+                        <a href="https://wa.me/201557523934" target="_blank" class="home__social-link">
+                            <i class="ri-whatsapp-line"></i>
+                        </a>
+                        <a href="mailto:islam.shahat.net@gmail.com" target="_blank" class="home__social-link">
+                            <i class="ri-google-line"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Center Profile Image -->
+                <div class="home__image">
+                    <div class="blob-animate"></div>
+                    <picture>
+                        <source srcset="assets/img/islam_profile.webp?v=3" type="image/webp">
+                        <img src="assets/img/islam_profile.png?v=3" alt="Islam Shahat Profile Image"
+                            class="home__perfil" width="440" height="587" fetchpriority="high" decoding="async">
+                    </picture>
+                </div>
+
+                <!-- Right side container -->
+                <div class="home__right">
+                    <div class="home__info">
+                        <h3 class="home__split">Full Stack</h3>
+                        <div class="home__profession-box">
+                            <h2 class="home__profession-1">Web Developer</h2>
+                            <h2 class="home__profession-2">Software Engineer</h2>
+                        </div>
+                    </div>
+
+                    <a href="assets/pdf/Islam_Shahat_CV.pdf" download="Islam_Shahat_CV.pdf" class="home__cv" id="home-cv-btn">
+                        RESUME <i class="ri-download-2-line"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== TECH SCROLL ====================-->
+        <section class="tech-scroll">
+            <div class="tech-scroll__container">
+                <div class="tech-row tech-row--left">
+                    <div class="tech-track" id="tech-left"></div>
+                </div>
+
+                <div class="tech-row tech-row--right">
+                    <div class="tech-track" id="tech-right"></div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== ABOUT ====================-->
+        <section class="about section" id="about">
+            <div class="about__shadow"></div>
+
+            <div class="about__container container grid">
+                <!-- Left Image (Original Graphic) -->
+                <div class="about__image">
+                    <div class="blob-animate"></div>
+                    <div class="blob-animate"></div>
+                    <picture>
+                        <source srcset="assets/img/About.webp?v=3" type="image/webp">
+                        <img src="assets/img/About.png?v=3" alt="Islam Shahat About Image" class="about__perfil" width="480"
+                            height="640" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+
+                <!-- Right Data Content -->
+                <div class="about__data">
+                    <span class="about__subtitle-tag">About Me</span>
+                    <h2 class="section__title">
+                        <span>Engineering</span> Scalable Digital Solutions
+                    </h2>
+
+                    <p class="about__description">
+                        I'm a <b>Full Stack MERN Developer</b> and a third-year Computer Science student at <b>Qena University</b>.
+                        I build modern, responsive web applications using <b>React, Node.js, Express, and MongoDB</b>, with a strong
+                        interest in backend development, scalable systems, and solving real-world problems through technology.
+                        Experienced as a <b>Web Development Instructor</b> at <b>Support Community</b>.
+                    </p>
+
+                    <!-- Real Portfolio Highlights with Animated Counters -->
+                    <div class="about__stats">
+                        <div class="about__stat-card">
+                            <i class="ri-shield-check-line"></i>
+                            <h3 class="about__stat-number" data-target="100" data-suffix="%">0%</h3>
+                            <p>Delivery Commitment</p>
+                        </div>
+                        <div class="about__stat-card">
+                            <i class="ri-team-line"></i>
+                            <h3 class="about__stat-number" data-target="50" data-suffix="+">0+</h3>
+                            <p>Students Instructed</p>
+                        </div>
+                        <div class="about__stat-card">
+                            <i class="ri-stack-line"></i>
+                            <h3 class="about__stat-number" data-target="10" data-suffix="+">0+</h3>
+                            <p>Scalable Projects</p>
+                        </div>
+                    </div>
+
+                    <!-- Language Badges -->
+                    <div class="about__languages">
+                        <span class="about__lang-badge"><i class="ri-global-line"></i> <b>Arabic:</b> Native</span>
+                        <span class="about__lang-badge"><i class="ri-translate-2"></i> <b>English:</b> Intermediate</span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="about__buttons">
+                        <a href="assets/pdf/Islam_Shahat_CV.pdf" target="_blank" rel="noopener noreferrer"
+                            class="button button--primary" id="cv-preview-btn">
+                            <i class="ri-external-link-line"></i> View CV
+                        </a>
+                        <a href="assets/pdf/Islam_Shahat_CV.pdf" download="Islam_Shahat_CV.pdf" class="button button--ghost"
+                            id="cv-download-btn">
+                            <i class="ri-download-2-line"></i> Download CV
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== SERVICES ====================-->
+        <section class="services section" id="services">
+            <h2 class="section__title">What I <span>Offer</span></h2>
+
+            <div class="services__container container grid" id="services-content"></div>
+        </section>
+
+        <!--==================== PROJECTS ====================-->
+        <section class="projects section" id="projects">
+            <h2 class="section__title">
+                Featured <span>Projects</span>
+            </h2>
+
+            <div class="projects__container container grid">
+                <div class="projects__swiper swiper">
+                    <div class="swiper-wrapper" id="projects-content"></div>
+
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== SKILLS ====================-->
+        <section class="skills section" id="skills">
+            <h2 class="section__title">My <span>Skills</span></h2>
+
+            <div class="skills__container container grid" id="skills-container">
+                <!-- Card 1: Frontend -->
+                <div class="skills__card">
+                    <div class="blob"></div>
+                    <div class="skills__header">
+                        <i class="ri-layout-line skills__icon"></i>
+                        <h3 class="skills__title">Frontend</h3>
+                    </div>
+
+                    <div class="skills__list">
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-html5-fill skills__item-icon"></i>
+                                <span class="skills__name">HTML5 & CSS3</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-javascript-fill skills__item-icon"></i>
+                                <span class="skills__name">JavaScript / TypeScript</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-reactjs-line skills__item-icon"></i>
+                                <span class="skills__name">React.js</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-layout-masonry-line skills__item-icon"></i>
+                                <span class="skills__name">Responsive Web Design</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-palette-line skills__item-icon"></i>
+                                <span class="skills__name">Tailwind & Bootstrap</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Backend & Databases -->
+                <div class="skills__card">
+                    <div class="blob"></div>
+                    <div class="skills__header">
+                        <i class="ri-server-line skills__icon"></i>
+                        <h3 class="skills__title">Backend & Databases</h3>
+                    </div>
+
+                    <div class="skills__list">
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-nodejs-line skills__item-icon"></i>
+                                <span class="skills__name">Node.js</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-settings-5-line skills__item-icon"></i>
+                                <span class="skills__name">Express.js</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-shield-keyhole-line skills__item-icon"></i>
+                                <span class="skills__name">RESTful APIs & Auth (JWT)</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-database-2-line skills__item-icon"></i>
+                                <span class="skills__name">MongoDB</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-database-line skills__item-icon"></i>
+                                <span class="skills__name">SQL (SQL Server / PostgreSQL)</span>
+                            </div>
+                            <span class="skills__level">Intermediate</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-docker-fill skills__item-icon"></i>
+                                <span class="skills__name">Docker</span>
+                            </div>
+                            <span class="skills__level">Intermediate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Core CS & Tools -->
+                <div class="skills__card">
+                    <div class="blob"></div>
+                    <div class="skills__header">
+                        <i class="ri-cpu-line skills__icon"></i>
+                        <h3 class="skills__title">Core CS & Tools</h3>
+                    </div>
+
+                    <div class="skills__list">
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-braces-line skills__item-icon"></i>
+                                <span class="skills__name">C++ & OOP</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-node-tree skills__item-icon"></i>
+                                <span class="skills__name">Data Structures & Algorithms</span>
+                            </div>
+                            <span class="skills__level">Intermediate</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-git-branch-line skills__item-icon"></i>
+                                <span class="skills__name">Git & GitHub</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-send-plane-2-line skills__item-icon"></i>
+                                <span class="skills__name">Postman</span>
+                            </div>
+                            <span class="skills__level">Advanced</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-terminal-line skills__item-icon"></i>
+                                <span class="skills__name">Linux Basics</span>
+                            </div>
+                            <span class="skills__level">Intermediate</span>
+                        </div>
+
+                        <div class="skills__item">
+                            <div class="skills__item-data">
+                                <i class="ri-brain-line skills__item-icon"></i>
+                                <span class="skills__name">Python / AI</span>
+                            </div>
+                            <span class="skills__level">Intermediate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== WORK ====================-->
+        <section class="work section" id="work">
+            <h2 class="section__title">
+                <span>Experience</span>
+                <br> & Education
+            </h2>
+
+            <div class="work__container container grid">
+                <div class="work__tabs">
+                    <span class="work__blob"></span>
+
+                    <!-- Experience -->
+                    <button class="work__button work-active" data-target="#experience">
+                        Experience <i class="ri-briefcase-3-line"></i>
+                    </button>
+
+                    <!-- Education -->
+                    <button class="work__button" data-target="#education">
+                        Education <i class="ri-graduation-cap-line"></i>
+                    </button>
+
+                    <!-- Volunteering -->
+                    <button class="work__button" data-target="#volunteering">
+                        Volunteering <i class="ri-team-line"></i>
+                    </button>
+                </div>
+
+                <div class="work__area">
+                    <div class="work__line"></div>
+
+                    <!-- Content Experience -->
+                    <div class="work__content work-active" data-content id="experience"></div>
+
+                    <!-- Content Education -->
+                    <div class="work__content" data-content id="education"></div>
+
+                    <!-- Content Volunteering -->
+                    <div class="work__content" data-content id="volunteering"></div>
+                </div>
+            </div>
+        </section>
+
+        <!--==================== CERTIFICATES ====================-->
+        <section class="certificates section" id="certificates">
+            <h2 class="section__title">
+                <span>Certificates</span> & Licenses
+            </h2>
+
+            <div class="certificates__container container grid" id="certificates-grid"></div>
+
+            <!-- Certificates Dynamic Numbered Pagination & Controls (1, 2, 3...) -->
+            <div class="certificates__pagination-wrapper container" id="certificates-pagination" style="display: none;">
+                <button type="button" class="certs__nav-btn certs__nav-prev" id="certs-prev-btn"
+                    aria-label="Previous Page">
+                    <i class="ri-arrow-left-s-line"></i>
+                    <span>Prev</span>
+                </button>
+
+                <div class="certs__pages-list" id="certs-pages-list" role="navigation"
+                    aria-label="Certificates Pagination">
+                    <!-- Dynamic page numbers [ 1 ] [ 2 ] [ 3 ] injected by JS -->
+                </div>
+
+                <button type="button" class="certs__nav-btn certs__nav-next" id="certs-next-btn" aria-label="Next Page">
+                    <span>Next</span>
+                    <i class="ri-arrow-right-s-line"></i>
+                </button>
+            </div>
+        </section>
+
+        <!--==================== TESTIMONIALS (THREEUI 3D FLOATING SCREENS) ====================-->
+        <section class="testimonials section" id="testimonials">
+            <div class="testimonials__header container">
+                <span class="section__subtitle">Verified Recommendations</span>
+                <h2 class="section__title">What People <span>Say</span></h2>
+                <p class="testimonials__description">
+                    Endorsements from engineering leads, founders, and academic supervisors on real-world MEAN stack
+                    delivery.
+                </p>
+                <div class="testimonials__hint-badge">
+                    <i class="ri-cursor-line"></i> Hover over any screen to pause & inspect in 3D
+                </div>
+            </div>
+
+            <div class="testimonials__floating-stage" id="testimonials-floating-stage">
+                <!-- Glowing Cyber Ambient Background Light -->
+                <div class="testimonials__ambient-glow"></div>
+
+                <div class="testimonials__floating-track" id="testimonials-floating-track">
+                    <!-- Cards injected dynamically via JS into duplicate sets for infinite seamless 3D drift -->
+                </div>
+            </div>
+        </section>
+
+        <!--==================== CONTACT ====================-->
+        <section class="contact section" id="contact">
+            <div class="contact__container container grid">
+                <div class="contact__data">
+                    <h2 class="section__title">Contact Me</h2>
+
+                    <p class="contact__description">
+                        Tell Me About Your Next Project.
+                    </p>
+
+                    <form action="#" class="contact__form" id="contact-form">
+                        <!-- Anti-Bot Honeypot Field (Hidden from real users) -->
+                        <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;"
+                            aria-hidden="true">
+                            <input type="text" name="_website_url" id="contact-hp" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label class="contact__form-tag">Name</label>
+                            <input type="text" id="contact-name-input" placeholder="Insert your name" required
+                                class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label class="contact__form-tag">Email</label>
+                            <input type="email" id="contact-email-input" placeholder="Insert your email" required
+                                class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div contact__form-area">
+                            <label class="contact__form-tag">Message</label>
+                            <textarea id="contact-message-input" placeholder="Write your project details" required
+                                class="contact__form-input"></textarea>
+                        </div>
+
+                        <button type="submit" class="button contact__form-button">
+                            Send Message <i class="ri-send-plane-line"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact__content grid">
+                    <div class="contact__info grid">
+                        <div class="contact__email-box">
+                            <h3 class="contact__title">Email</h3>
+                            <div class="contact__email-wrapper" id="contact-btn">
+                                <address class="contact__address" id="contact-email">islam.shahat.net@gmail.com</address>
+                                <i class="ri-file-copy-line contact__copy-icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="contact__phone-box">
+                            <h3 class="contact__title">Phone</h3>
+                            <a href="tel:+201557523934" class="contact__address">+20 155 752 3934</a>
+                        </div>
+
+                        <div>
+                            <h3 class="contact__title">Location</h3>
+                            <address class="contact__address">Qena, Egypt</address>
+                        </div>
+                    </div>
+
+                    <div class="contact__social">
+                        <h3 class="contact__title">Social Media</h3>
+
+                        <div class="contact__links">
+                            <a href="https://www.linkedin.com/in/islam-shahat/" target="_blank" class="contact__link">
+                                LinkedIn
+                                <i class="ri-arrow-right-up-long-line"></i>
+                            </a>
+
+                            <a href="https://github.com/islam-shahat" target="_blank" class="contact__link">
+                                GitHub
+                                <i class="ri-arrow-right-up-long-line"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact__write">
+                        <h3 class="contact__title">Write Me & We'll Talk</h3>
+
+                        <div class="contact__links">
+                            <a href="https://wa.me/201557523934" target="_blank" class="contact__link">
+                                WhatsApp
+                                <i class="ri-arrow-right-up-long-line"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--==================== FOOTER ====================-->
+    <footer class="footer">
+        <div class="blob-animate"></div>
+        <div class="footer__container container grid">
+            <div class="footer__content">
+                <a href="#" class="footer__logo">ISS7</a>
+                <p class="footer__subtitle">Full Stack MERN Developer • Software Engineer</p>
+            </div>
+
+            <div class="footer__links">
+                <a href="#about" class="footer__link-item">About Me</a>
+                <a href="#services" class="footer__link-item">Services</a>
+                <a href="#projects" class="footer__link-item">Projects</a>
+                <a href="#testimonials" class="footer__link-item">Reviews</a>
+                <a href="#contact" class="footer__link-item">Contact Me</a>
+            </div>
+
+            <div class="footer__social">
+                <a href="https://www.linkedin.com/in/islam-shahat/" target="_blank" class="footer__social-icon">
+                    <i class="ri-linkedin-box-line"></i>
+                </a>
+                <a href="https://github.com/islam-shahat" target="_blank" class="footer__social-icon">
+                    <i class="ri-github-line"></i>
+                </a>
+                <a href="https://wa.me/201557523934" target="_blank" class="footer__social-icon">
+                    <i class="ri-whatsapp-line"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer__bottom container">
+            <div class="footer__copy">
+                All Rights Reserved By <span>Islam Shahat</span>
+            </div>
+            <div class="footer__year">
+                &#169; <span id="footer-year"></span>
+            </div>
+        </div>
+    </footer>
+
+    <div class="intro-loader" id="intro-loader">
+        <div class="intro-loader__bg"></div>
+
+        <!-- Marquee Background Rows -->
+        <div class="intro-loader__marquee-container">
+            <div class="intro-loader__marquee intro-loader__marquee--left">
+                <div class="intro-loader__marquee-track">
+                    <span>INNOVATE • CREATE • DEVELOP • CODING • LOGIC • MERN • DESIGN • SPEED • SCALE • PERFORMANCE •
+                    </span>
+                    <span>INNOVATE • CREATE • DEVELOP • CODING • LOGIC • MERN • DESIGN • SPEED • SCALE • PERFORMANCE •
+                    </span>
+                </div>
+            </div>
+            <div class="intro-loader__marquee intro-loader__marquee--right">
+                <div class="intro-loader__marquee-track">
+                    <span>BUILD THE FUTURE • SOLVE PROBLEMS • REACT • CLEAN CODE • ALGORITHMS • NODE • EXPRESS •
+                    </span>
+                    <span>BUILD THE FUTURE • SOLVE PROBLEMS • REACT • CLEAN CODE • ALGORITHMS • NODE • EXPRESS •
+                    </span>
+                </div>
+            </div>
+            <div class="intro-loader__marquee intro-loader__marquee--left">
+                <div class="intro-loader__marquee-track">
+                    <span>DETERMINATION • FOCUS • PERSISTENCE • SUCCESS • EVOLVE • LEARN • GROW • EXCELLENCE • PASSION •
+                    </span>
+                    <span>DETERMINATION • FOCUS • PERSISTENCE • SUCCESS • EVOLVE • LEARN • GROW • EXCELLENCE • PASSION •
+                    </span>
+                </div>
+            </div>
+            <div class="intro-loader__marquee intro-loader__marquee--right">
+                <div class="intro-loader__marquee-track">
+                    <span>HTML • CSS • JAVASCRIPT • REACT • MONGODB • GIT • COMPILER • FRONTEND • BACKEND •
+                        FULLSTACK • </span>
+                    <span>HTML • CSS • JAVASCRIPT • REACT • MONGODB • GIT • COMPILER • FRONTEND • BACKEND •
+                        FULLSTACK • </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="intro-loader__content">
+            <div class="intro-loader__word">BUILD.</div>
+            <div class="intro-loader__word">TRY.</div>
+            <div class="intro-loader__word">LAUNCH.</div>
+            <div class="intro-loader__word">ISLAM SHAHAT.</div>
+        </div>
+        <div class="intro-loader__scroll">
+            <span class="intro-loader__scroll-text">SCROLL TO ENTER</span>
+            <div class="intro-loader__scroll-indicator">
+                <div class="intro-loader__scroll-wheel"></div>
+            </div>
+        </div>
+        <div class="intro-loader__progress">
+            <div class="intro-loader__progress-bar"></div>
+            <span class="intro-loader__progress-num">0%</span>
+        </div>
+    </div>
+
+    <!--========== SCROLL UP ==========-->
+    <a href="#home" class="scrollup" id="scroll-up">
+        <i class="ri-arrow-up-line"></i>
+    </a>
+
+    <!--========== MULTI-IMAGE GALLERY LIGHTBOX MODAL ==========-->
+    <div id="project-gallery-modal" class="gallery-modal" style="display: none;" role="dialog" aria-modal="true"
+        aria-labelledby="gallery-modal-title">
+        <div class="gallery-modal__overlay" onclick="closeProjectGallery()"></div>
+        <div class="gallery-modal__container">
+            <!-- Header -->
+            <div class="gallery-modal__header">
+                <div class="gallery-modal__info">
+                    <span class="gallery-modal__badge" id="gallery-modal-category">MEAN Stack</span>
+                    <h3 id="gallery-modal-title" class="gallery-modal__title">Project Showcase</h3>
+                </div>
+                <div class="gallery-modal__actions">
+                    <span class="gallery-modal__counter" id="gallery-modal-counter">1 / 1</span>
+                    <button type="button" class="gallery-modal__close" onclick="closeProjectGallery()"
+                        aria-label="Close Gallery">
+                        <i class="ri-close-line"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stage with Prev/Next Navigation -->
+            <div class="gallery-modal__stage">
+                <button type="button" class="gallery-modal__nav gallery-modal__nav--prev" id="gallery-nav-prev"
+                    onclick="navigateProjectGallery(-1)" aria-label="Previous Image">
+                    <i class="ri-arrow-left-s-line"></i>
+                </button>
+
+                <div class="gallery-modal__image-wrapper">
+                    <img id="gallery-modal-main-img" src="" alt="Project Screen" class="gallery-modal__main-img"
+                        loading="eager">
+                </div>
+
+                <button type="button" class="gallery-modal__nav gallery-modal__nav--next" id="gallery-nav-next"
+                    onclick="navigateProjectGallery(1)" aria-label="Next Image">
+                    <i class="ri-arrow-right-s-line"></i>
+                </button>
+            </div>
+
+            <!-- Footer: Thumbnails and Action Links -->
+            <div class="gallery-modal__footer">
+                <div class="gallery-modal__thumbs" id="gallery-modal-thumbs"></div>
+                <div class="gallery-modal__links" id="gallery-modal-links"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--========== DEDICATED FULL-VIEW CERTIFICATE LIGHTBOX MODAL ==========-->
+    <div id="image-lightbox-modal" class="cert-lightbox-modal" style="display: none;" role="dialog" aria-modal="true">
+        <div class="cert-lightbox__overlay" onclick="closeLightboxModal()"></div>
+        <div class="cert-lightbox__container">
+            <div class="cert-lightbox__header">
+                <div class="cert-lightbox__title-wrap">
+                    <span class="cert-lightbox__badge"><i class="ri-shield-check-fill"></i> Verified Certificate</span>
+                    <h3 id="lightbox-modal-title" class="cert-lightbox__title">Certificate View</h3>
+                </div>
+                <div class="cert-lightbox__actions">
+                    <a id="lightbox-modal-download" href="#" class="cert-lightbox__btn cert-lightbox__btn--download" download target="_blank">
+                        <i class="ri-file-download-line"></i> <span>Download File</span>
+                    </a>
+                    <button type="button" class="cert-lightbox__btn cert-lightbox__btn--close" onclick="closeLightboxModal()" aria-label="Close">
+                        <i class="ri-close-line"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="cert-lightbox__body">
+                <div class="cert-lightbox__img-frame">
+                    <img id="lightbox-modal-img" src="" alt="Certificate Preview" class="cert-lightbox__img">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--=============== GSAP & SCROLLTRIGGER ===============-->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!--=============== LENIS SMOOTH SCROLL ===============-->
+    <script defer src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+    <!--=============== SWIPER JS ===============-->
+    <script defer src="assets/js/swiper-bundle.min.js"></script>
+
+    <!--=============== PDF.JS (FOR CERTIFICATE RENDERING) ===============-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!--=============== MAIN JS ===============-->
+    <script defer src="assets/js/main.js?v=4.2"></script>
+</body>
+
+</html>

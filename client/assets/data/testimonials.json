@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Ahmed Mansour",
+    "role": "Senior Engineering Manager",
+    "company": "Tech Solutions Inc.",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    "rating": 5,
+    "content": "Islam is an exceptionally talented Full-Stack Engineer. His mastery over the MERN stack, deep architectural understanding of REST APIs, and relentless focus on performance elevated our platform significantly.",
+    "platform": "LinkedIn",
+    "screenshotUrl": "assets/img/backend_api.webp",
+    "isFeatured": true,
+    "status": "published",
+    "orderIndex": 1
+  },
+  {
+    "name": "Dr. Tarek El-Sayed",
+    "role": "Academic Supervisor",
+    "company": "Qena University",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    "rating": 5,
+    "content": "Outstanding technical competence and dedication. Islam demonstrated remarkable problem-solving abilities and solid understanding of computer science foundations and scalable software development.",
+    "platform": "Colleague",
+    "screenshotUrl": "assets/img/About.webp",
+    "isFeatured": true,
+    "status": "published",
+    "orderIndex": 2
+  },
+  {
+    "name": "Omar Abdelaziz",
+    "role": "Product Lead & Founder",
+    "company": "Veranda Cafe Group",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+    "rating": 5,
+    "content": "Working with Islam on our website platform was a breeze. He translated complex requirements into blazing fast, responsive interfaces ahead of deadline.",
+    "platform": "Client",
+    "screenshotUrl": "assets/img/RWD.webp",
+    "isFeatured": true,
+    "status": "published",
+    "orderIndex": 3
+  },
+  {
+    "name": "Sarah Jenkins",
+    "role": "Project Manager",
+    "company": "Global Tech Solutions",
+    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+    "rating": 5,
+    "content": "Islam provided stellar delivery on our web application project. Clean code, comprehensive documentation, secure authentication, and 100% reliability.",
+    "platform": "Upwork",
+    "screenshotUrl": "assets/img/aqario.webp",
+    "isFeatured": true,
+    "status": "published",
+    "orderIndex": 4
+  }
+]

@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | إسلام شحات - Full-Stack Admin</title>
+    
+    <!-- Google Fonts & Remix Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+    
+    <!-- Custom Admin Styles -->
+    <link rel="stylesheet" href="assets/css/admin.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon_io/favicon.svg?v=iss7">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon_io/favicon-32x32.png?v=iss7">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon_io/favicon-16x16.png?v=iss7">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon_io/apple-touch-icon.png?v=iss7">
+    <link rel="shortcut icon" href="assets/img/favicon_io/favicon.ico?v=iss7" type="image/x-icon">
+    <link rel="manifest" href="assets/img/favicon_io/site.webmanifest?v=iss7">
+</head>
+<body class="admin-body">
+
+    <!-- ==================== LOGIN CONTAINER ==================== -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-icon">
+                    <i class="ri-shield-keyhole-line"></i>
+                </div>
+                <h2>لوحة تحكم إسلام شحات</h2>
+                <p>قم بتسجيل الدخول لإدارة بورتفوليو Islam Shahat</p>
+            </div>
+            
+            <form id="login-form" class="login-form">
+                <div id="login-alert" class="alert alert-error" style="display: none;"></div>
+                
+                <div class="form-group">
+                    <label for="username">اسم المستخدم (Username)</label>
+                    <div class="input-wrapper">
+                        <i class="ri-user-3-line"></i>
+                        <input type="text" id="username" placeholder="أدخل اسم المستخدم" required autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">كلمة المرور (Password)</label>
+                    <div class="input-wrapper">
+                        <i class="ri-lock-password-line"></i>
+                        <input type="password" id="password" placeholder="أدخل كلمة المرور" required autocomplete="current-password">
+                    </div>
+                </div>
+
+                <button type="submit" id="login-btn" class="btn btn-primary btn-block">
+                    <span>تسجيل الدخول</span>
+                    <i class="ri-arrow-left-line"></i>
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <a href="/" target="_blank"><i class="ri-earth-line"></i> العودة للبورتفوليو الرئيسي</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN DASHBOARD LAYOUT ==================== -->
+    <div id="dashboard-layout" class="dashboard-layout" style="display: none;">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-avatar">
+                    <img src="assets/img/favicon_io/favicon.svg?v=iss7" alt="ISS7" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="brand-info">
+                    <h3>إسلام شحات</h3>
+                    <span>Full-Stack Portfolio Admin</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <button class="nav-item active" data-tab="overview">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span>التحليلات والرئيسية</span>
+                </button>
+
+                <button class="nav-item" data-tab="projects">
+                    <i class="ri-folder-code-line"></i>
+                    <span>إدارة المشاريع</span>
+                    <span id="projects-count-badge" class="badge badge-info">0</span>
+                </button>
+
+                <button class="nav-item" data-tab="experience">
+                    <i class="ri-briefcase-4-line"></i>
+                    <span>خبرات العمل</span>
+                </button>
+
+                <button class="nav-item" data-tab="education">
+                    <i class="ri-graduation-cap-line"></i>
+                    <span>التعليم الأكاديمي</span>
+                </button>
+
+                <button class="nav-item" data-tab="volunteering">
+                    <i class="ri-heart-pulse-line"></i>
+                    <span>التطوع والتدريس</span>
+                </button>
+
+                <button class="nav-item" data-tab="certificates">
+                    <i class="ri-award-line"></i>
+                    <span>الشهادات والاعتمادات</span>
+                </button>
+
+                <button class="nav-item" data-tab="testimonials">
+                    <i class="ri-chat-quote-line"></i>
+                    <span>آراء العملاء والشركاء</span>
+                </button>
+
+                <button class="nav-item" data-tab="cv">
+                    <i class="ri-file-pdf-2-line"></i>
+                    <span>إدارة الـ CV</span>
+                </button>
+
+                <button class="nav-item" data-tab="skills">
+                    <i class="ri-code-box-line"></i>
+                    <span>المهارات والتخصصات</span>
+                </button>
+
+                <button class="nav-item" data-tab="files">
+                    <i class="ri-hard-drive-2-line"></i>
+                    <span>مدير الملفات</span>
+                </button>
+
+                <button class="nav-item" data-tab="inquiries">
+                    <i class="ri-mail-unread-line"></i>
+                    <span>رسائل الزوار</span>
+                    <span id="unread-inquiries-badge" class="badge badge-warning" style="display:none;">0</span>
+                </button>
+
+                <button class="nav-item" data-tab="settings">
+                    <i class="ri-settings-4-line"></i>
+                    <span>إعدادات الحساب</span>
+                </button>
+
+                <a href="/" target="_blank" class="nav-item mt-auto">
+                    <i class="ri-external-link-line"></i>
+                    <span>معاينة البورتفوليو</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn btn-logout">
+                    <i class="ri-logout-box-r-line"></i>
+                    <span>تسجيل الخروج</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Mobile Overlay -->
+            <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebarMobile(false)"></div>
+
+            <!-- Topbar Header -->
+            <header class="topbar">
+                <button id="mobile-toggle-btn" class="mobile-toggle-btn" onclick="toggleSidebarMobile()" aria-label="Toggle Menu">
+                    <i class="ri-menu-line"></i>
+                </button>
+                <div class="topbar-title">
+                    <h1 id="page-title">التحليلات والرئيسية</h1>
+                    <p id="page-subtitle">نظرة عامة على أداء الموقع وإحصائيات الزوار</p>
+                </div>
+                
+                <div class="topbar-user">
+                    <div class="topbar-avatar">
+                        <img src="assets/img/favicon_io/favicon.svg?v=iss7" alt="ISS7">
+                    </div>
+                    <div class="topbar-user-info">
+                        <span id="current-user-name" class="user-name">إسلام شحات</span>
+                        <span class="user-status"><i class="ri-checkbox-blank-circle-fill"></i> متصل كآدمن</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Notification Toast Alert -->
+            <div id="toast-container" class="toast-container"></div>
+
+            <!-- TAB 1: OVERVIEW & ANALYTICS -->
+            <section id="tab-overview" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-views">
+                            <i class="ri-eye-line"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>إجمالي زيارات الموقع</h3>
+                            <div class="stat-value" id="stat-total-views">0</div>
+                            <span class="stat-label"><i class="ri-bar-chart-fill"></i> إجمالي المشاهدات</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon icon-visitors">
+                            <i class="ri-user-follow-line"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>الزوار الفريدين (Unique Visitors)</h3>
+                            <div class="stat-value" id="stat-unique-visitors">0</div>
+                            <span class="stat-label"><i class="ri-fingerprint-line"></i> زائر مختلف</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon icon-projects">
+                            <i class="ri-code-s-slash-line"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>المشاريع المضافة</h3>
+                            <div class="stat-value" id="stat-total-projects">0</div>
+                            <span class="stat-label" id="stat-projects-status">0 منشور | 0 مسودة</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon icon-inquiries">
+                            <i class="ri-chat-3-line"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>رسائل اتصل بي</h3>
+                            <div class="stat-value" id="stat-total-inquiries">0</div>
+                            <span class="stat-label text-warning" id="stat-unread-inquiries"><i class="ri-mail-open-line"></i> 0 غير مقروءة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities & Analytics Summary Cards -->
+                <div class="dashboard-grid">
+                    <div class="card card-analytics">
+                        <div class="card-header">
+                            <h3><i class="ri-line-chart-line"></i> سجل الزيارات اليومي</h3>
+                            <button id="refresh-stats-btn" class="btn btn-sm btn-secondary"><i class="ri-refresh-line"></i> تحديث البيانات</button>
+                        </div>
+                        <div class="card-body">
+                            <div id="analytics-table-container" class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>التاريخ</th>
+                                            <th>عدد المشاهدات (Page Views)</th>
+                                            <th>الزوار الفريدين (Unique IPs)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="analytics-table-body">
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">جاري تحميل إحصائيات الزوار...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-quick-actions">
+                        <div class="card-header">
+                            <h3><i class="ri-flashlight-line"></i> إجراءات سريعة</h3>
+                        </div>
+                        <div class="card-body quick-actions-body">
+                            <button class="action-btn" onclick="openAddProjectModal()">
+                                <div class="action-icon"><i class="ri-add-circle-line"></i></div>
+                                <div class="action-text">
+                                    <h4>إضافة مشروع جديد</h4>
+                                    <p>إضافة مشروع جديد بحقول إجبارية واختيارية ورابط يوتيوب</p>
+                                </div>
+                            </button>
+
+                            <button class="action-btn" onclick="switchToTab('inquiries')">
+                                <div class="action-icon icon-mail"><i class="ri-mail-download-line"></i></div>
+                                <div class="action-text">
+                                    <h4>عرض استفسارات الرسائل</h4>
+                                    <p>مراجعة الرسائل الجديدة من نموذج التواصل</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: PROJECTS MANAGEMENT (CRUD) -->
+            <section id="tab-projects" class="tab-content">
+                <div class="section-actions">
+                    <div class="search-box">
+                        <i class="ri-search-line"></i>
+                        <input type="text" id="project-search-input" placeholder="ابحث باسم المشروع أو التصنيف...">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="openAddProjectModal()">
+                        <i class="ri-add-line"></i>
+                        <span>إضافة مشروع جديد</span>
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>الصورة</th>
+                                        <th>عنوان المشروع</th>
+                                        <th>التصنيف</th>
+                                        <th>التاريخ</th>
+                                        <th>معرض الصور</th>
+                                        <th>الحالة</th>
+                                        <th>الإجراءات (تعديل / حذف)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="projects-table-body">
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">جاري تحميل قائمة المشاريع...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: EXPERIENCE MANAGEMENT -->
+            <section id="tab-experience" class="tab-content">
+                <div class="section-actions">
+                    <h3 class="section-title"><i class="ri-briefcase-4-line"></i> قائمة خبرات العمل</h3>
+                    <button class="btn btn-primary" onclick="openAddExperienceModal()">
+                        <i class="ri-add-line"></i>
+                        <span>إضافة خبرة جديدة</span>
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>المسمى الوظيفي</th>
+                                        <th>الشركة / الجهة</th>
+                                        <th>الفترة الزمنيّة</th>
+                                        <th>الوصف</th>
+                                        <th>الترتيب</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="experience-table-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">جاري تحميل خبرات العمل...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: EDUCATION MANAGEMENT -->
+            <section id="tab-education" class="tab-content">
+                <div class="section-actions">
+                    <h3 class="section-title"><i class="ri-graduation-cap-line"></i> التعليم والدرجات الأكاديمية</h3>
+                    <button class="btn btn-primary" onclick="openAddEducationModal()">
+                        <i class="ri-add-line"></i>
+                        <span>إضافة مؤهل تعليمي</span>
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>الدرجة / التخصص</th>
+                                        <th>الجامعة / الكلية</th>
+                                        <th>الفترة الزمنيّة</th>
+                                        <th>التقدير / التفاصيل</th>
+                                        <th>الترتيب</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="education-table-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">جاري تحميل سجلات التعليم...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: VOLUNTEERING & TEACHING -->
+            <section id="tab-volunteering" class="tab-content">
+                <div class="section-actions">
+                    <h3 class="section-title"><i class="ri-heart-pulse-line"></i> العمل التطوعي والتدريس</h3>
+                    <button class="btn btn-primary" onclick="openAddVolunteeringModal()">
+                        <i class="ri-add-line"></i>
+                        <span>إضافة نشاط تطوعي</span>
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>الدور / المسئولية</th>
+                                        <th>المؤسسة / مجتمع Support</th>
+                                        <th>الفترة الزمنيّة</th>
+                                        <th>الوصف</th>
+                                        <th>إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="volunteering-table-body">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">جاري تحميل بيانات التطوع والتدريب...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: CERTIFICATES MANAGEMENT -->
+            <section id="tab-certificates" class="tab-content">
+                <div class="section-actions">
+                    <h3 class="section-title"><i class="ri-award-line"></i> الشهادات والاعتمادات الرسمية</h3>
+                    <button class="btn btn-primary" onclick="openAddCertificateModal()">
+                        <i class="ri-add-line"></i>
+                        <span>إضافة شهادة جديدة</span>
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>الترتيب</th>
+                                        <th>اسم الشهادة</th>
+                                        <th>الجهة المصدرة</th>
+                                        <th>تاريخ الإصدار</th>
+                                        <th>الملف / المعاينة</th>
+                                        <th>إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="certificates-table-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">جاري تحميل الشهادات...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 7: TESTIMONIALS MANAGEMENT -->
+            <section id="tab-testimonials" class="tab-content">
+                <div class="section-actions">
+                    <h3 class="section-title"><i class="ri-chat-quote-line"></i> آراء وتوصيات العملاء والزملاء (Testimonials)</h3>
+                    <button class="btn btn-primary" onclick="openAddTestimonialModal()">
+                        <i class="ri-add-line"></i>
+                        <span>إضافة توصية / رأي جديد</span>
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>صاحب التوصية</th>
+                                        <th>المنصب والشركة</th>
+                                        <th>المنصة</th>
+                                        <th>التقييم</th>
+                                        <th>نص التوصية</th>
+                                        <th>الحالة</th>
+                                        <th>إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="testimonials-table-body">
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">جاري تحميل قائمة آراء العملاء...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 8: CV MANAGEMENT -->
+            <section id="tab-cv" class="tab-content">
+                <div class="card cv-active-banner mb-4">
+                    <div class="card-body flex-between">
+                        <div class="cv-info">
+                            <div class="badge badge-success mb-2"><i class="ri-checkbox-circle-fill"></i> الـ CV المفعّل حالياً في البورتفوليو</div>
+                            <h3 id="active-cv-name">Islam_Shahat_CV.pdf</h3>
+                            <p id="active-cv-meta">نسخة v2.0 | مرفوعة ومخزنة بالسيرفر الداخلي</p>
+                        </div>
+                        <div class="cv-actions">
+                            <button id="view-active-cv-btn" class="btn btn-secondary" onclick="handleActiveCvView()"><i class="ri-eye-line"></i> معاينة الملف</button>
+                            <button id="download-active-cv-btn" class="btn btn-primary" onclick="handleActiveCvDownload()"><i class="ri-download-line"></i> تحميل الـ CV الأصلي</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-actions">
+                    <h3 class="section-title"><i class="ri-history-line"></i> أرشيف ونسخ الـ CV السابقة</h3>
+                    <button class="btn btn-primary" onclick="openAddCvModal()">
+                        <i class="ri-upload-cloud-2-line"></i>
+                        <span>رفع CV جديد للسيرفر</span>
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>اسم النسخة / الملف</th>
+                                        <th>الإصدار</th>
+                                        <th>تاريخ الرفع</th>
+                                        <th>الحالة (نشط)</th>
+                                        <th>إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cv-table-body">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">جاري تحميل سجلات الـ CV...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 9: SKILLS MANAGEMENT -->
+            <section id="tab-skills" class="tab-content">
+                <div class="section-actions" style="flex-direction: column; align-items: stretch; gap: 14px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <h3 class="section-title"><i class="ri-code-box-line"></i> مهارات وتقنيات الـ Full-Stack</h3>
+                        <button class="btn btn-primary" onclick="openAddSkillModal()">
+                            <i class="ri-add-line"></i>
+                            <span>إضافة مهارة جديدة</span>
+                        </button>
+                    </div>
+
+                    <!-- Skills Filter & Search Bar -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; background: rgba(255,255,255,0.02); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                        <!-- Category Filter Pills -->
+                        <div class="filter-pills" id="skill-category-filters">
+                            <button type="button" class="filter-pill active" onclick="setSkillCategoryFilter('all', this)">
+                                <span>الكل</span>
+                                <span class="pill-count" id="count-skill-all">0</span>
+                            </button>
+                            <button type="button" class="filter-pill" onclick="setSkillCategoryFilter('Frontend', this)">
+                                <i class="ri-layout-line"></i>
+                                <span>Frontend</span>
+                                <span class="pill-count" id="count-skill-frontend">0</span>
+                            </button>
+                            <button type="button" class="filter-pill" onclick="setSkillCategoryFilter('Backend', this)">
+                                <i class="ri-server-line"></i>
+                                <span>Backend</span>
+                                <span class="pill-count" id="count-skill-backend">0</span>
+                            </button>
+                            <button type="button" class="filter-pill" onclick="setSkillCategoryFilter('Database', this)">
+                                <i class="ri-database-2-line"></i>
+                                <span>Database</span>
+                                <span class="pill-count" id="count-skill-database">0</span>
+                            </button>
+                            <button type="button" class="filter-pill" onclick="setSkillCategoryFilter('Tools', this)">
+                                <i class="ri-tools-line"></i>
+                                <span>Tools & Core</span>
+                                <span class="pill-count" id="count-skill-tools">0</span>
+                            </button>
+                        </div>
+
+                        <!-- Real-time Search Box -->
+                        <div class="search-box" style="width: 260px;">
+                            <i class="ri-search-line"></i>
+                            <input type="text" id="skill-search-input" placeholder="ابحث باسم المهارة أو الأيقونة..." oninput="handleSkillSearch(this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>المهارة</th>
+                                        <th>التصنيف</th>
+                                        <th>نسبة الإتقان %</th>
+                                        <th>الأيقونة</th>
+                                        <th>الحالة</th>
+                                        <th>إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="skills-table-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">جاري تحميل المهارات...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 10: FILE MANAGER -->
+            <section id="tab-files" class="tab-content">
+                <div class="section-actions">
+                    <h3 class="section-title"><i class="ri-hard-drive-2-line"></i> مدير الملفات المخزنة على السيرفر المحلي (`server/uploads`)</h3>
+                    <label class="btn btn-primary cursor-pointer">
+                        <i class="ri-upload-cloud-line"></i>
+                        <span>رفع ملف جديد للسيرفر</span>
+                        <input type="file" id="file-manager-upload-input" style="display:none;" onchange="handleFileManagerUpload(this)">
+                    </label>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>اسم الملف الأصلي</th>
+                                        <th>المسار المخزن (Path)</th>
+                                        <th>التصنيف</th>
+                                        <th>الحجم</th>
+                                        <th>التاريخ</th>
+                                        <th>تحميل / حذف</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="files-table-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">جاري تحميل قائمة الملفات المخزنة بالسيرفر...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 11: INQUIRIES & MESSAGES -->
+            <section id="tab-inquiries" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="ri-inbox-archive-line"></i> صندوق رسائل اتصل بي الواردة</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>اسم المرسل</th>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>الرسالة</th>
+                                        <th>التاريخ</th>
+                                        <th>الحالة</th>
+                                        <th>إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inquiries-table-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">جاري تحميل الرسائل...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 12: SETTINGS & SECURITY -->
+            <section id="tab-settings" class="tab-content">
+                <div class="card max-w-600">
+                    <div class="card-header">
+                        <h3><i class="ri-lock-password-line"></i> تغيير كلمة المرور والبيانات الخاصة بمدير الموقع</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="change-password-form">
+                            <div class="form-group">
+                                <label for="setting-username">اسم المستخدم الحالي</label>
+                                <input type="text" id="setting-username" readonly value="admin" class="bg-input-disabled">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="current-password">كلمة المرور الحالية <span class="required-star">*</span></label>
+                                <input type="password" id="current-password" required placeholder="أدخل كلمة المرور الحالية">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="new-password">كلمة المرور الجديدة <span class="required-star">*</span></label>
+                                <input type="password" id="new-password" required placeholder="أدخل كلمة المرور الجديدة (6 حروف على الأقل)">
+                            </div>
+
+                            <button type="submit" id="save-password-btn" class="btn btn-primary">
+                                <i class="ri-save-line"></i>
+                                <span>حفظ التغييرات</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ==================== MODAL: ADD / EDIT PROJECT ==================== -->
+    <div id="project-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <h3 id="modal-title"><i class="ri-folder-add-line"></i> إضافة مشروع جديد</h3>
+                <button class="modal-close" onclick="closeProjectModal()"><i class="ri-close-line"></i></button>
+            </div>
+            
+            <form id="project-form" class="modal-form">
+                <input type="hidden" id="project-id">
+                
+                <!-- Section 1: Required Fields (الحقول الإجبارية) -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <span class="badge badge-danger">مطلوبة *</span>
+                        <h4>البيانات الأساسية والإجبارية للمشروع</h4>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group span-2">
+                            <label for="p-title">عنوان المشروع <span class="required-star">*</span></label>
+                            <input type="text" id="p-title" placeholder="مثال: Aqario Luxe Real Estate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="p-category">التصنيف (Category) <span class="required-star">*</span></label>
+                            <input type="text" id="p-category" placeholder="مثال: MEAN Stack, Node.js API..." required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="p-date">تاريخ الإنجاز <span class="required-star">*</span></label>
+                            <input type="text" id="p-date" placeholder="مثال: March 2026 – June 2026" required>
+                        </div>
+
+                        <div class="form-group span-2">
+                            <label for="p-description">الوصف المختصر <span class="required-star">*</span></label>
+                            <textarea id="p-description" rows="3" placeholder="اكتب وصفاً موجزاً وجذاباً للمشروع..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Selection / Upload Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <span class="badge badge-danger">مطلوبة *</span>
+                        <h4>صورة المشروع الرئيسية (Thumbnail Image)</h4>
+                    </div>
+
+                    <div class="image-upload-wrapper">
+                        <div class="form-group span-2">
+                            <label for="p-image-url">مسار أو رابط الصورة</label>
+                            <input type="text" id="p-image-url" placeholder="مثال: assets/img/aqario.webp" required>
+                        </div>
+
+                        <div class="upload-file-box">
+                            <label class="btn btn-secondary btn-upload">
+                                <i class="ri-upload-cloud-2-line"></i>
+                                <span>رفع صورة من جهازك</span>
+                                <input type="file" id="p-image-file" accept="image/*" style="display: none;" onchange="handleImageUpload(this)">
+                            </label>
+                            <span id="upload-status-text" class="text-muted">أو استخدم مسار الصورة الحالي</span>
+                        </div>
+
+                        <div class="image-preview-container">
+                            <img id="image-preview" src="assets/img/backend_api.webp" alt="Preview">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Optional Fields (الحقول الاختيارية) -->
+                <div class="form-section optional-section">
+                    <div class="form-section-title">
+                        <span class="badge badge-secondary">اختياري (Optional)</span>
+                        <h4>معرض الصور الإضافية والتفاصيل التقنية للمشروع</h4>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group span-2">
+                            <label for="p-subtitle">العنوان الفرعي (Subtitle)</label>
+                            <input type="text" id="p-subtitle" placeholder="مثال: Real Estate Management System">
+                        </div>
+
+                        <!-- Project Multi-Image Gallery Box -->
+                        <div class="form-group span-2 highlight-group">
+                            <label for="p-gallery-urls"><i class="ri-gallery-line text-primary"></i> مسارات صور المعرض الإضافية (Gallery Images - 3 إلى 6 صور)</label>
+                            <textarea id="p-gallery-urls" rows="3" placeholder="أدخل مسارات أو روابط الصور مفصولة بفواصل أو أسطر جديدة:
+assets/img/aqario.webp, assets/img/About.webp, uploads/images/..."></textarea>
+                            <small class="form-help">سيتم عرض هذه الصور داخل معرض الصور Lightbox للزوار للتنقل بينها بالأسهم</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="p-demo"><i class="ri-global-line"></i> رابط المعاينة الحية (Live Demo URL)</label>
+                            <input type="url" id="p-demo" placeholder="https://my-app.vercel.app">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="p-github"><i class="ri-github-line"></i> رابط السورس كود (GitHub Repository URL)</label>
+                            <input type="url" id="p-github" placeholder="https://github.com/islam-shahat/my-repo">
+                        </div>
+
+                        <div class="form-group span-2">
+                            <label for="p-technologies">التقنيات المستخدمة (فصل بينها بفواصل)</label>
+                            <input type="text" id="p-technologies" placeholder="مثال: Angular, Node.js, Express, MongoDB, JWT">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="p-status">حالة النشر (Status)</label>
+                            <select id="p-status">
+                                <option value="published">منشور (Published)</option>
+                                <option value="draft">مسودة مخفية (Draft)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="p-order">ترتيب الظهور (Order Index)</label>
+                            <input type="number" id="p-order" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeProjectModal()">إلغاء</button>
+                    <button type="submit" id="save-project-btn" class="btn btn-primary">
+                        <i class="ri-save-line"></i>
+                        <span>حفظ البيانات</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: ADD / EDIT EXPERIENCE ==================== -->
+    <div id="experience-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="exp-modal-title"><i class="ri-briefcase-line"></i> إضافة خبرة عمل</h3>
+                <button class="modal-close" onclick="closeExperienceModal()"><i class="ri-close-line"></i></button>
+            </div>
+            <form id="experience-form" class="modal-form">
+                <input type="hidden" id="exp-id">
+                <div class="form-group">
+                    <label>المسمى الوظيفي (Title) <span class="required-star">*</span></label>
+                    <input type="text" id="exp-title" placeholder="مثال: Full-Stack Web Developer" required>
+                </div>
+                <div class="form-group">
+                    <label>الشركة / الجهة (Company) <span class="required-star">*</span></label>
+                    <input type="text" id="exp-company" placeholder="مثال: Support Community" required>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>تاريخ البدء <span class="required-star">*</span></label>
+                        <input type="text" id="exp-start" placeholder="مثال: 2026" required>
+                    </div>
+                    <div class="form-group">
+                        <label>تاريخ الانتهاء</label>
+                        <input type="text" id="exp-end" placeholder="مثال: Present">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>الوصف والتفاصيل</label>
+                    <textarea id="exp-description" rows="3" placeholder="اذكر أبرز المهام والمشاريع المسلمة..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>ترتيب الظهور (Order Index)</label>
+                    <input type="number" id="exp-order" value="1" min="1">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeExperienceModal()">إلغاء</button>
+                    <button type="submit" class="btn btn-primary"><i class="ri-save-line"></i> حفظ البيانات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: ADD / EDIT EDUCATION ==================== -->
+    <div id="education-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="edu-modal-title"><i class="ri-graduation-cap-line"></i> إضافة مؤهل تعليمي</h3>
+                <button class="modal-close" onclick="closeEducationModal()"><i class="ri-close-line"></i></button>
+            </div>
+            <form id="education-form" class="modal-form">
+                <input type="hidden" id="edu-id">
+                <div class="form-group">
+                    <label>الدرجة العلمية / المؤهل <span class="required-star">*</span></label>
+                    <input type="text" id="edu-degree" placeholder="مثال: Computer Science Student" required>
+                </div>
+                <div class="form-group">
+                    <label>الجامعة / المعهد <span class="required-star">*</span></label>
+                    <input type="text" id="edu-institution" placeholder="مثال: Qena University" required>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>تاريخ البدء</label>
+                        <input type="text" id="edu-start" placeholder="2024">
+                    </div>
+                    <div class="form-group">
+                        <label>تاريخ الانتهاء</label>
+                        <input type="text" id="edu-end" placeholder="2028">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>الوصف / التفاصيل</label>
+                    <textarea id="edu-description" rows="3" placeholder="تفاصيل الدراسة والمجال..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeEducationModal()">إلغاء</button>
+                    <button type="submit" class="btn btn-primary"><i class="ri-save-line"></i> حفظ المؤهل</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: ADD / EDIT VOLUNTEERING ==================== -->
+    <div id="volunteering-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="vol-modal-title"><i class="ri-heart-line"></i> إضافة نشاط تطوعي</h3>
+                <button class="modal-close" onclick="closeVolunteeringModal()"><i class="ri-close-line"></i></button>
+            </div>
+            <form id="volunteering-form" class="modal-form">
+                <input type="hidden" id="vol-id">
+                <div class="form-group">
+                    <label>الدور / المسؤولية <span class="required-star">*</span></label>
+                    <input type="text" id="vol-role" placeholder="مثال: Web Development Instructor" required>
+                </div>
+                <div class="form-group">
+                    <label>الجهة / مجتمع التطوع <span class="required-star">*</span></label>
+                    <input type="text" id="vol-org" placeholder="مثال: Support Community" required>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>تاريخ البدء</label>
+                        <input type="text" id="vol-start" placeholder="2026">
+                    </div>
+                    <div class="form-group">
+                        <label>تاريخ الانتهاء</label>
+                        <input type="text" id="vol-end" placeholder="Present">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>الوصف والتفاصيل</label>
+                    <textarea id="vol-description" rows="3" placeholder="تقديم شروحات عملية في تطوير الويب وتيسير مفاهيم البرمجة..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeVolunteeringModal()">إلغاء</button>
+                    <button type="submit" class="btn btn-primary"><i class="ri-save-line"></i> حفظ النشاط</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: ADD / EDIT CERTIFICATE ==================== -->
+    <div id="certificate-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="cert-modal-title"><i class="ri-award-line"></i> إضافة شهادة أو اعتماد</h3>
+                <button class="modal-close" onclick="closeCertificateModal()"><i class="ri-close-line"></i></button>
+            </div>
+            <form id="certificate-form" class="modal-form">
+                <input type="hidden" id="cert-id">
+                <div class="form-group">
+                    <label>اسم الشهادة <span class="required-star">*</span></label>
+                    <input type="text" id="cert-name" placeholder="مثال: NTI Web Development Track Certificate" required>
+                </div>
+                <div class="form-group">
+                    <label>الجهة المصدرة <span class="required-star">*</span></label>
+                    <input type="text" id="cert-issuer" placeholder="مثال: National Telecommunication Institute (NTI)" required>
+                </div>
+                <div class="form-group">
+                    <label>ترتيب الظهور (Order Index)</label>
+                    <input type="number" id="cert-order" placeholder="مثال: 1" min="1" value="1">
+                </div>
+                <div class="form-group">
+                    <label>تاريخ الإصدار</label>
+                    <input type="text" id="cert-date" placeholder="مثال: 2026">
+                </div>
+                <div class="form-group">
+                    <label>مسار الملف المخزن (PDF / الصورة)</label>
+                    <input type="text" id="cert-file" placeholder="مثال: uploads/pdfs/nti_certificate.pdf">
+                </div>
+                <div class="form-group">
+                    <label class="btn btn-secondary btn-upload w-100">
+                        <i class="ri-upload-cloud-line"></i>
+                        <span>رفع ملف PDF / صورة الشهادة</span>
+                        <input type="file" id="cert-upload-input" accept="image/*,application/pdf" style="display:none;" onchange="handleCertUpload(this)">
+                    </label>
+                    <span id="cert-upload-status" class="text-muted block mt-2"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCertificateModal()">إلغاء</button>
+                    <button type="submit" class="btn btn-primary"><i class="ri-save-line"></i> حفظ الشهادة</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: ADD NEW CV VERSION ==================== -->
+    <div id="cv-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="ri-file-pdf-line"></i> رفع نسخة CV جديدة للسيرفر</h3>
+                <button class="modal-close" onclick="closeCvModal()"><i class="ri-close-line"></i></button>
+            </div>
+            <form id="cv-form" class="modal-form">
+                <div class="form-group">
+                    <label>اسم الملف المستعرض <span class="required-star">*</span></label>
+                    <input type="text" id="cv-name" placeholder="Islam Shahat - Resume.pdf" required>
+                </div>
+                <div class="form-group">
+                    <label>رقم الإصدار (Version)</label>
+                    <input type="text" id="cv-version" placeholder="v1.2">
+                </div>
+                <div class="form-group">
+                    <label>ملف الـ CV صيغة PDF <span class="required-star">*</span></label>
+                    <label class="btn btn-secondary btn-upload w-100">
+                        <i class="ri-upload-cloud-2-line"></i>
+                        <span>اختر ملف PDF من جهازك</span>
+                        <input type="file" id="cv-file-input" accept="application/pdf" style="display:none;" onchange="handleCvUpload(this)">
+                    </label>
+                    <span id="cv-upload-status" class="text-muted block mt-2"></span>
+                    <input type="hidden" id="cv-path">
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="cv-set-active" checked>
+                        <span>تعيين هذه النسخة كـ CV افتراضي للموقع فوراً</span>
+                    </label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCvModal()">إلغاء</button>
+                    <button type="submit" id="save-cv-btn" class="btn btn-primary"><i class="ri-save-line"></i> حفظ وتفعيل</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: ADD / EDIT SKILL ==================== -->
+    <div id="skill-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="skill-modal-title"><i class="ri-code-box-line"></i> إضافة مهارة جديدة</h3>
+                <button class="modal-close" onclick="closeSkillModal()"><i class="ri-close-line"></i></button>
+            </div>
+            <form id="skill-form" class="modal-form">
+                <input type="hidden" id="skill-id">
+                <div class="form-group">
+                    <label>اسم المهارة <span class="required-star">*</span></label>
+                    <input type="text" id="skill-name" placeholder="مثال: React.js, Node.js, C++..." required>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>التصنيف (Category)</label>
+                        <select id="skill-category">
+                            <option value="Frontend">Frontend (واجهة أمامية)</option>
+                            <option value="Backend">Backend (باك إند و APIs)</option>
+                            <option value="Database">Database (قواعد بيانات)</option>
+                            <option value="Tools">Tools (أدوات و Dev)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المستوى (Level)</label>
+                        <select id="skill-level">
+                            <option value="Advanced">Advanced (متقدم)</option>
+                            <option value="Intermediate">Intermediate (متوسط)</option>
+                            <option value="Basic">Basic (مبتدئ)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>نسبة الإتقان (Proficiency %)</label>
+                        <input type="number" id="skill-proficiency" min="1" max="100" value="90">
+                    </div>
+                    <div class="form-group">
+                        <label>ترتيب الظهور (Order Index)</label>
+                        <input type="number" id="skill-order" min="1" value="1">
+                    </div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>كلاس الأيقونة (RemixIcon Class)</label>
+                        <input type="text" id="skill-icon" placeholder="مثال: ri-reactjs-line أو ri-nodejs-line">
+                    </div>
+                    <div class="form-group">
+                        <label>حالة الظهور</label>
+                        <select id="skill-status">
+                            <option value="published">منشور (نشط بالبورتفوليو)</option>
+                            <option value="draft">مسودة (مخفي مؤقتاً)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeSkillModal()">إلغاء</button>
+                    <button type="submit" id="save-skill-btn" class="btn btn-primary"><i class="ri-save-line"></i> حفظ المهارة</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: READ INQUIRY ==================== -->
+    <div id="inquiry-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="ri-mail-open-line"></i> تفاصيل استفسار الزائر</h3>
+                <button class="modal-close" onclick="closeInquiryModal()"><i class="ri-close-line"></i></button>
+            </div>
+            
+            <div class="inquiry-detail-body">
+                <div class="inquiry-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">الاسم:</span>
+                        <strong id="inq-detail-name">-</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">البريد الإلكتروني:</span>
+                        <a id="inq-detail-email-link" href="#" target="_blank"><strong id="inq-detail-email">-</strong></a>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">التاريخ:</span>
+                        <span id="inq-detail-date">-</span>
+                    </div>
+                </div>
+
+                <div class="inquiry-message-box">
+                    <label>نص الرسالة والاستفسار:</label>
+                    <div id="inq-detail-message" class="message-content"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeInquiryModal()">إغلاق</button>
+                <a id="inq-reply-btn" href="#" class="btn btn-primary"><i class="ri-reply-line"></i> الرد عبر الإيميل</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: ADD / EDIT TESTIMONIAL ==================== -->
+    <div id="testimonial-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="testimonial-modal-title"><i class="ri-chat-quote-line"></i> إضافة توصية / رأي جديد</h3>
+                <button class="modal-close" onclick="closeTestimonialModal()"><i class="ri-close-line"></i></button>
+            </div>
+            <form id="testimonial-form" class="modal-form">
+                <input type="hidden" id="testimonial-id">
+                
+                <div class="form-grid">
+                    <div class="form-group span-2">
+                        <label for="t-name">اسم العميل / الزميل (Author Name) <span class="required-star">*</span></label>
+                        <input type="text" id="t-name" placeholder="مثال: Ahmed Mansour" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t-role">المسمى الوظيفي (Role / Title) <span class="required-star">*</span></label>
+                        <input type="text" id="t-role" placeholder="مثال: Senior Engineering Manager" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t-company">الشركة أو الجهة (Company)</label>
+                        <input type="text" id="t-company" placeholder="مثال: Support Community Inc.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t-platform">المنصة (Platform)</label>
+                        <select id="t-platform">
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Upwork">Upwork</option>
+                            <option value="Client">Client</option>
+                            <option value="Colleague">Colleague</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t-rating">التقييم (Rating Stars)</label>
+                        <select id="t-rating">
+                            <option value="5">⭐⭐⭐⭐⭐ (5 نجوم)</option>
+                            <option value="4">⭐⭐⭐⭐ (4 نجوم)</option>
+                            <option value="3">⭐⭐⭐ (3 نجوم)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group span-2">
+                        <label for="t-avatar-url">صورة الأفاتار الشخصية (Avatar URL)</label>
+                        <input type="text" id="t-avatar-url" placeholder="مثال: https://... أو uploads/images/...">
+                    </div>
+
+                    <div class="form-group span-2">
+                        <label for="t-content">نص الرأي / التوصية (Feedback Content) <span class="required-star">*</span></label>
+                        <textarea id="t-content" rows="4" placeholder="اكتب نص التوصية الكامل أو مراجعة العميل..." required></textarea>
+                    </div>
+
+                    <div class="form-group span-2">
+                        <label for="t-screenshot-url">رابط سكرين شوت الإثبات (Proof Screenshot URL)</label>
+                        <input type="text" id="t-screenshot-url" placeholder="مثال: uploads/images/review_proof.webp (اختياري)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t-status">حالة النشر</label>
+                        <select id="t-status">
+                            <option value="published">منشور (Published)</option>
+                            <option value="draft">مسودة مخفية (Draft)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t-order">ترتيب الظهور (Order Index)</label>
+                        <input type="number" id="t-order" value="1" min="0">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeTestimonialModal()">إلغاء</button>
+                    <button type="submit" id="save-testimonial-btn" class="btn btn-primary"><i class="ri-save-line"></i> حفظ التوصية</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: PDF VIEWER ==================== -->
+    <div id="pdf-viewer-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-card" style="max-width: 920px; height: 88vh; display: flex; flex-direction: column; padding: 0; overflow: hidden;">
+            <div class="modal-header" style="padding: 14px 20px;">
+                <h3 id="pdf-modal-title"><i class="ri-file-pdf-2-line text-primary"></i> معاينة مستند الـ PDF</h3>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <a id="pdf-modal-download-btn" href="#" class="btn btn-sm btn-primary" download><i class="ri-download-line"></i> تحميل الملف</a>
+                    <button class="modal-close" onclick="closePdfModal()"><i class="ri-close-line"></i></button>
+                </div>
+            </div>
+            <div id="pdf-modal-container" style="flex: 1; overflow-y: auto; background: #0f172a; padding: 15px;"></div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: IMAGE LIGHTBOX ==================== -->
+    <div id="image-lightbox-modal" class="modal-overlay" style="display: none;" onclick="closeLightboxModal()">
+        <div class="modal-card lightbox-card" onclick="event.stopPropagation();">
+            <div class="modal-header" style="padding: 14px 20px;">
+                <h3 id="lightbox-modal-title"><i class="ri-image-line text-primary"></i> معاينة الصورة</h3>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <a id="lightbox-modal-download-btn" href="#" class="btn btn-sm btn-primary" download target="_blank"><i class="ri-download-line"></i> تحميل الصورة</a>
+                    <button class="modal-close" onclick="closeLightboxModal()"><i class="ri-close-line"></i></button>
+                </div>
+            </div>
+            <div class="lightbox-body">
+                <img id="lightbox-modal-img" src="" alt="Preview" class="lightbox-img">
+            </div>
+        </div>
+    </div>
+
+    <!--=============== PDF.JS ===============-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="assets/js/admin.js?v=4.1"></script>
+</body>
+</html>

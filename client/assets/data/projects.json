@@ -1,0 +1,68 @@
+[
+    {
+        "id": "01",
+        "category": "Frontend Web",
+        "title": "Veranda Café",
+        "subtitle": "Modern Café & Restaurant Website",
+        "date": "2026",
+        "description": "A fully responsive front-end website for Veranda café, featuring a modern UI with menu sections, smooth navigation, and contact information.",
+        "coverImage": "assets/img/veranda.webp",
+        "image": "assets/img/veranda.webp",
+        "gallery": [
+            "assets/img/veranda.webp"
+        ],
+        "images": [
+            "assets/img/veranda.webp"
+        ],
+        "technologies": "HTML5, CSS3, JavaScript, Responsive UI",
+        "demo": "https://veranda-cafe.vercel.app/",
+        "github": "https://github.com/islam-shahat",
+        "isFeatured": true,
+        "status": "published",
+        "orderIndex": "1"
+    },
+    {
+        "id": "02",
+        "category": "C++ & Software",
+        "title": "ATM Banking System",
+        "subtitle": "Console Banking Simulation",
+        "date": "2026",
+        "description": "A console-based ATM simulation implementing core banking operations: deposit, withdrawal, balance inquiry, and account management with clean OOP architecture.",
+        "coverImage": "assets/img/atm_system.webp",
+        "image": "assets/img/atm_system.webp",
+        "gallery": [
+            "assets/img/atm_system.webp"
+        ],
+        "images": [
+            "assets/img/atm_system.webp"
+        ],
+        "technologies": "C++, OOP, Data Structures, Algorithms",
+        "demo": "",
+        "github": "https://github.com/islam-shahat",
+        "isFeatured": true,
+        "status": "published",
+        "orderIndex": "2"
+    },
+    {
+        "id": "03",
+        "category": "MERN Stack",
+        "title": "Scalable RESTful Backend Architecture",
+        "subtitle": "Node.js & MongoDB Core Engine",
+        "date": "2026",
+        "description": "Engineered high-performance RESTful API micro-services with secure JWT authentication, input validation, role-based controls, and structured MongoDB modeling.",
+        "coverImage": "assets/img/aqario.webp",
+        "image": "assets/img/aqario.webp",
+        "gallery": [
+            "assets/img/RWD.webp"
+        ],
+        "images": [
+            "assets/img/RWD.webp"
+        ],
+        "technologies": "React.js, Node.js, Express.js, MongoDB, REST APIs",
+        "demo": "",
+        "github": "https://github.com/islam-shahat",
+        "isFeatured": true,
+        "status": "published",
+        "orderIndex": "3"
+    }
+]
