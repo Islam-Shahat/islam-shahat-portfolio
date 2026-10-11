@@ -296,27 +296,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: err.message || 'Internal Server Error' });
 });
 
-// Start Server (Only when run directly and not in Vercel Serverless environment)
-if (require.main === module && !process.env.VERCEL) {
-  const PORT = process.env.PORT || 5050;
-  const server = app.listen(PORT, () => {
-    console.log(`
-=====================================================
-🚀 Full-Stack Portfolio Server Running!
-📡 PORT: http://localhost:${PORT}
-🔐 Admin Dashboard: http://localhost:${PORT}/admin
-=====================================================
-    `);
-  });
-
-  server.on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-      console.error(`\n❌ خطأ: المنفذ ${PORT} محجوز ومستخدم بالفعل بواسطة سيرفر أو عملية أخرى.`);
-      console.error(`👉 تم إيقاف العملية القديمة تلقائياً الآن، أعد تشغيل السيرفر وسيعمل بنجاح.\n`);
-    } else {
-      console.error('Server error:', err);
-    }
-  });
-}
-
 module.exports = app;
+
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+}
