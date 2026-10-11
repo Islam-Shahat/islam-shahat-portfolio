@@ -461,17 +461,31 @@ function loadPortfolioSkills() {
         })
         .then((result) => {
             const list = result.data || result;
-            if (!Array.isArray(list) || list.length === 0) return;
+            if (!Array.isArray(list) || list.length === 0) throw new Error("Empty skills list");
 
             // Only published / active skills
             const activeSkills = list.filter(s => s.status !== 'draft' && s.active !== false);
-            if (activeSkills.length === 0) return;
+            if (activeSkills.length === 0) throw new Error("No active skills");
 
             renderPortfolioSkills(activeSkills);
         })
         .catch((err) => {
-            // Static HTML in index.html serves as graceful fallback
-            console.log("Using static portfolio skills fallback:", err.message);
+            // Attempt loading from assets/data/skills.json
+            fetch("assets/data/skills.json")
+                .then(r => r.ok ? r.json() : null)
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        const activeSkills = data.filter(s => s.status !== 'draft' && s.active !== false);
+                        if (activeSkills.length > 0) {
+                            renderPortfolioSkills(activeSkills);
+                            return;
+                        }
+                    }
+                    console.log("Using static portfolio skills fallback:", err.message);
+                })
+                .catch(staticErr => {
+                    console.log("Using static portfolio skills fallback:", err.message);
+                });
         });
 }
 
@@ -964,7 +978,18 @@ async function loadAllWorkData() {
             renderExperienceItems(expRes?.data || [], experienceContainer);
             renderEducationItems(eduRes?.data || [], educationContainer);
             renderVolunteeringItems(volRes?.data || [], volunteeringContainer);
-            renderCertificateItems(certRes?.data || [], certificatesContainer);
+            if (certRes?.data && certRes.data.length > 0) {
+                renderCertificateItems(certRes.data, certificatesContainer);
+            } else {
+                fetch("assets/data/work.json")
+                    .then(r => r.ok ? r.json() : null)
+                    .then(staticWork => {
+                        if (staticWork && staticWork.certificates) {
+                            renderCertificateItems(staticWork.certificates, certificatesContainer);
+                        }
+                    })
+                    .catch(() => {});
+            }
             initWorkTabs();
             initMagnetic();
             init3DTilt();
@@ -1779,7 +1804,7 @@ function renderTestimonials(testimonials) {
 
         const screenshotHtml = t.screenshotUrl && t.screenshotUrl.trim() !== ''
             ? `<div class="floating-screen__screenshot-thumb" onclick="event.stopPropagation(); openTestimonialScreenshot('${t.screenshotUrl}', '${t.name.replace(/'/g, "\\'")}')">
-                 <img src="${t.screenshotUrl}" alt="Proof screenshot from ${t.name}" loading="lazy">
+                 <img src="${t.screenshotUrl}" alt="Proof screenshot from ${t.name}" loading="lazy" onerror="this.onerror=null; this.src='assets/img/veranda.webp'">
                  <div class="floating-screen__screenshot-overlay"><i class="ri-zoom-in-line"></i> View Proof Screen</div>
                </div>`
             : '';
@@ -1902,7 +1927,7 @@ function openTestimonialScreenshot(url, authorName) {
     const modal = document.getElementById("image-lightbox-modal");
     const img = document.getElementById("lightbox-modal-img");
     const titleEl = document.getElementById("lightbox-modal-title");
-    const dlBtn = document.getElementById("lightbox-modal-download-btn");
+    const dlBtn = document.getElementById("lightbox-modal-download") || document.getElementById("lightbox-modal-download-btn");
 
     if (modal && img) {
         img.src = url;

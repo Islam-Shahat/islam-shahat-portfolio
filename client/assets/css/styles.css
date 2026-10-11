@@ -1138,15 +1138,21 @@ html.lenis body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1.5rem;
 }
 
 .projects__number h1 {
     font-size: var(--biggest-font-size);
+    margin-right: 1.25rem;
+    margin-inline-end: 1.25rem;
+    flex-shrink: 0;
 }
 
 .projects__number h3 {
     font-weight: var(--font-regular);
     font-size: var(--h3-font-size);
+    text-align: right;
+    text-align: end;
 }
 
 .projects__data {
@@ -4850,6 +4856,7 @@ button.home__cv:hover {
     background: #020617;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-top: 0.85rem;
 }
 
 .floating-screen__screenshot-thumb:hover {
@@ -4860,8 +4867,9 @@ button.home__cv:hover {
 
 .floating-screen__screenshot-thumb img {
     width: 100%;
-    height: 125px;
+    height: 135px;
     object-fit: cover;
+    object-position: top center;
     display: block;
     transition: transform 0.5s ease;
 }
@@ -4916,18 +4924,19 @@ button.home__cv:hover {
 }
 
 .floating-screen__avatar {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
+    object-position: center;
     border: 2px solid var(--first-color);
-    box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
     display: block;
 }
 
 .floating-screen__avatar-placeholder {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: linear-gradient(135deg, hsl(var(--hue), 85%, 45%), var(--secondary-color));
     display: flex;

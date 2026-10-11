@@ -20,38 +20,34 @@ const connectDB = async () => {
   }
 
   isConnecting = true;
-  const primaryUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/islam_portfolio';
-  const localUri = 'mongodb://127.0.0.1:27017/islam_portfolio';
 
-  try {
-    const conn = await mongoose.connect(primaryUri, {
-      serverSelectionTimeoutMS: 5000
-    });
-    console.log(`[Database] MongoDB Connected: ${conn.connection.host}`);
-    isConnecting = false;
-    return true;
-  } catch (error) {
-    console.warn(`[Database] Warning: Could not connect to primary MongoDB (${error.message}).`);
-
-    // If primary was not local, try fallback to local MongoDB
-    if (primaryUri !== localUri) {
-      try {
-        console.log(`[Database] Attempting connection to local MongoDB: ${localUri}`);
-        const localConn = await mongoose.connect(localUri, {
-          serverSelectionTimeoutMS: 3000
-        });
-        console.log(`[Database] Local MongoDB Connected: ${localConn.connection.host}`);
-        isConnecting = false;
-        return true;
-      } catch (localErr) {
-        console.warn(`[Database] Local MongoDB also unavailable: ${localErr.message}`);
-      }
-    }
-
-    console.warn(`[Database] Running in Fallback / In-Memory cache mode.`);
-    isConnecting = false;
-    return false;
+  // Candidate connection URIs in priority order
+  const candidates = [];
+  if (process.env.MONGODB_URI) candidates.push({ name: 'MONGODB_URI', uri: process.env.MONGODB_URI });
+  if (process.env.MONGODB_ATLAS_URI && !candidates.some(c => c.uri === process.env.MONGODB_ATLAS_URI)) {
+    candidates.push({ name: 'MongoDB Atlas Cloud', uri: process.env.MONGODB_ATLAS_URI });
   }
+  const localTarget = process.env.MONGODB_LOCAL_URI || 'mongodb://127.0.0.1:27017/islam_portfolio';
+  if (!candidates.some(c => c.uri === localTarget)) {
+    candidates.push({ name: 'Local MongoDB', uri: localTarget });
+  }
+
+  for (const candidate of candidates) {
+    try {
+      const conn = await mongoose.connect(candidate.uri, {
+        serverSelectionTimeoutMS: 5000
+      });
+      console.log(`[Database] MongoDB Connected successfully (${candidate.name}): ${conn.connection.host}`);
+      isConnecting = false;
+      return true;
+    } catch (err) {
+      console.warn(`[Database] Could not connect to ${candidate.name} (${err.message}). Trying next fallback...`);
+    }
+  }
+
+  console.warn(`[Database] Running in Fallback / In-Memory cache mode.`);
+  isConnecting = false;
+  return false;
 };
 
 module.exports = connectDB;

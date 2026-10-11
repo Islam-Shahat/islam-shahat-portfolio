@@ -1,5 +1,6 @@
 # === Dependencies ===
 node_modules/
+node_modules
 server/node_modules/
 npm-debug.log*
 yarn-debug.log*
@@ -12,6 +13,13 @@ yarn-error.log*
 server/.env
 server/.env.*
 !server/.env.example
+
+# === Uploads & Dynamic Files ===
+uploads/
+uploads
+server/uploads/
+server/uploads/*
+!server/uploads/.gitkeep
 
 # === Logs & Runtime ===
 *.log
@@ -26,7 +34,3 @@ Thumbs.db
 .vs/
 *.suo
 *.user
-
-# === Local Uploads (Dynamic Files) ===
-server/uploads/*
-!server/uploads/.gitkeep

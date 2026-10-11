@@ -2,9 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Skill = require('../models/Skill');
 const authMiddleware = require('../middleware/authMiddleware');
+const path = require('path');
+const fs = require('fs');
 const mongoose = require('mongoose');
 
 const isMongoReady = () => mongoose.connection.readyState === 1;
+
+const skillsJsonPath = path.join(__dirname, '../../client/assets/data/skills.json');
 
 // Default initial skills for Islam Shahat's portfolio
 const defaultPortfolioSkills = [
@@ -30,7 +34,27 @@ const defaultPortfolioSkills = [
   { name: 'Postman', category: 'Tools', level: 'Advanced', proficiency: 90, icon: 'ri-send-plane-2-line', iconClass: 'ri-send-plane-2-line', status: 'published', active: true, orderIndex: 15 }
 ];
 
-let fallbackSkills = [...defaultPortfolioSkills.map((s, i) => ({ ...s, _id: `skill-${i + 1}` }))];
+const loadFallbackSkills = () => {
+  if (fs.existsSync(skillsJsonPath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(skillsJsonPath, 'utf8'));
+      if (Array.isArray(data) && data.length > 0) return data;
+    } catch (e) {
+      console.warn('Error reading skills.json fallback:', e.message);
+    }
+  }
+  return [...defaultPortfolioSkills.map((s, i) => ({ ...s, _id: `skill-${i + 1}` }))];
+};
+
+const saveFallbackSkills = (skills) => {
+  try {
+    fs.writeFileSync(skillsJsonPath, JSON.stringify(skills, null, 4), 'utf8');
+  } catch (err) {
+    console.warn('Failed to save skills.json fallback:', err.message);
+  }
+};
+
+let fallbackSkills = loadFallbackSkills();
 
 const sanitizeSkillData = (body) => {
   const proficiency = body.proficiency !== undefined && body.proficiency !== ''
@@ -105,6 +129,7 @@ const handleCreateSkill = async (req, res) => {
       ...data
     };
     fallbackSkills.push(newSkill);
+    saveFallbackSkills(fallbackSkills);
     res.status(201).json({ success: true, message: 'تمت إضافة المهارة بنجاح', data: newSkill });
   } catch (err) {
     console.error('[Skill Create Error]:', err);
@@ -131,6 +156,7 @@ const handleUpdateSkill = async (req, res) => {
     const index = fallbackSkills.findIndex(s => s._id === id);
     if (index !== -1) {
       fallbackSkills[index] = { ...fallbackSkills[index], ...data, _id: id };
+      saveFallbackSkills(fallbackSkills);
       return res.json({ success: true, message: 'تم تحديث المهارة بنجاح', data: fallbackSkills[index] });
     }
 
@@ -152,6 +178,7 @@ const handleDeleteSkill = async (req, res) => {
       await Skill.findByIdAndDelete(id);
     }
     fallbackSkills = fallbackSkills.filter(s => s._id !== id);
+    saveFallbackSkills(fallbackSkills);
     res.json({ success: true, message: 'تم حذف المهارة بنجاح' });
   } catch (err) {
     console.error('[Skill Delete Error]:', err);

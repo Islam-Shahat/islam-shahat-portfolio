@@ -900,13 +900,29 @@ async function loadCertificates() {
   try {
     const res = await fetch(`${API_BASE}/certificates`);
     const data = await res.json();
-    if (data.success) {
+    if (data.success && Array.isArray(data.data) && data.data.length > 0) {
       certificatesCache = data.data;
       renderCertificatesTable(certificatesCache);
+      return;
     }
   } catch (err) {
-    console.error('Load certificates error:', err);
+    console.warn('API certificates load failed, trying local fallback:', err);
   }
+
+  // Graceful fallback to static work.json
+  try {
+    const staticRes = await fetch('assets/data/work.json');
+    if (staticRes.ok) {
+      const staticData = await staticRes.json();
+      if (staticData && Array.isArray(staticData.certificates) && staticData.certificates.length > 0) {
+        certificatesCache = staticData.certificates.map((x, idx) => ({ ...x, _id: x._id || `cert-${idx}` }));
+        renderCertificatesTable(certificatesCache);
+        return;
+      }
+    }
+  } catch (e) {}
+
+  renderCertificatesTable(certificatesCache || []);
 }
 
 function renderCertificatesTable(list) {
@@ -1820,16 +1836,35 @@ async function loadSkills() {
   try {
     const res = await fetch(`${API_BASE}/skills`);
     const data = await res.json();
-    if (data.success && Array.isArray(data.data)) {
+    if (data.success && Array.isArray(data.data) && data.data.length > 0) {
       skillsCache = data.data;
       updateSkillCategoryCounts();
       applySkillsFilter();
-    } else {
-      if (tbody) tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">لا توجد مهارات مضافة.</td></tr>`;
+      return;
     }
   } catch (err) {
-    console.error('Load skills error:', err);
-    if (tbody) tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">تعذر تحميل المهارات من السيرفر.</td></tr>`;
+    console.warn('API skills load failed, trying local fallback:', err);
+  }
+
+  // Graceful fallback to static skills.json
+  try {
+    const staticRes = await fetch('assets/data/skills.json');
+    if (staticRes.ok) {
+      const staticData = await staticRes.json();
+      if (Array.isArray(staticData) && staticData.length > 0) {
+        skillsCache = staticData;
+        updateSkillCategoryCounts();
+        applySkillsFilter();
+        return;
+      }
+    }
+  } catch (e) {}
+
+  if (skillsCache && skillsCache.length > 0) {
+    updateSkillCategoryCounts();
+    applySkillsFilter();
+  } else if (tbody) {
+    tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">لا توجد مهارات مضافة.</td></tr>`;
   }
 }
 
