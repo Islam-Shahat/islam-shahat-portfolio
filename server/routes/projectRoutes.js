@@ -33,7 +33,15 @@ const saveFallbackProjects = (projects) => {
   }
 };
 
-// Check if MongoDB connection is ready
+const connectDB = require('../config/db');
+
+// Check if MongoDB connection is ready and auto-reconnect if needed
+const ensureDb = async () => {
+  if (mongoose.connection.readyState !== 1) {
+    try { await connectDB(); } catch (e) {}
+  }
+  return mongoose.connection.readyState === 1;
+};
 const isMongoReady = () => mongoose.connection.readyState === 1;
 
 // Helper to check if caller has valid admin token
@@ -55,6 +63,7 @@ const isAuthorizedAdmin = (req) => {
 // @access  Public (Drafts restricted to Authenticated Admin)
 router.get('/', async (req, res) => {
   try {
+    await ensureDb();
     const includeDraftsRequested = req.query.includeDrafts === 'true';
     const allowDrafts = includeDraftsRequested && isAuthorizedAdmin(req);
 
@@ -178,27 +187,23 @@ const handleCreateProject = async (req, res) => {
       orderIndex: orderIndex ? parseInt(orderIndex) : 0
     };
 
+    let savedProject = null;
     if (isMongoReady()) {
       const newProject = new Project(newProjectData);
-      await newProject.save();
-      return res.status(201).json({
-        success: true,
-        message: 'Project created successfully! (تم إضافة المشروع بنجاح)',
-        data: newProject
-      });
-    } else {
-      const projects = getFallbackProjects();
-      newProjectData.id = Date.now().toString();
-      newProjectData._id = newProjectData.id;
-      projects.unshift(newProjectData);
-      saveFallbackProjects(projects);
-
-      return res.status(201).json({
-        success: true,
-        message: 'Project created successfully! (تم إضافة المشروع بنجاح)',
-        data: newProjectData
-      });
+      savedProject = await newProject.save();
     }
+
+    // Always keep fallback JSON file synced
+    const projects = getFallbackProjects();
+    const fileItem = savedProject ? savedProject.toObject() : { ...newProjectData, id: Date.now().toString(), _id: Date.now().toString() };
+    projects.unshift(fileItem);
+    saveFallbackProjects(projects);
+
+    return res.status(201).json({
+      success: true,
+      message: 'Project created successfully! (تم إضافة المشروع بنجاح)',
+      data: savedProject || fileItem
+    });
   } catch (error) {
     console.error('Error creating project:', error);
     res.status(500).json({ success: false, message: error.message || 'Server error creating project' });
@@ -213,52 +218,51 @@ router.post('/admin/projects', protect, handleCreateProject);
 // @access  Private (Admin)
 const handleUpdateProject = async (req, res) => {
   try {
+    await ensureDb();
     const id = req.params.id;
 
-    if (isMongoReady()) {
-      let project = await Project.findById(id);
-      if (project) {
-        if (req.body.technologies && typeof req.body.technologies === 'string') {
-          req.body.technologies = req.body.technologies.split(',').map(t => t.trim());
-        }
-        // Parse gallery / images array if sent as string
-        const rawGallery = req.body.gallery || req.body.images;
-        if (rawGallery && typeof rawGallery === 'string') {
-          try {
-            const parsed = JSON.parse(rawGallery);
-            req.body.gallery = parsed;
-            req.body.images = parsed;
-          } catch {
-            const parsed = rawGallery.split(',').map(s => s.trim()).filter(Boolean);
-            req.body.gallery = parsed;
-            req.body.images = parsed;
-          }
-        }
-        if (req.body.coverImage) req.body.image = req.body.coverImage;
-        if (req.body.image && !req.body.coverImage) req.body.coverImage = req.body.image;
+    if (req.body.technologies && typeof req.body.technologies === 'string') {
+      req.body.technologies = req.body.technologies.split(',').map(t => t.trim());
+    }
+    const rawGallery = req.body.gallery || req.body.images;
+    if (rawGallery && typeof rawGallery === 'string') {
+      try {
+        const parsed = JSON.parse(rawGallery);
+        req.body.gallery = parsed;
+        req.body.images = parsed;
+      } catch {
+        const parsed = rawGallery.split(',').map(s => s.trim()).filter(Boolean);
+        req.body.gallery = parsed;
+        req.body.images = parsed;
+      }
+    }
+    if (req.body.coverImage) req.body.image = req.body.coverImage;
+    if (req.body.image && !req.body.coverImage) req.body.coverImage = req.body.image;
 
-        project = await Project.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
-        return res.json({
-          success: true,
-          message: 'Project updated successfully! (تم تعديل المشروع بنجاح)',
-          data: project
-        });
+    let updatedMongoProject = null;
+    if (isMongoReady()) {
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        updatedMongoProject = await Project.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+      } else {
+        updatedMongoProject = await Project.findOneAndUpdate({ id: id }, req.body, { new: true, runValidators: true });
       }
     }
 
     const projects = getFallbackProjects();
-    const index = projects.findIndex(p => p.id === id || p._id === id);
-    if (index === -1) {
+    const index = projects.findIndex(p => p.id === id || p._id === id || String(p._id) === String(id));
+    if (index !== -1) {
+      projects[index] = { ...projects[index], ...req.body };
+      saveFallbackProjects(projects);
+    }
+
+    if (!updatedMongoProject && index === -1) {
       return res.status(404).json({ success: false, message: 'Project not found' });
     }
 
-    projects[index] = { ...projects[index], ...req.body };
-    saveFallbackProjects(projects);
-
-    res.json({
+    return res.json({
       success: true,
       message: 'Project updated successfully! (تم تعديل المشروع بنجاح)',
-      data: projects[index]
+      data: updatedMongoProject || projects[index]
     });
   } catch (error) {
     console.error('Error updating project:', error);
@@ -274,29 +278,36 @@ router.put('/admin/projects/:id', protect, handleUpdateProject);
 // @access  Private (Admin)
 const handleDeleteProject = async (req, res) => {
   try {
+    await ensureDb();
     const id = req.params.id;
 
+    let mongoDeleted = false;
     if (isMongoReady()) {
-      const project = await Project.findById(id);
-      if (project) {
-        await project.deleteOne();
-        return res.json({ success: true, message: 'Project deleted successfully! (تم حذف المشروع بنجاح)' });
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        const p = await Project.findByIdAndDelete(id);
+        if (p) mongoDeleted = true;
+      } else {
+        const p = await Project.findOneAndDelete({ id: id });
+        if (p) mongoDeleted = true;
       }
     }
 
     let projects = getFallbackProjects();
     const initialLen = projects.length;
-    projects = projects.filter(p => p.id !== id && p._id !== id);
-    
-    if (projects.length === initialLen) {
-      return res.status(404).json({ success: false, message: 'Project not found' });
+    projects = projects.filter(p => p.id !== id && p._id !== id && String(p._id) !== String(id));
+    const jsonDeleted = projects.length < initialLen;
+    if (jsonDeleted) {
+      saveFallbackProjects(projects);
     }
 
-    saveFallbackProjects(projects);
+    if (!mongoDeleted && !jsonDeleted) {
+      return res.status(404).json({ success: false, message: 'Project not found (لم يتم العثور على المشروع)' });
+    }
+
     res.json({ success: true, message: 'Project deleted successfully! (تم حذف المشروع بنجاح)' });
   } catch (error) {
     console.error('Error deleting project:', error);
-    res.status(500).json({ success: false, message: 'Server error deleting project' });
+    res.status(500).json({ success: false, message: error.message || 'Server error deleting project' });
   }
 };
 
