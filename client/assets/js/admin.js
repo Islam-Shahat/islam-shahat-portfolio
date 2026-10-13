@@ -366,6 +366,7 @@ function openAddProjectModal() {
   document.getElementById('project-id').value = '';
   document.getElementById('modal-title').innerHTML = `<i class="ri-folder-add-line"></i> إضافة مشروع جديد`;
   document.getElementById('project-form').reset();
+  document.getElementById('p-image-url').value = 'assets/img/backend_api.webp';
   document.getElementById('image-preview').src = 'assets/img/backend_api.webp';
   const galEl = document.getElementById('p-gallery-urls');
   if (galEl) galEl.value = '';
