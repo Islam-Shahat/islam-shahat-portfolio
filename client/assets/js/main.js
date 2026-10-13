@@ -356,8 +356,8 @@ fetch(`${API_BASE}/projects`)
     })
     .then((result) => {
         const projectsData = result.data ? result.data : result;
-        if (!Array.isArray(projectsData) || projectsData.length === 0) {
-            throw new Error("API returned empty projects array, fallback to static JSON");
+        if (!Array.isArray(projectsData)) {
+            throw new Error("Invalid projects response, fallback to static JSON");
         }
         renderProjects(projectsData);
         initSwiper();
@@ -368,14 +368,26 @@ fetch(`${API_BASE}/projects`)
         fetch("assets/data/projects.json?v=3")
             .then(res => res.json())
             .then(data => {
-                renderProjects(data);
+                renderProjects(Array.isArray(data) ? data : []);
                 initSwiper();
                 if (ScrollTrigger) ScrollTrigger.refresh();
+            }).catch(() => {
+                renderProjects([]);
             });
     });
 
 function renderProjects(projects) {
     window._cachedProjects = projects;
+    if (!projects || projects.length === 0) {
+        projectsContent.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem 1rem; color: var(--text-color-light, #8892b0);">
+                <i class="ri-folder-open-line" style="font-size: 3rem; margin-bottom: 1rem; display: block; opacity: 0.7;"></i>
+                <h3 style="color: var(--title-color, #e6f1ff); margin-bottom: 0.5rem;">لا توجد مشاريع مضافة حالياً</h3>
+                <p>يمكنك إضافة مشاريعك الجديدة من خلال لوحة التحكم الخاصة بالآدمن في أي وقت.</p>
+            </div>
+        `;
+        return;
+    }
     projectsContent.innerHTML = projects
         .map((project, idx) => {
             const displayId = project.id || (idx + 1 < 10 ? `0${idx + 1}` : `${idx + 1}`);
