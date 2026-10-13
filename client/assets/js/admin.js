@@ -1,7 +1,9 @@
 const getApiBase = () => {
   if (window.location.protocol === 'file:') return 'http://localhost:5050/api';
-  if (window.location.port && window.location.port !== '5050') {
-    return `http://${window.location.hostname || 'localhost'}:5050/api`;
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    if (window.location.port && window.location.port !== '5050') {
+      return `http://${window.location.hostname}:5050/api`;
+    }
   }
   return '/api';
 };
@@ -474,6 +476,12 @@ if (projectForm) {
       orderIndex: document.getElementById('p-order').value
     };
 
+    if (!token) {
+      showToast('انتهت صلاحية الجلسة، يرجى تسجيل الدخول أولاً', 'error');
+      showLoginScreen();
+      return;
+    }
+
     saveBtn.disabled = true;
     saveBtn.innerHTML = `جاري الحفظ... <i class="ri-loader-4-line animate-spin"></i>`;
 
@@ -490,7 +498,19 @@ if (projectForm) {
         body: JSON.stringify(projectPayload)
       });
 
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        data = { success: false, message: `استجابة غير متوقعة من السيرفر (${res.status})` };
+      }
+
+      if (res.status === 401) {
+        showToast('انتهت صلاحية الجلسة، يرجى تسجيل الدخول مجدداً', 'error');
+        localStorage.removeItem('admin_token');
+        showLoginScreen();
+        return;
+      }
 
       if (data.success) {
         showToast(data.message || 'تم حفظ بيانات المشروع بنجاح', 'success');
@@ -502,7 +522,7 @@ if (projectForm) {
       }
     } catch (err) {
       console.error('Save project error:', err);
-      showToast('تعذر الاتصال بالسيرفر لحفظ المشروع', 'error');
+      showToast(err.message ? `خطأ في الاتصال: ${err.message}` : 'تعذر الاتصال بالسيرفر لحفظ المشروع', 'error');
     } finally {
       saveBtn.disabled = false;
       saveBtn.innerHTML = `<i class="ri-save-line"></i> <span>حفظ البيانات</span>`;

@@ -124,6 +124,7 @@ router.get('/:id', async (req, res) => {
 // @access  Private (Admin)
 const handleCreateProject = async (req, res) => {
   try {
+    await ensureDb();
     const {
       title,
       category,
