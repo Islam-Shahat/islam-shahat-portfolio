@@ -225,7 +225,10 @@ router.get('/view/:id', handleViewCv);
 // ==========================================
 const handleListCvs = async (req, res) => {
   try {
-    await ensureDb();
+    // Ensure DB connection is available (non-blocking reconnect for serverless)
+    if (mongoose.connection.readyState !== 1) {
+      try { await connectDB(); } catch (e) {}
+    }
     const cvs = await CV.find().sort({ createdAt: -1 });
     if (cvs.length > 0) return res.json({ success: true, count: cvs.length, data: cvs.map(formatCvItem) });
     const fileCvs = loadCvsFromFile();
@@ -245,7 +248,10 @@ router.get('/admin/cv', handleListCvs);
 // ==========================================
 const handleSaveCv = async (req, res) => {
   try {
-    await ensureDb();
+    // Ensure DB connection is available (non-blocking reconnect for serverless)
+    if (mongoose.connection.readyState !== 1) {
+      try { await connectDB(); } catch (e) {}
+    }
     const { name, version, pdfFile, active, setAsActive, fileData } = req.body || {};
     const isFileActive = active === true || active === 'true' || setAsActive === true || setAsActive === 'true';
 

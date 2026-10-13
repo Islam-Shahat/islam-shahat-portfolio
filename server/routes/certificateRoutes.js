@@ -4,6 +4,7 @@ const Certificate = require('../models/Certificate');
 const File = require('../models/File');
 const authMiddleware = require('../middleware/authMiddleware');
 const { upload } = require('../middleware/uploadMiddleware');
+const { uploadToCloudinary, isCloudinaryConfigured } = require('../config/cloudinary');
 
 const path = require('path');
 const fs = require('fs');
@@ -96,6 +97,21 @@ const handleCreateCertificate = async (req, res) => {
       if (req.files.image && req.files.image[0]) {
         const file = req.files.image[0];
         data.image = `/uploads/images/${file.filename}`;
+
+        // Upload image to Cloudinary for persistent storage on Vercel
+        if (file.path && fs.existsSync(file.path)) {
+          try {
+            const cloudRes = await uploadToCloudinary(file.path, 'portfolio/certificates', 'image');
+            if (cloudRes && cloudRes.secure_url) {
+              data.image = cloudRes.secure_url;
+              data.cloudinaryUrl = cloudRes.secure_url;
+              data.cloudinaryPublicId = cloudRes.public_id || '';
+            }
+          } catch (e) {
+            console.warn('[Certificate] Cloudinary image upload warning:', e.message);
+          }
+        }
+
         if (isMongoReady()) {
           await File.create({
             originalName: file.originalname,
@@ -104,7 +120,9 @@ const handleCreateCertificate = async (req, res) => {
             size: file.size,
             path: data.image,
             category: 'image',
-            relatedSection: 'Certificates'
+            relatedSection: 'Certificates',
+            cloudinaryUrl: data.cloudinaryUrl || '',
+            cloudinaryPublicId: data.cloudinaryPublicId || ''
           }).catch(() => {});
         }
       }
@@ -112,6 +130,21 @@ const handleCreateCertificate = async (req, res) => {
         const file = req.files.pdf[0];
         data.pdfFile = `/uploads/certificates/${file.filename}`;
         data.originalPdfName = file.originalname;
+
+        // Upload PDF to Cloudinary for persistent storage on Vercel
+        if (file.path && fs.existsSync(file.path)) {
+          try {
+            const cloudRes = await uploadToCloudinary(file.path, 'portfolio/certificates', 'raw');
+            if (cloudRes && cloudRes.secure_url) {
+              data.pdfFile = cloudRes.secure_url;
+              data.pdfCloudinaryUrl = cloudRes.secure_url;
+              data.pdfCloudinaryPublicId = cloudRes.public_id || '';
+            }
+          } catch (e) {
+            console.warn('[Certificate] Cloudinary PDF upload warning:', e.message);
+          }
+        }
+
         if (isMongoReady()) {
           await File.create({
             originalName: file.originalname,
@@ -120,7 +153,9 @@ const handleCreateCertificate = async (req, res) => {
             size: file.size,
             path: data.pdfFile,
             category: 'certificate',
-            relatedSection: 'Certificates'
+            relatedSection: 'Certificates',
+            cloudinaryUrl: data.pdfCloudinaryUrl || '',
+            cloudinaryPublicId: data.pdfCloudinaryPublicId || ''
           }).catch(() => {});
         }
       }
@@ -180,6 +215,21 @@ const handleUpdateCertificate = async (req, res) => {
       if (req.files.image && req.files.image[0]) {
         const file = req.files.image[0];
         data.image = `/uploads/images/${file.filename}`;
+
+        // Upload image to Cloudinary for persistent storage on Vercel
+        if (file.path && fs.existsSync(file.path)) {
+          try {
+            const cloudRes = await uploadToCloudinary(file.path, 'portfolio/certificates', 'image');
+            if (cloudRes && cloudRes.secure_url) {
+              data.image = cloudRes.secure_url;
+              data.cloudinaryUrl = cloudRes.secure_url;
+              data.cloudinaryPublicId = cloudRes.public_id || '';
+            }
+          } catch (e) {
+            console.warn('[Certificate] Cloudinary image upload warning:', e.message);
+          }
+        }
+
         if (isMongoReady()) {
           await File.create({
             originalName: file.originalname,
@@ -188,7 +238,9 @@ const handleUpdateCertificate = async (req, res) => {
             size: file.size,
             path: data.image,
             category: 'image',
-            relatedSection: 'Certificates'
+            relatedSection: 'Certificates',
+            cloudinaryUrl: data.cloudinaryUrl || '',
+            cloudinaryPublicId: data.cloudinaryPublicId || ''
           }).catch(() => {});
         }
       }
@@ -196,6 +248,21 @@ const handleUpdateCertificate = async (req, res) => {
         const file = req.files.pdf[0];
         data.pdfFile = `/uploads/certificates/${file.filename}`;
         data.originalPdfName = file.originalname;
+
+        // Upload PDF to Cloudinary for persistent storage on Vercel
+        if (file.path && fs.existsSync(file.path)) {
+          try {
+            const cloudRes = await uploadToCloudinary(file.path, 'portfolio/certificates', 'raw');
+            if (cloudRes && cloudRes.secure_url) {
+              data.pdfFile = cloudRes.secure_url;
+              data.pdfCloudinaryUrl = cloudRes.secure_url;
+              data.pdfCloudinaryPublicId = cloudRes.public_id || '';
+            }
+          } catch (e) {
+            console.warn('[Certificate] Cloudinary PDF upload warning:', e.message);
+          }
+        }
+
         if (isMongoReady()) {
           await File.create({
             originalName: file.originalname,
@@ -204,7 +271,9 @@ const handleUpdateCertificate = async (req, res) => {
             size: file.size,
             path: data.pdfFile,
             category: 'certificate',
-            relatedSection: 'Certificates'
+            relatedSection: 'Certificates',
+            cloudinaryUrl: data.pdfCloudinaryUrl || '',
+            cloudinaryPublicId: data.pdfCloudinaryPublicId || ''
           }).catch(() => {});
         }
       }

@@ -10,7 +10,11 @@ const certificateSchema = new mongoose.Schema({
   pdfFile: { type: String, default: '' },
   originalPdfName: { type: String, default: '' },
   status: { type: String, enum: ['published', 'draft'], default: 'published' },
-  orderIndex: { type: Number, default: 1 }
+  orderIndex: { type: Number, default: 1 },
+  cloudinaryUrl: { type: String, default: '' },
+  cloudinaryPublicId: { type: String, default: '' },
+  pdfCloudinaryUrl: { type: String, default: '' },
+  pdfCloudinaryPublicId: { type: String, default: '' }
 }, {
   timestamps: true
 });
