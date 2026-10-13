@@ -90,8 +90,41 @@ app.use((req, res, next) => {
 
 // Serve Static Assets & Uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/assets', express.static(path.join(__dirname, '../client/assets')));
-app.use(express.static(path.join(__dirname, '../client')));
+app.use('/assets', express.static(path.join(__dirname, '../client/assets'), {
+  maxAge: '7d',
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    } else if (filePath.match(/\.(js|css)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=604800');
+    } else if (filePath.match(/\.(png|jpg|jpeg|webp|svg|gif|ico|woff2|woff|ttf)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=2592000');
+    }
+  }
+}));
+app.use(express.static(path.join(__dirname, '../client'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+  }
+}));
+
+// ===== SEO Critical Routes =====
+// Explicit robots.txt route (ensures correct Content-Type for crawlers)
+app.get('/robots.txt', (req, res) => {
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.sendFile(path.join(__dirname, '../client/robots.txt'));
+});
+
+// Explicit sitemap.xml route (ensures correct Content-Type for crawlers)
+app.get('/sitemap.xml', (req, res) => {
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.setHeader('X-Robots-Tag', 'noindex');
+  res.sendFile(path.join(__dirname, '../client/sitemap.xml'));
+});
 
 // Database Connection & Initial Seeding
 let isDbConnected = false;
@@ -285,8 +318,15 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/admin.html'));
 });
 
-// Fallback for single page app
+// Fallback for single page app - serves index.html with SEO headers
 app.get('/', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.sendFile(path.join(__dirname, '../client/index.html'));
+});
+
+// Catch-all: serve index.html for any unknown routes (SPA support)
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
