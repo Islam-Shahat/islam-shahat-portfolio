@@ -388,6 +388,15 @@ function renderProjects(projects) {
     window._cachedProjects = projects;
     if (!projectsContent) return;
 
+    // Dynamically sync About section project counter
+    const projStatEl = document.getElementById('stats-projects-count');
+    if (projStatEl && Array.isArray(projects)) {
+        projStatEl.setAttribute('data-target', projects.length);
+        if (typeof _statsCountersAnimated !== 'undefined' && _statsCountersAnimated) {
+            projStatEl.textContent = `${projects.length}+`;
+        }
+    }
+
     if (!projects || projects.length === 0) {
         projectsContent.innerHTML = `
             <div style="width: 100%; min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 1rem; color: var(--text-color-light, #8892b0);">

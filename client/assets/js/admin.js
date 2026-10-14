@@ -241,7 +241,7 @@ function switchToTab(tabName) {
 async function loadAnalytics() {
   const token = localStorage.getItem('admin_token');
   try {
-    const res = await fetch(`${API_BASE}/analytics`, {
+    const res = await fetch(`${API_BASE}/analytics?_t=${Date.now()}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     const data = await res.json();
