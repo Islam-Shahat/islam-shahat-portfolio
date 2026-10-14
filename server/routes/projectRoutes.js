@@ -72,16 +72,10 @@ router.get('/', async (req, res) => {
 
     if (isMongoReady()) {
       const query = allowDrafts ? {} : { status: 'published' };
-      let projects = await Project.find(query).sort({ orderIndex: 1, createdAt: -1 });
-      if (projects.length === 0) {
-        projects = getFallbackProjects();
-        if (!allowDrafts) {
-          projects = projects.filter(p => p.status !== 'draft');
-        }
-      }
+      const projects = await Project.find(query).sort({ orderIndex: 1, createdAt: -1 });
       return res.json({ success: true, count: projects.length, data: projects });
     } else {
-      // Fallback mode using JSON file
+      // Offline fallback mode using JSON file only when DB is disconnected
       let projects = getFallbackProjects();
       if (!allowDrafts) {
         projects = projects.filter(p => p.status !== 'draft');

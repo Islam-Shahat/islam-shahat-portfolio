@@ -225,6 +225,7 @@ function switchToTab(tabName) {
   }
 
   // Dynamic fetch per active tab
+  if (tabName === 'projects') loadProjects();
   if (tabName === 'experience') loadExperience();
   if (tabName === 'education') loadEducation();
   if (tabName === 'volunteering') loadVolunteering();

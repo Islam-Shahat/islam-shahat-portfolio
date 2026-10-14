@@ -410,10 +410,7 @@ function loadPortfolioProjects() {
             return response.json();
         })
         .then((result) => {
-            const projectsData = result.data ? result.data : result;
-            if (!Array.isArray(projectsData) || projectsData.length === 0) {
-                throw new Error("Empty API response, fallback to static JSON");
-            }
+            const projectsData = Array.isArray(result.data) ? result.data : (Array.isArray(result) ? result : []);
             _allLoadedProjects = projectsData;
             updateProjectFilterCounts(projectsData);
             renderProjects(projectsData);
