@@ -574,21 +574,46 @@ if (projectForm) {
 }
 
 async function deleteProject(id) {
-  if (!confirm('هل أنت تأكد من رغبتك في حذف هذا المشروع نهائياً؟')) return;
+  if (!id) {
+    showToast('معرّف المشروع غير صالح للحذف', 'error');
+    return;
+  }
+  if (!confirm('هل أنت متأكد من رغبتك في حذف هذا المشروع نهائياً؟')) return;
   const token = localStorage.getItem('admin_token');
+  if (!token) {
+    showToast('انتهت صلاحية الجلسة، يرجى تسجيل الدخول أولاً', 'error');
+    showLoginScreen();
+    return;
+  }
   try {
     const res = await fetch(`${API_BASE}/projects/${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    const data = await res.json();
+    let data;
+    try {
+      data = await res.json();
+    } catch (parseErr) {
+      data = { success: false, message: `استجابة غير متوقعة من السيرفر (${res.status})` };
+    }
+
+    if (res.status === 401) {
+      showToast('انتهت صلاحية الجلسة، يرجى تسجيل الدخول مجدداً', 'error');
+      localStorage.removeItem('admin_token');
+      showLoginScreen();
+      return;
+    }
+
     if (data.success) {
-      showToast('تم حذف المشروع بنجاح', 'success');
+      showToast(data.message || 'تم حذف المشروع بنجاح', 'success');
       loadProjects();
       loadAnalytics();
+    } else {
+      showToast(data.message || 'فشل حذف المشروع', 'error');
     }
   } catch (err) {
-    console.error('Delete error:', err);
+    console.error('Delete project error:', err);
+    showToast(err.message ? `خطأ أثناء الحذف: ${err.message}` : 'تعذر الاتصال بالسيرفر لحذف المشروع', 'error');
   }
 }
 
