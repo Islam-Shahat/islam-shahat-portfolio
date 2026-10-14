@@ -292,7 +292,9 @@ function renderAnalyticsTable(dailyBreakdown) {
 
 async function loadProjects() {
   try {
-    const res = await fetch(`${API_BASE}/projects?includeDrafts=true`);
+    const token = localStorage.getItem('admin_token');
+    const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+    const res = await fetch(`${API_BASE}/projects?includeDrafts=true`, { headers });
     const data = await res.json();
 
     if (data.success && data.data) {
@@ -438,6 +440,47 @@ async function handleImageUpload(input) {
   } catch (err) {
     console.error('Image upload error:', err);
     statusText.textContent = 'خطأ أثناء رفع الصورة';
+  }
+}
+
+async function handleGalleryImagesUpload(input) {
+  if (!input.files || input.files.length === 0) return;
+  const token = localStorage.getItem('admin_token');
+  const statusText = document.getElementById('gallery-upload-status');
+  if (statusText) statusText.textContent = `جاري رفع ${input.files.length} صورة...`;
+
+  const uploadedUrls = [];
+  for (let i = 0; i < input.files.length; i++) {
+    const file = input.files[i];
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await fetch(`${API_BASE}/files/upload`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: formData
+      });
+      const data = await res.json();
+      if (data.success && data.filePath) {
+        uploadedUrls.push(data.filePath);
+      }
+    } catch (e) {
+      console.warn('Gallery upload error for file', file.name, e);
+    }
+  }
+
+  if (uploadedUrls.length > 0) {
+    const galEl = document.getElementById('p-gallery-urls');
+    if (galEl) {
+      const current = galEl.value.trim();
+      const newUrls = uploadedUrls.join(', ');
+      galEl.value = current ? `${current}, ${newUrls}` : newUrls;
+    }
+    if (statusText) statusText.textContent = `تم رفع ${uploadedUrls.length} صورة بنجاح!`;
+    showToast(`تم رفع ${uploadedUrls.length} صورة للمعرض بنجاح`, 'success');
+  } else {
+    if (statusText) statusText.textContent = 'فشل رفع الصور';
+    showToast('فشل رفع بعض أو كل الصور', 'error');
   }
 }
 

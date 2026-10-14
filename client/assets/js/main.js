@@ -350,6 +350,56 @@ try {
 
 /*=============== PROJECTS CARDS ===============*/
 const projectsContent = document.getElementById("projects-content");
+let _allLoadedProjects = [];
+
+function updateProjectFilterCounts(projects) {
+    if (!Array.isArray(projects)) return;
+    const total = projects.length;
+    const countAll = document.getElementById('proj-count-all');
+    const countFrontend = document.getElementById('proj-count-frontend');
+    const countMern = document.getElementById('proj-count-mern');
+    const countBackend = document.getElementById('proj-count-backend');
+    const countCpp = document.getElementById('proj-count-cpp');
+
+    if (countAll) countAll.textContent = total;
+
+    const getMatchCount = (key) => projects.filter(p => {
+        const c = (p.category || '').toLowerCase();
+        const t = (p.title || '').toLowerCase();
+        const tech = Array.isArray(p.technologies) ? p.technologies.join(' ').toLowerCase() : (p.technologies || '').toLowerCase();
+        return c.includes(key) || t.includes(key) || tech.includes(key);
+    }).length;
+
+    if (countFrontend) countFrontend.textContent = getMatchCount('front');
+    if (countMern) countMern.textContent = getMatchCount('mern') || getMatchCount('react');
+    if (countBackend) countBackend.textContent = getMatchCount('back') || getMatchCount('node') || getMatchCount('api');
+    if (countCpp) countCpp.textContent = getMatchCount('c++') || getMatchCount('bank') || getMatchCount('system');
+}
+
+function filterPortfolioProjects(category, btnEl) {
+    if (btnEl) {
+        document.querySelectorAll('.projects__filter-btn').forEach(b => b.classList.remove('active'));
+        btnEl.classList.add('active');
+    }
+    const all = _allLoadedProjects || window._cachedProjects || [];
+    let filtered = all;
+    if (category !== 'all') {
+        const catLower = category.toLowerCase();
+        filtered = all.filter(p => {
+            const c = (p.category || '').toLowerCase();
+            const t = (p.title || '').toLowerCase();
+            const tech = Array.isArray(p.technologies) ? p.technologies.join(' ').toLowerCase() : (p.technologies || '').toLowerCase();
+            if (category === 'Frontend') return c.includes('front') || tech.includes('html') || tech.includes('css') || tech.includes('react');
+            if (category === 'MERN') return c.includes('mern') || tech.includes('mern') || tech.includes('react');
+            if (category === 'Backend') return c.includes('back') || tech.includes('node') || tech.includes('express') || tech.includes('api');
+            if (category === 'C++') return c.includes('c++') || tech.includes('c++') || t.includes('atm');
+            return c.includes(catLower) || t.includes(catLower) || tech.includes(catLower);
+        });
+    }
+    renderProjects(filtered);
+    initSwiper();
+    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+}
 
 function loadPortfolioProjects() {
     if (!projectsContent) return;
@@ -364,6 +414,8 @@ function loadPortfolioProjects() {
             if (!Array.isArray(projectsData) || projectsData.length === 0) {
                 throw new Error("Empty API response, fallback to static JSON");
             }
+            _allLoadedProjects = projectsData;
+            updateProjectFilterCounts(projectsData);
             renderProjects(projectsData);
             initSwiper();
             if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
@@ -373,7 +425,10 @@ function loadPortfolioProjects() {
             fetch(`assets/data/projects.json?_t=${Date.now()}`)
                 .then(res => res.json())
                 .then(data => {
-                    renderProjects(Array.isArray(data) ? data : []);
+                    const fallbackList = Array.isArray(data) ? data : [];
+                    _allLoadedProjects = fallbackList;
+                    updateProjectFilterCounts(fallbackList);
+                    renderProjects(fallbackList);
                     initSwiper();
                     if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
                 }).catch(() => {
@@ -386,14 +441,16 @@ loadPortfolioProjects();
 
 function renderProjects(projects) {
     window._cachedProjects = projects;
+    window._currentRenderedProjects = projects;
     if (!projectsContent) return;
 
     // Dynamically sync About section project counter
     const projStatEl = document.getElementById('stats-projects-count');
-    if (projStatEl && Array.isArray(projects)) {
-        projStatEl.setAttribute('data-target', projects.length);
+    const totalCount = (_allLoadedProjects && _allLoadedProjects.length > 0) ? _allLoadedProjects.length : (Array.isArray(projects) ? projects.length : 0);
+    if (projStatEl && totalCount > 0) {
+        projStatEl.setAttribute('data-target', totalCount);
         if (typeof _statsCountersAnimated !== 'undefined' && _statsCountersAnimated) {
-            projStatEl.textContent = `${projects.length}+`;
+            projStatEl.textContent = `${totalCount}+`;
         }
     }
 
@@ -401,15 +458,15 @@ function renderProjects(projects) {
         projectsContent.innerHTML = `
             <div style="width: 100%; min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 1rem; color: var(--text-color-light, #8892b0);">
                 <i class="ri-folder-open-line" style="font-size: 3rem; margin-bottom: 1rem; display: block; opacity: 0.7;"></i>
-                <h3 style="color: var(--title-color, #e6f1ff); margin-bottom: 0.5rem;">لا توجد مشاريع مضافة حالياً</h3>
-                <p>يمكنك إضافة مشاريعك الجديدة من خلال لوحة التحكم الخاصة بالآدمن في أي وقت.</p>
+                <h3 style="color: var(--title-color, #e6f1ff); margin-bottom: 0.5rem;">لا توجد مشاريع مضافة حالياً في هذا التصنيف</h3>
+                <p>يمكنك استعراض باقي التصنيفات أو إضافة مشاريع جديدة من لوحة التحكم.</p>
             </div>
         `;
         return;
     }
     projectsContent.innerHTML = projects
         .map((project, idx) => {
-            const displayId = project.id || (idx + 1 < 10 ? `0${idx + 1}` : `${idx + 1}`);
+            const displayId = (idx + 1 < 10 ? `0${idx + 1}` : `${idx + 1}`);
             const hasDemo = project.demo && project.demo.trim() !== '' && project.demo !== '#';
             const hasGithub = project.github && project.github.trim() !== '' && project.github !== '#';
 
@@ -419,7 +476,7 @@ function renderProjects(projects) {
             const galleryCount = allImages.length;
 
             // ---- ACTION BUTTONS ----
-            const galleryBtn = `<button type="button" onclick="openProjectGallery(${idx})" class="projects__btn projects__btn--gallery" title="View Project Gallery">
+            const galleryBtn = `<button type="button" onclick="openProjectGallery(${idx})" class="projects__btn projects__btn--gallery" title="View Project Gallery & Details">
                 <i class="ri-gallery-line"></i> Gallery (${galleryCount})
             </button>`;
 
@@ -437,7 +494,7 @@ function renderProjects(projects) {
                 : '';
 
             return `
-        <article class="projects__card swiper-slide">
+        <article class="projects__card swiper-slide" data-project-index="${idx}">
             <div class="blob"></div>
             
             <div class="projects__number">
@@ -452,14 +509,14 @@ function renderProjects(projects) {
                 ${techList}
             </div>
             
-            <div class="projects__image" onclick="openProjectGallery(${idx})" style="cursor: pointer;" title="Click to view image gallery">
+            <div class="projects__image" onclick="openProjectGallery(${idx})" style="cursor: pointer;" title="Click to view image gallery & details">
                 <img src="${coverImage}" alt="${project.title}" 
                      class="projects__img" 
                      width="302" height="180" loading="lazy" decoding="async"
                      onerror="this.src='assets/img/backend_api.webp'">
                 <div class="projects__gallery-overlay">
                     <span class="projects__gallery-badge">
-                        <i class="ri-gallery-line"></i> ${galleryCount} Photos • View Gallery
+                        <i class="ri-gallery-line"></i> ${galleryCount} Photos • View Details
                     </span>
                 </div>
             </div>
@@ -790,15 +847,24 @@ function openVideoModal(videoUrl, title) {
 let _currentGalleryData = {
     title: '',
     category: '',
+    subtitle: '',
+    description: '',
+    date: '',
+    technologies: [],
     images: [],
     currentIndex: 0,
     demo: '',
     github: ''
 };
 
-function openProjectGallery(idx) {
-    const projects = window._cachedProjects || [];
-    const project = typeof idx === 'number' ? projects[idx] : idx;
+function openProjectGallery(idxOrObj) {
+    let project = null;
+    if (typeof idxOrObj === 'object' && idxOrObj !== null) {
+        project = idxOrObj;
+    } else if (typeof idxOrObj === 'number') {
+        const list = window._currentRenderedProjects || window._cachedProjects || [];
+        project = list[idxOrObj];
+    }
     if (!project) return;
 
     const cover = project.coverImage || project.image || 'assets/img/backend_api.webp';
@@ -812,6 +878,10 @@ function openProjectGallery(idx) {
     _currentGalleryData = {
         title: project.title || 'Project Showcase',
         category: project.category || 'Project',
+        subtitle: project.subtitle || '',
+        description: project.fullDescription || project.description || '',
+        date: project.date || '',
+        technologies: project.technologies || [],
         images: uniqueImages,
         currentIndex: 0,
         demo: project.demo || '',
@@ -829,12 +899,15 @@ function openProjectGallery(idx) {
 }
 
 function renderGalleryModalState() {
-    const { title, category, images, currentIndex, demo, github } = _currentGalleryData;
+    const { title, category, subtitle, description, date, technologies, images, currentIndex, demo, github } = _currentGalleryData;
     const total = images.length;
     const currentImg = images[currentIndex] || images[0];
 
     const titleEl = document.getElementById('gallery-modal-title');
     const catEl = document.getElementById('gallery-modal-category');
+    const dateEl = document.getElementById('gallery-modal-date');
+    const descEl = document.getElementById('gallery-modal-desc');
+    const techEl = document.getElementById('gallery-modal-tech');
     const counterEl = document.getElementById('gallery-modal-counter');
     const mainImg = document.getElementById('gallery-modal-main-img');
     const thumbsContainer = document.getElementById('gallery-modal-thumbs');
@@ -844,6 +917,24 @@ function renderGalleryModalState() {
 
     if (titleEl) titleEl.textContent = title;
     if (catEl) catEl.textContent = category;
+    if (dateEl) {
+        if (date) {
+            dateEl.textContent = date;
+            dateEl.style.display = 'inline-block';
+        } else {
+            dateEl.style.display = 'none';
+        }
+    }
+    if (descEl) descEl.textContent = description || '';
+    if (techEl) {
+        if (Array.isArray(technologies) && technologies.length > 0) {
+            techEl.innerHTML = technologies.map(t => `<span class="proj-tech-tag">${t}</span>`).join('');
+            techEl.style.display = 'flex';
+        } else {
+            techEl.innerHTML = '';
+            techEl.style.display = 'none';
+        }
+    }
     if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${total}`;
 
     if (mainImg) {
@@ -990,15 +1081,28 @@ function initSwiper() {
         observer: true,
         observeParents: true,
         observeSlideChildren: true,
+        navigation: slideCount > 1 ? {
+            nextEl: ".projects__swiper .swiper-button-next",
+            prevEl: ".projects__swiper .swiper-button-prev",
+        } : false,
         pagination: slideCount > 1 ? {
-            el: ".swiper-pagination",
+            el: ".projects__swiper .swiper-pagination",
             clickable: true,
             dynamicBullets: true,
         } : false,
         autoplay: enableLoop ? {
-            delay: 3000,
+            delay: 4000,
             disableOnInteraction: false,
+            pauseOnMouseEnter: true
         } : false,
+        breakpoints: {
+            768: {
+                spaceBetween: 28,
+            },
+            1200: {
+                spaceBetween: 32,
+            },
+        },
     });
 }
 

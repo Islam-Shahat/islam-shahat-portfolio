@@ -813,6 +813,14 @@
                             <label for="p-gallery-urls"><i class="ri-gallery-line text-primary"></i> مسارات صور المعرض الإضافية (Gallery Images - 3 إلى 6 صور)</label>
                             <textarea id="p-gallery-urls" rows="3" placeholder="أدخل مسارات أو روابط الصور مفصولة بفواصل أو أسطر جديدة:
 assets/img/aqario.webp, assets/img/About.webp, uploads/images/..."></textarea>
+                            <div class="upload-file-box" style="margin-top: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                <label class="btn btn-secondary btn-upload" style="cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                                    <i class="ri-upload-cloud-2-line"></i>
+                                    <span>رفع صور للمعرض من جهازك (متعدد)</span>
+                                    <input type="file" id="p-gallery-file" accept="image/*" multiple style="display: none;" onchange="handleGalleryImagesUpload(this)">
+                                </label>
+                                <span id="gallery-upload-status" class="text-muted" style="font-size: 0.85rem;"></span>
+                            </div>
                             <small class="form-help">سيتم عرض هذه الصور داخل معرض الصور Lightbox للزوار للتنقل بينها بالأسهم</small>
                         </div>
 
@@ -1279,6 +1287,6 @@ assets/img/aqario.webp, assets/img/About.webp, uploads/images/..."></textarea>
 
     <!--=============== PDF.JS ===============-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="assets/js/admin.js?v=4.1"></script>
+    <script src="assets/js/admin.js?v=4.2"></script>
 </body>
 </html>

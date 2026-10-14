@@ -1113,6 +1113,68 @@ html.lenis body {
     margin-left: 1.5rem;
 }
 
+/* Projects Section Filters */
+.projects__filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.projects__filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.55rem 1.15rem;
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    font-family: var(--second-font);
+    font-size: var(--small-font-size);
+    font-weight: var(--font-medium);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.projects__filter-btn:hover {
+    background: rgba(77, 166, 255, 0.12);
+    border-color: rgba(77, 166, 255, 0.4);
+    color: var(--first-color-light);
+    transform: translateY(-2px);
+}
+
+.projects__filter-btn.active {
+    background: var(--first-color);
+    border-color: var(--first-color);
+    color: var(--body-color);
+    font-weight: var(--font-semi-bold);
+    box-shadow: 0 4px 18px hsla(var(--hue), 60%, 64%, 0.4);
+    transform: translateY(-2px);
+}
+
+.projects__filter-btn .filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.25);
+    color: inherit;
+}
+
+.projects__filter-btn.active .filter-count {
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+}
+
 .projects__card {
     position: relative;
     background-color: var(--container-color);
@@ -1441,10 +1503,31 @@ html.lenis body {
     border: 1px solid rgba(77, 166, 255, 0.3);
 }
 
+.gallery-modal__badge--date {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-color-light);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
 .gallery-modal__title {
     font-size: 1.15rem;
     color: var(--title-color);
-    margin: 0;
+    margin: 4px 0 0;
+}
+
+.gallery-modal__desc {
+    font-size: var(--small-font-size);
+    color: var(--text-color-light);
+    line-height: 1.5;
+    margin: 4px 0 0;
+    max-width: 650px;
+}
+
+.gallery-modal__tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
 }
 
 .gallery-modal__actions {
@@ -1862,8 +1945,55 @@ html.lenis body {
 /* Swiper class */
 .projects__swiper {
     margin-inline: initial;
-    padding-bottom: 2rem;
+    padding-bottom: 2.5rem;
     width: 100%;
+    position: relative;
+}
+
+.projects__swiper-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1.5px solid rgba(77, 166, 255, 0.35);
+    color: var(--first-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+.projects__swiper-nav::after {
+    display: none !important;
+}
+
+.projects__swiper-nav:hover {
+    background: var(--first-color);
+    color: var(--body-color);
+    box-shadow: 0 0 20px rgba(77, 166, 255, 0.6);
+    border-color: var(--first-color);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.projects__swiper-nav.swiper-button-prev {
+    left: 4px;
+}
+
+.projects__swiper-nav.swiper-button-next {
+    right: 4px;
+}
+
+@media screen and (max-width: 768px) {
+    .projects__swiper-nav {
+        display: none !important;
+    }
 }
 
 .projects .swiper-pagination-bullets {

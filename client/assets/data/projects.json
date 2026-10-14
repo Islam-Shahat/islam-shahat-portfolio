@@ -1,33 +1,139 @@
 [
-  {
-    "_id": "6ace9306485146c222e9c11b",
-    "title": "Veranda Café",
-    "category": "Frontend",
-    "description": "A fully responsive front-end website for Veranda café, featuring a modern UI with interactive menu sections, smooth navigation, and contact information.",
-    "coverImage": "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg",
-    "image": "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg",
-    "gallery": [
-      "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg"
-    ],
-    "images": [
-      "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg"
-    ],
-    "date": "2026",
-    "subtitle": "",
-    "fullDescription": "",
-    "demo": "",
-    "github": "https://github.com/Islam-Shahat/veranda-cafe-v2",
-    "technologies": [
-      "HTML5",
-      "CSS3",
-      "JavaScript",
-      "Responsive UI"
-    ],
-    "isFeatured": false,
-    "status": "published",
-    "orderIndex": 1,
-    "createdAt": "2026-10-13T20:22:30.165Z",
-    "updatedAt": "2026-10-13T20:22:30.165Z",
-    "__v": 0
-  }
+    {
+        "_id": "6ace9306485146c222e9c11b",
+        "title": "Veranda Café",
+        "category": "Frontend",
+        "description": "A fully responsive front-end website for Veranda café, featuring a modern UI with interactive menu sections, smooth navigation, and contact information.",
+        "coverImage": "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg",
+        "image": "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg",
+        "gallery": [
+            "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg",
+            "assets/img/veranda.webp"
+        ],
+        "images": [
+            "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg",
+            "assets/img/veranda.webp"
+        ],
+        "date": "2026",
+        "subtitle": "Modern Café & Restaurant Platform",
+        "fullDescription": "",
+        "demo": "https://veranda-cafe.vercel.app/",
+        "github": "https://github.com/Islam-Shahat/veranda-cafe-v2",
+        "technologies": [
+            "HTML5",
+            "CSS3",
+            "JavaScript",
+            "Responsive UI"
+        ],
+        "isFeatured": true,
+        "status": "published",
+        "orderIndex": 1,
+        "createdAt": "2026-10-13T20:22:30.165Z",
+        "updatedAt": "2026-10-14T09:20:03.602Z",
+        "__v": 1
+    },
+    {
+        "title": "Aqario Luxe Real Estate",
+        "category": "MERN Stack",
+        "description": "A modern full-stack real estate web application featuring interactive property listings, advanced multi-criteria search filtering, client inquiries, and admin property management.",
+        "coverImage": "assets/img/aqario.webp",
+        "image": "assets/img/aqario.webp",
+        "gallery": [
+            "assets/img/aqario.webp",
+            "assets/img/RWD.webp"
+        ],
+        "images": [
+            "assets/img/aqario.webp",
+            "assets/img/RWD.webp"
+        ],
+        "date": "2026",
+        "subtitle": "Real Estate Showcase & Property Platform",
+        "fullDescription": "",
+        "demo": "",
+        "github": "https://github.com/islam-shahat",
+        "technologies": [
+            "React.js",
+            "Node.js",
+            "Express.js",
+            "MongoDB",
+            "JWT Auth",
+            "RESTful APIs"
+        ],
+        "isFeatured": true,
+        "status": "published",
+        "orderIndex": 2,
+        "_id": "6acf49436ddfd9c80eccd307",
+        "createdAt": "2026-10-14T09:20:03.770Z",
+        "updatedAt": "2026-10-14T09:20:03.770Z",
+        "__v": 0
+    },
+    {
+        "title": "ATM Banking System",
+        "category": "C++ & Software",
+        "description": "A console-based ATM simulation implementing core banking operations: deposit, withdrawal, balance inquiry, transaction history, and PIN security with clean OOP architecture and data structures.",
+        "coverImage": "assets/img/atm_system.webp",
+        "image": "assets/img/atm_system.webp",
+        "gallery": [
+            "assets/img/atm_system.webp"
+        ],
+        "images": [
+            "assets/img/atm_system.webp"
+        ],
+        "date": "2026",
+        "subtitle": "Console Banking Simulation Architecture",
+        "fullDescription": "",
+        "demo": "",
+        "github": "https://github.com/islam-shahat",
+        "technologies": [
+            "C++",
+            "OOP",
+            "Data Structures",
+            "Algorithms",
+            "File Systems"
+        ],
+        "isFeatured": true,
+        "status": "published",
+        "orderIndex": 3,
+        "_id": "6acf49436ddfd9c80eccd30a",
+        "createdAt": "2026-10-14T09:20:03.936Z",
+        "updatedAt": "2026-10-14T09:20:03.936Z",
+        "__v": 0
+    },
+    {
+        "title": "Scalable RESTful Backend Architecture",
+        "category": "Backend",
+        "description": "Engineered high-performance RESTful API micro-services with secure JWT authentication, input validation, role-based controls (RBAC), rate limiting, and structured MongoDB modeling.",
+        "coverImage": "assets/img/backend_api.webp",
+        "image": "assets/img/backend_api.webp",
+        "gallery": [
+            "assets/img/backend_api.webp",
+            "assets/img/aqario.webp",
+            "assets/img/RWD.webp"
+        ],
+        "images": [
+            "assets/img/backend_api.webp",
+            "assets/img/aqario.webp",
+            "assets/img/RWD.webp"
+        ],
+        "date": "2026",
+        "subtitle": "High-Performance Express & MongoDB API Core",
+        "fullDescription": "",
+        "demo": "",
+        "github": "https://github.com/islam-shahat",
+        "technologies": [
+            "Node.js",
+            "Express.js",
+            "MongoDB",
+            "JWT Security",
+            "REST APIs",
+            "Cloudinary"
+        ],
+        "isFeatured": true,
+        "status": "published",
+        "orderIndex": 4,
+        "_id": "6acf49446ddfd9c80eccd30d",
+        "createdAt": "2026-10-14T09:20:04.107Z",
+        "updatedAt": "2026-10-14T09:20:04.107Z",
+        "__v": 0
+    }
 ]

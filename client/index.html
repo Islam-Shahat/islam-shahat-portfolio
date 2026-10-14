@@ -201,7 +201,7 @@
         rel="stylesheet">
 
     <!--=============== CSS ===============-->
-    <link rel="stylesheet" href="assets/css/styles.css?v=4.3">
+    <link rel="stylesheet" href="assets/css/styles.css?v=4.4">
 
     <title>Islam Shahat | Full Stack MERN Developer & Software Engineer | Portfolio</title>
 </head>
@@ -446,9 +446,36 @@
                 Featured <span>Projects</span>
             </h2>
 
+            <!-- Category Filter Tabs for Projects -->
+            <div class="projects__filters" id="projects-filters">
+                <button type="button" class="projects__filter-btn active" data-filter="all" onclick="filterPortfolioProjects('all', this)">
+                    <span>All</span> <span class="filter-count" id="proj-count-all">0</span>
+                </button>
+                <button type="button" class="projects__filter-btn" data-filter="Frontend" onclick="filterPortfolioProjects('Frontend', this)">
+                    <i class="ri-layout-line"></i> <span>Frontend</span> <span class="filter-count" id="proj-count-frontend">0</span>
+                </button>
+                <button type="button" class="projects__filter-btn" data-filter="MERN" onclick="filterPortfolioProjects('MERN', this)">
+                    <i class="ri-reactjs-line"></i> <span>MERN Stack</span> <span class="filter-count" id="proj-count-mern">0</span>
+                </button>
+                <button type="button" class="projects__filter-btn" data-filter="Backend" onclick="filterPortfolioProjects('Backend', this)">
+                    <i class="ri-server-line"></i> <span>Backend</span> <span class="filter-count" id="proj-count-backend">0</span>
+                </button>
+                <button type="button" class="projects__filter-btn" data-filter="C++" onclick="filterPortfolioProjects('C++', this)">
+                    <i class="ri-code-box-line"></i> <span>C++ / Core</span> <span class="filter-count" id="proj-count-cpp">0</span>
+                </button>
+            </div>
+
             <div class="projects__container container grid">
                 <div class="projects__swiper swiper">
                     <div class="swiper-wrapper" id="projects-content"></div>
+
+                    <!-- Swiper Navigation Arrows -->
+                    <div class="swiper-button-prev projects__swiper-nav" title="Previous Project" aria-label="Previous Project">
+                        <i class="ri-arrow-left-s-line"></i>
+                    </div>
+                    <div class="swiper-button-next projects__swiper-nav" title="Next Project" aria-label="Next Project">
+                        <i class="ri-arrow-right-s-line"></i>
+                    </div>
 
                     <div class="swiper-pagination"></div>
                 </div>
@@ -929,8 +956,13 @@
             <!-- Header -->
             <div class="gallery-modal__header">
                 <div class="gallery-modal__info">
-                    <span class="gallery-modal__badge" id="gallery-modal-category">MERN Stack</span>
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        <span class="gallery-modal__badge" id="gallery-modal-category">MERN Stack</span>
+                        <span class="gallery-modal__badge gallery-modal__badge--date" id="gallery-modal-date">2026</span>
+                    </div>
                     <h3 id="gallery-modal-title" class="gallery-modal__title">Project Showcase</h3>
+                    <p id="gallery-modal-desc" class="gallery-modal__desc"></p>
+                    <div id="gallery-modal-tech" class="gallery-modal__tech-tags"></div>
                 </div>
                 <div class="gallery-modal__actions">
                     <span class="gallery-modal__counter" id="gallery-modal-counter">1 / 1</span>
@@ -1007,7 +1039,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
     <!--=============== MAIN JS ===============-->
-    <script defer src="assets/js/main.js?v=4.4"></script>
+    <script defer src="assets/js/main.js?v=4.5"></script>
 </body>
 
 </html>
