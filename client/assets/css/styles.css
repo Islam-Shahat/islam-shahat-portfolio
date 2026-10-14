@@ -1119,6 +1119,9 @@ html.lenis body {
     padding: 1.5rem;
     border-radius: 3rem;
     overflow: hidden;
+    width: 320px;
+    max-width: 92vw;
+    box-sizing: border-box;
 }
 
 .projects .blob {
@@ -1860,6 +1863,7 @@ html.lenis body {
 .projects__swiper {
     margin-inline: initial;
     padding-bottom: 2rem;
+    width: 100%;
 }
 
 .projects .swiper-pagination-bullets {

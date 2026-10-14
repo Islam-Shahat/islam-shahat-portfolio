@@ -1,1 +1,33 @@
-[]
+[
+  {
+    "_id": "6ace9306485146c222e9c11b",
+    "title": "Veranda Café",
+    "category": "Frontend",
+    "description": "A fully responsive front-end website for Veranda café, featuring a modern UI with interactive menu sections, smooth navigation, and contact information.",
+    "coverImage": "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg",
+    "image": "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg",
+    "gallery": [
+      "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg"
+    ],
+    "images": [
+      "https://res.cloudinary.com/hbvtxcvd/image/upload/v1791922937/portfolio/image/z4k9aoux2pdf0tm77klo.jpg"
+    ],
+    "date": "2026",
+    "subtitle": "",
+    "fullDescription": "",
+    "demo": "",
+    "github": "https://github.com/Islam-Shahat/veranda-cafe-v2",
+    "technologies": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Responsive UI"
+    ],
+    "isFeatured": false,
+    "status": "published",
+    "orderIndex": 1,
+    "createdAt": "2026-10-13T20:22:30.165Z",
+    "updatedAt": "2026-10-13T20:22:30.165Z",
+    "__v": 0
+  }
+]

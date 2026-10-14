@@ -351,38 +351,46 @@ try {
 /*=============== PROJECTS CARDS ===============*/
 const projectsContent = document.getElementById("projects-content");
 
-fetch(`${API_BASE}/projects`)
-    .then((response) => {
-        if (!response.ok) throw new Error("API not available, fallback to static JSON");
-        return response.json();
-    })
-    .then((result) => {
-        const projectsData = result.data ? result.data : result;
-        if (!Array.isArray(projectsData)) {
-            throw new Error("Invalid projects response, fallback to static JSON");
-        }
-        renderProjects(projectsData);
-        initSwiper();
-        if (ScrollTrigger) ScrollTrigger.refresh();
-    })
-    .catch((error) => {
-        console.warn("Loading projects from static fallback assets/data/projects.json:", error);
-        fetch("assets/data/projects.json?v=3")
-            .then(res => res.json())
-            .then(data => {
-                renderProjects(Array.isArray(data) ? data : []);
-                initSwiper();
-                if (ScrollTrigger) ScrollTrigger.refresh();
-            }).catch(() => {
-                renderProjects([]);
-            });
-    });
+function loadPortfolioProjects() {
+    if (!projectsContent) return;
+
+    fetch(`${API_BASE}/projects?_t=${Date.now()}`)
+        .then((response) => {
+            if (!response.ok) throw new Error("API not available, fallback to static JSON");
+            return response.json();
+        })
+        .then((result) => {
+            const projectsData = result.data ? result.data : result;
+            if (!Array.isArray(projectsData) || projectsData.length === 0) {
+                throw new Error("Empty API response, fallback to static JSON");
+            }
+            renderProjects(projectsData);
+            initSwiper();
+            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+        })
+        .catch((error) => {
+            console.warn("Loading projects from static fallback assets/data/projects.json:", error);
+            fetch(`assets/data/projects.json?_t=${Date.now()}`)
+                .then(res => res.json())
+                .then(data => {
+                    renderProjects(Array.isArray(data) ? data : []);
+                    initSwiper();
+                    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+                }).catch(() => {
+                    renderProjects([]);
+                });
+        });
+}
+
+loadPortfolioProjects();
 
 function renderProjects(projects) {
     window._cachedProjects = projects;
+    if (!projectsContent) return;
+
     if (!projects || projects.length === 0) {
         projectsContent.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 3rem 1rem; color: var(--text-color-light, #8892b0);">
+            <div style="width: 100%; min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 1rem; color: var(--text-color-light, #8892b0);">
                 <i class="ri-folder-open-line" style="font-size: 3rem; margin-bottom: 1rem; display: block; opacity: 0.7;"></i>
                 <h3 style="color: var(--title-color, #e6f1ff); margin-bottom: 0.5rem;">لا توجد مشاريع مضافة حالياً</h3>
                 <p>يمكنك إضافة مشاريعك الجديدة من خلال لوحة التحكم الخاصة بالآدمن في أي وقت.</p>
@@ -457,9 +465,9 @@ function renderProjects(projects) {
         })
         .join('');
 
-    initMagnetic();
-    init3DTilt();
-    initSpotlightGlow();
+    try { if (typeof initMagnetic === 'function') initMagnetic(); } catch (e) {}
+    try { if (typeof init3DTilt === 'function') init3DTilt(); } catch (e) {}
+    try { if (typeof initSpotlightGlow === 'function') initSpotlightGlow(); } catch (e) {}
 }
 
 /*=============== DYNAMIC SKILLS CARDS ===============*/
@@ -948,22 +956,36 @@ function closeLightboxModal() {
 }
 
 function initSwiper() {
-    // Count slides to decide if loop is safe (loop requires more slides than visible)
-    const slideCount = document.querySelectorAll('.projects__swiper .swiper-slide').length;
-    // Disable loop if fewer than 4 slides to avoid Swiper loop warning
+    const swiperEl = document.querySelector('.projects__swiper');
+    if (!swiperEl || typeof Swiper === 'undefined') return;
+
+    const slides = swiperEl.querySelectorAll('.swiper-slide');
+    const slideCount = slides.length;
+    if (slideCount === 0) return;
+
+    if (window._swiperProjects && typeof window._swiperProjects.destroy === 'function') {
+        try { window._swiperProjects.destroy(true, true); } catch (e) {}
+        window._swiperProjects = null;
+    }
+
     const enableLoop = slideCount >= 4;
 
-    let swiperProjects = new Swiper(".projects__swiper", {
+    window._swiperProjects = new Swiper(".projects__swiper", {
         loop: enableLoop,
         spaceBetween: 24,
         slidesPerView: "auto",
+        centeredSlides: slideCount === 1,
+        centeredSlidesBounds: true,
         grabCursor: true,
         speed: 600,
-        pagination: {
+        observer: true,
+        observeParents: true,
+        observeSlideChildren: true,
+        pagination: slideCount > 1 ? {
             el: ".swiper-pagination",
             clickable: true,
             dynamicBullets: true,
-        },
+        } : false,
         autoplay: enableLoop ? {
             delay: 3000,
             disableOnInteraction: false,
