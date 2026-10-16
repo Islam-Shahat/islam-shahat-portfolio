@@ -73,7 +73,25 @@ router.get('/', async (req, res) => {
     if (isMongoReady()) {
       const query = allowDrafts ? {} : { status: 'published' };
       const projects = await Project.find(query).sort({ orderIndex: 1, createdAt: -1 });
-      return res.json({ success: true, count: projects.length, data: projects });
+      const data = projects.map(p => (typeof p.toObject === 'function' ? p.toObject() : p));
+
+      // Merge in projects created while the DB was offline (stored only in the JSON
+      // fallback with a non-ObjectId id). Without this, a project that reported
+      // "created successfully" becomes invisible as soon as the DB reconnects.
+      try {
+        const ids = new Set(data.map(p => String(p._id)));
+        const titles = new Set(data.map(p => p.title));
+        getFallbackProjects().forEach(p => {
+          const pid = String(p._id || p.id || '');
+          if (pid && mongoose.Types.ObjectId.isValid(pid)) return; // DB-managed entry
+          if (ids.has(pid)) return;
+          if (titles.has(p.title)) return;
+          if (!allowDrafts && p.status === 'draft') return;
+          data.push(p);
+        });
+      } catch (e) {}
+
+      return res.json({ success: true, count: data.length, data });
     } else {
       // Offline fallback mode using JSON file only when DB is disconnected
       let projects = getFallbackProjects();

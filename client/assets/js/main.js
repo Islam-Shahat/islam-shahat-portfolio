@@ -539,6 +539,15 @@ function filterPortfolioProjects(category, btnEl) {
 function loadPortfolioProjects() {
     if (!projectsContent) return;
 
+    const applyProjects = (list) => {
+        _allLoadedProjects = list;
+        updateProjectFilterCounts(list);
+        renderProjects(list);
+        // Post-render enhancements must never wipe already-rendered projects if they fail.
+        try { initSwiper(); } catch (e) { console.warn('initSwiper failed:', e); }
+        try { if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); } catch (e) {}
+    };
+
     fetch(`${API_BASE}/projects?_t=${Date.now()}`)
         .then((response) => {
             if (!response.ok) throw new Error("API not available, fallback to static JSON");
@@ -546,26 +555,14 @@ function loadPortfolioProjects() {
         })
         .then((result) => {
             const projectsData = Array.isArray(result.data) ? result.data : (Array.isArray(result) ? result : []);
-            _allLoadedProjects = projectsData;
-            updateProjectFilterCounts(projectsData);
-            renderProjects(projectsData);
-            initSwiper();
-            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+            applyProjects(projectsData);
         })
         .catch((error) => {
             console.warn("Loading projects from static fallback assets/data/projects.json:", error);
             fetch(`assets/data/projects.json?_t=${Date.now()}`)
                 .then(res => res.json())
-                .then(data => {
-                    const fallbackList = Array.isArray(data) ? data : [];
-                    _allLoadedProjects = fallbackList;
-                    updateProjectFilterCounts(fallbackList);
-                    renderProjects(fallbackList);
-                    initSwiper();
-                    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-                }).catch(() => {
-                    renderProjects([]);
-                });
+                .then(data => applyProjects(Array.isArray(data) ? data : []))
+                .catch(() => { try { renderProjects([]); } catch (e) {} });
         });
 }
 
@@ -603,8 +600,9 @@ function renderProjects(projects) {
             const hasGithub = project.github && project.github.trim() !== '' && project.github !== '#';
 
             const coverImage = project.coverImage || project.image || 'assets/img/backend_api.webp';
-            const rawGallery = project.gallery || project.images || [];
-            const allImages = Array.from(new Set([coverImage, ...rawGallery.filter(Boolean)]));
+            const toArr = (v) => Array.isArray(v) ? v.filter(Boolean) : (typeof v === 'string' && v.trim() ? v.split(',').map(s => s.trim()).filter(Boolean) : []);
+            const rawGallery = toArr(project.gallery).length ? toArr(project.gallery) : toArr(project.images);
+            const allImages = Array.from(new Set([coverImage, ...rawGallery].filter(Boolean)));
             const galleryCount = allImages.length;
 
             // ---- ACTION BUTTONS ----

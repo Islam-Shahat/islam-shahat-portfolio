@@ -102,6 +102,12 @@ const globalApiLimiter = rateLimit({
 });
 app.use('/api', globalApiLimiter);
 
+// 4. Never cache API responses so freshly created/updated projects always appear
+app.use('/api', (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
+
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
