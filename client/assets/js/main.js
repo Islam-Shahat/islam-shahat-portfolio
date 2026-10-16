@@ -1,12 +1,12 @@
 const getApiBase = () => {
     const host = window.location.hostname;
     const port = window.location.port;
-    if (window.location.protocol === 'file:') return 'http://localhost:5000/api';
+    if (window.location.protocol === 'file:') return 'http://localhost:5050/api';
     if (host === 'localhost' || host === '127.0.0.1') {
-        // Already on the Express server (default 5000, optional 5050)
-        if (!port || port === '5000' || port === '5050') return '/api';
-        // Live Server / other static hosts
-        return `http://${host}:5000/api`;
+        // Already on the Express server (default 5050)
+        if (!port || port === '5050') return '/api';
+        // Live Server / other static hosts -> point to the Express API
+        return `http://${host}:5050/api`;
     }
     return '/api';
 };
@@ -27,7 +27,7 @@ async function checkServerAvailable() {
 
 /**
  * Convert any PDF path to a direct browser-accessible URL.
- * Works in Live Server (5501), Express (5000), and production.
+ * Works in Live Server (5501), Express (5050), and production.
  */
 function resolveLocalPdfUrl(pdfPath) {
     if (!pdfPath) return null;
@@ -38,12 +38,140 @@ function resolveLocalPdfUrl(pdfPath) {
     if (clean.startsWith('assets/')) {
         return `${window.location.origin}/${clean}`;
     }
-    // /uploads/... => goes through the Express server on 5000
+    // /uploads/... => goes through the Express server on 5050
     if (clean.startsWith('uploads/') || pdfPath.startsWith('/uploads/')) {
         return `${SERVER_BASE}/${clean}`;
     }
     // Default: relative path
     return pdfPath;
+}
+
+/*=============== GSAP FALLBACK (keeps the site usable if the CDN fails) ===============*/
+window.__gsapFallback = (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined');
+if (window.__gsapFallback) {
+    (function () {
+        const resolveTargets = (target) => {
+            if (!target) return [];
+            if (typeof target === 'string') return Array.from(document.querySelectorAll(target));
+            if (target.nodeType) return [target];
+            if (Array.isArray(target)) return target.filter((t) => t && t.nodeType);
+            return [];
+        };
+
+        const RESERVED = /^(duration|ease|delay|stagger|repeat|repeatDelay|yoyo|paused|progress|onComplete|onUpdate|onStart|onInterrupt|onRepeat|scrollTrigger|overwrite|clearProps|transformOrigin|force3D|autoAlpha|immediateRender|lazy|modifiers|snap|id|data|parent|runBackwards|callbacks)$/;
+
+        const makeTween = () => ({
+            kill: () => {}, pause: () => {}, resume: () => {}, restart: () => {},
+            progress: () => 1, time: () => 0, duration: () => 0
+        });
+
+        const applyVars = (target, vars) => {
+            if (!vars || typeof vars !== 'object') return;
+            if (typeof target === 'object' && target !== null && !target.nodeType && !Array.isArray(target)) {
+                if (target.__isTimelineStub) {
+                    if (typeof vars.progress === 'number') target._p = vars.progress;
+                } else {
+                    Object.keys(vars).forEach((k) => {
+                        if (!RESERVED.test(k) && typeof vars[k] !== 'function') target[k] = vars[k];
+                    });
+                }
+                if (typeof vars.onUpdate === 'function') setTimeout(vars.onUpdate, 0);
+                if (typeof vars.onComplete === 'function') setTimeout(vars.onComplete, 0);
+                return;
+            }
+            resolveTargets(target).forEach((el) => {
+                const t = el.__gsapFb || (el.__gsapFb = { x: 0, y: 0, xp: 0, yp: 0, extra: '' });
+                let dirty = false;
+                Object.keys(vars).forEach((k) => {
+                    const v = vars[k];
+                    if (RESERVED.test(k)) {
+                        if (k === 'clearProps' && typeof v === 'string') {
+                            v.split(',').map((s) => s.trim()).forEach((p) => el.style.removeProperty(p));
+                        }
+                        return;
+                    }
+                    if (k === 'x') { t.x = v; dirty = true; }
+                    else if (k === 'y') { t.y = v; dirty = true; }
+                    else if (k === 'xPercent') { t.xp = v; dirty = true; }
+                    else if (k === 'yPercent') { t.yp = v; dirty = true; }
+                    else if (k === 'scale') { t.extra = ` scale(${v})`; dirty = true; }
+                    else if (k === 'rotate') { t.extra += ` rotate(${v}deg)`; dirty = true; }
+                    else if (k === 'opacity' || k === 'display' || k === 'visibility' || k === 'color' || k === 'backgroundColor') { el.style[k] = v; }
+                    else if (k === 'width' || k === 'height') { el.style[k] = typeof v === 'number' ? v + 'px' : v; }
+                    else if (typeof v === 'string' || typeof v === 'number') { try { el.style[k] = typeof v === 'number' ? v + 'px' : v; } catch (e) {} }
+                });
+                if (dirty) {
+                    el.style.transform = `translate(${t.xp}%, ${t.yp}%) translate(${t.x}px, ${t.y}px)${t.extra}`.trim();
+                }
+            });
+            if (typeof vars.onUpdate === 'function') setTimeout(vars.onUpdate, 0);
+            if (typeof vars.onComplete === 'function') setTimeout(vars.onComplete, 0);
+        };
+
+        const makeTimeline = (opts) => {
+            const tl = {
+                __isTimelineStub: true,
+                _p: 1,
+                progress: () => tl._p,
+                time: () => 0,
+                duration: () => 0,
+                totalDuration: () => 0,
+                to: (t, v) => { applyVars(t, v); return tl; },
+                from: () => tl,
+                fromTo: (t, f, v) => { applyVars(t, v); return tl; },
+                set: (t, v) => { applyVars(t, v); return tl; },
+                add: () => tl,
+                call: (fn) => { if (typeof fn === 'function') fn(); return tl; },
+                remove: () => tl, clear: () => tl, pause: () => tl, resume: () => tl,
+                play: () => tl, reverse: () => tl, restart: () => tl, seek: () => tl,
+                kill: () => tl, killTweensOf: () => tl, timeScale: () => tl, delay: () => tl,
+                repeat: () => tl, eventCallback: () => tl, invalidate: () => tl, then: () => tl
+            };
+            if (opts && typeof opts.onComplete === 'function') setTimeout(opts.onComplete, 0);
+            return tl;
+        };
+
+        if (typeof gsap === 'undefined') {
+            window.gsap = {
+                registerPlugin: () => {},
+                utils: { toArray: (t) => resolveTargets(t) },
+                to: (t, v) => { applyVars(t, v); return makeTween(); },
+                from: () => makeTween(),
+                fromTo: (t, f, v) => { applyVars(t, v); return makeTween(); },
+                set: (t, v) => { applyVars(t, v); },
+                timeline: (opts) => makeTimeline(opts),
+                delayedCall: (t, fn) => setTimeout(fn, (t || 0) * 1000),
+                quickTo: (target, prop) => (val) => {
+                    resolveTargets(target).forEach((el) => {
+                        const t = el.__gsapFb || (el.__gsapFb = { x: 0, y: 0, xp: 0, yp: 0, extra: '' });
+                        if (prop === 'x') t.x = val;
+                        else if (prop === 'y') t.y = val;
+                        else if (prop === 'xPercent') t.xp = val;
+                        else if (prop === 'yPercent') t.yp = val;
+                        el.style.transform = `translate(${t.xp}%, ${t.yp}%) translate(${t.x}px, ${t.y}px)${t.extra}`.trim();
+                    });
+                },
+                ticker: { add: () => {}, remove: () => {}, lagSmoothing: () => {} }
+            };
+        }
+        if (typeof ScrollTrigger === 'undefined') {
+            window.ScrollTrigger = {
+                refresh: () => {},
+                update: () => {},
+                addEventListener: () => {},
+                getAll: () => [],
+                create: (opts) => {
+                    if (opts && typeof opts.onEnter === 'function') setTimeout(opts.onEnter, 0);
+                    return { kill: () => {}, refresh: () => {} };
+                }
+            };
+        }
+        setTimeout(() => {
+            document.body.classList.remove('preloader-active');
+            const loader = document.getElementById('intro-loader');
+            if (loader) loader.style.display = 'none';
+        }, 0);
+    })();
 }
 
 /*=============== GSAP & SCROLLTRIGGER SETUP ===============*/
@@ -139,6 +267,7 @@ let introComplete = false;
 
 // Run profession loop continuously and seamlessly without timeline resetting
 const runProfessionLoop = () => {
+    if (window.__gsapFallback) return;
     const el1 = document.querySelector(".home__profession-1");
     const el2 = document.querySelector(".home__profession-2");
     if (!el1 || !el2) return;
@@ -450,7 +579,7 @@ function renderProjects(projects) {
     // Dynamically sync About section project counter
     const projStatEl = document.getElementById('stats-projects-count');
     const totalCount = (_allLoadedProjects && _allLoadedProjects.length > 0) ? _allLoadedProjects.length : (Array.isArray(projects) ? projects.length : 0);
-    if (projStatEl && totalCount > 0) {
+    if (projStatEl) {
         projStatEl.setAttribute('data-target', totalCount);
         if (typeof _statsCountersAnimated !== 'undefined' && _statsCountersAnimated) {
             projStatEl.textContent = `${totalCount}+`;
@@ -840,19 +969,6 @@ function handleCvDownload(e) {
     // Let native link handle download
 }
 
-function openVideoModal(videoUrl, title) {
-    const modal = document.getElementById("video-player-modal");
-    const videoEl = document.getElementById("video-modal-element");
-    const titleEl = document.getElementById("video-modal-title");
-
-    if (modal && videoEl) {
-        titleEl.innerHTML = `<i class="ri-video-line" style="color: var(--first-color);"></i> ${title || 'Video Player'}`;
-        videoEl.src = videoUrl;
-        modal.style.display = "flex";
-        videoEl.play().catch(e => { });
-    }
-}
-
 /*=============== MULTI-IMAGE GALLERY LIGHTBOX LOGIC ===============*/
 let _currentGalleryData = {
     title: '',
@@ -1062,6 +1178,12 @@ function closeLightboxModal() {
     if (modal) {
         modal.style.display = "none";
         document.body.style.overflow = '';
+        const gallery = document.getElementById('project-gallery-modal');
+        const galleryOpen = gallery && gallery.style.display !== 'none' && gallery.style.display !== '';
+        if (!galleryOpen) {
+            window.removeEventListener('keydown', handleGalleryKeyDown);
+            document.body.style.overflow = '';
+        }
     }
 }
 
@@ -1256,6 +1378,18 @@ function escapeXml(unsafe) {
             case '"': return '&quot;';
         }
     });
+}
+
+// Escapes a value for embedding inside a single-quoted JS string
+// within a double-quoted HTML attribute (onclick="...('...')")
+function escapeJsAttr(value) {
+    if (value === null || value === undefined) return '';
+    return String(value)
+        .replace(/\\/g, '\\\\')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, "\\'");
 }
 
 function isImageResource(url) {
@@ -1960,17 +2094,19 @@ function renderTestimonials(testimonials) {
                <div class="floating-screen__avatar-placeholder" style="display: none;">${initials}</div>`
             : `<div class="floating-screen__avatar-placeholder">${initials}</div>`;
 
-        const proofUrl = t.screenshotUrl && t.screenshotUrl.trim() !== '' ? t.screenshotUrl : t.avatar;
+        const proofUrl = t.screenshotUrl && t.screenshotUrl.trim() !== ''
+            ? t.screenshotUrl
+            : ((t.avatar && t.avatar.trim() !== '') ? t.avatar : 'assets/img/veranda.webp');
 
         const screenshotHtml = t.screenshotUrl && t.screenshotUrl.trim() !== ''
-            ? `<div class="floating-screen__screenshot-thumb" onclick="event.stopPropagation(); openTestimonialScreenshot('${t.screenshotUrl}', '${t.name.replace(/'/g, "\\'")}')">
-                 <img src="${t.screenshotUrl}" alt="Proof screenshot from ${t.name}" loading="lazy" onerror="this.onerror=null; this.src='assets/img/veranda.webp'">
+            ? `<div class="floating-screen__screenshot-thumb" onclick="event.stopPropagation(); openTestimonialScreenshot('${escapeJsAttr(t.screenshotUrl)}', '${escapeJsAttr(t.name)}')">
+                 <img src="${t.screenshotUrl}" alt="Proof screenshot from ${escapeXml(t.name)}" loading="lazy" onerror="this.onerror=null; this.src='assets/img/veranda.webp'">
                  <div class="floating-screen__screenshot-overlay"><i class="ri-zoom-in-line"></i> View Proof Screen</div>
                </div>`
             : '';
 
         return `
-            <article class="floating-screen__card" data-index="${idx}" onclick="openTestimonialScreenshot('${proofUrl}', '${t.name.replace(/'/g, "\\'")}')">
+            <article class="floating-screen__card" data-index="${idx}" onclick="openTestimonialScreenshot('${escapeJsAttr(proofUrl)}', '${escapeJsAttr(t.name)}')">
                 <div class="floating-screen__window-bar">
                     <div class="floating-screen__badges">
                         <span class="floating-screen__platform ${platformClass}">
@@ -1998,7 +2134,7 @@ function renderTestimonials(testimonials) {
                             ${t.company ? `<span class="floating-screen__author-company">${t.company}</span>` : ''}
                         </div>
                     </div>
-                    <button type="button" class="floating-screen__proof-btn" title="Inspect Full Screen" onclick="event.stopPropagation(); openTestimonialScreenshot('${proofUrl}', '${t.name.replace(/'/g, "\\'")}')">
+                    <button type="button" class="floating-screen__proof-btn" title="Inspect Full Screen" onclick="event.stopPropagation(); openTestimonialScreenshot('${escapeJsAttr(proofUrl)}', '${escapeJsAttr(t.name)}')">
                         <i class="ri-zoom-in-line"></i>
                     </button>
                 </div>
@@ -2084,17 +2220,8 @@ function initFloatingStreamInteractions() {
 }
 
 function openTestimonialScreenshot(url, authorName) {
-    const modal = document.getElementById("image-lightbox-modal");
-    const img = document.getElementById("lightbox-modal-img");
-    const titleEl = document.getElementById("lightbox-modal-title");
-    const dlBtn = document.getElementById("lightbox-modal-download") || document.getElementById("lightbox-modal-download-btn");
-
-    if (modal && img) {
-        img.src = url;
-        if (titleEl) titleEl.innerHTML = `<i class="ri-shield-check-line text-primary"></i> Recommendation Proof — ${authorName}`;
-        if (dlBtn) dlBtn.href = url;
-        modal.style.display = "flex";
-    }
+    if (!url || url === 'undefined') return;
+    openLightboxModal(url, `Recommendation Proof — ${authorName || ''}`, url);
 }
 
 // Kick off loading testimonials

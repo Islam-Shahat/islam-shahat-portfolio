@@ -1,10 +1,10 @@
 const getApiBase = () => {
   const host = window.location.hostname;
   const port = window.location.port;
-  if (window.location.protocol === 'file:') return 'http://localhost:5000/api';
+  if (window.location.protocol === 'file:') return 'http://localhost:5050/api';
   if (host === 'localhost' || host === '127.0.0.1') {
-    if (!port || port === '5000' || port === '5050') return '/api';
-    return `http://${host}:5000/api`;
+    if (!port || port === '5050') return '/api';
+    return `http://${host}:5050/api`;
   }
   return '/api';
 };
@@ -1227,7 +1227,9 @@ async function deleteCertificate(id) {
 
 async function loadTestimonials() {
   try {
-    const res = await fetch(`${API_BASE}/testimonials?includeDrafts=true`);
+    const token = localStorage.getItem('admin_token');
+    const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+    const res = await fetch(`${API_BASE}/testimonials?includeDrafts=true`, { headers });
     const data = await res.json();
     if (data.success && data.data) {
       testimonialsCache = data.data;
@@ -1383,34 +1385,6 @@ async function deleteTestimonial(id) {
 /* ==================== TAB 8: CV MANAGEMENT ==================== */
 
 let uploadedCvBase64 = '';
-
-function downloadFileBlob(url, filename) {
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename || 'download.pdf';
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(() => {
-    try {
-      if (a.parentNode) document.body.removeChild(a);
-    } catch (e) {}
-  }, 1000);
-}
-
-function handleActiveCvView() {
-  if (activeCvData && activeCvData._id) {
-    window.open(`${API_BASE}/cv/view/${activeCvData._id}`, '_blank');
-  } else {
-    window.open(`${API_BASE}/cv/view`, '_blank');
-  }
-}
-
-function handleActiveCvDownload() {
-  const url = (activeCvData && activeCvData._id) ? `${API_BASE}/cv/download/${activeCvData._id}` : `${API_BASE}/cv/download`;
-  const name = (activeCvData && (activeCvData.originalName || activeCvData.name)) || 'Islam_Shahat_CV.pdf';
-  downloadFileBlob(url, name);
-}
 
 async function loadCVs() {
   try {
@@ -2534,32 +2508,6 @@ function closeLightboxModal() {
     modal.style.display = "none";
     const imgEl = document.getElementById("lightbox-modal-img");
     if (imgEl) imgEl.src = "";
-  }
-}
-
-function closePdfModal() {
-  const modal = document.getElementById("pdf-viewer-modal");
-  if (modal) modal.style.display = "none";
-  const container = document.getElementById("pdf-modal-container");
-  if (container) container.innerHTML = "";
-}
-
-function toggleSidebarMobile(forceState) {
-  const sidebar = document.querySelector(".sidebar");
-  const overlay = document.getElementById("sidebar-overlay");
-  if (!sidebar) return;
-
-  if (typeof forceState === 'boolean') {
-    if (forceState) {
-      sidebar.classList.add("show");
-      if (overlay) overlay.style.display = "block";
-    } else {
-      sidebar.classList.remove("show");
-      if (overlay) overlay.style.display = "none";
-    }
-  } else {
-    const isShowing = sidebar.classList.toggle("show");
-    if (overlay) overlay.style.display = isShowing ? "block" : "none";
   }
 }
 

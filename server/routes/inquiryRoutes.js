@@ -155,7 +155,8 @@ router.get('/admin/inquiries', protect, handleGetInquiries);
 
 const handleUpdateInquiryStatus = async (req, res) => {
   try {
-    const status = req.body && req.body.status ? req.body.status : (req.path.includes('read') ? 'read' : 'read');
+    const requestedStatus = req.body && req.body.status;
+    const status = ['unread', 'read', 'archived', 'replied'].includes(requestedStatus) ? requestedStatus : 'read';
     const id = req.params.id;
     let updated = null;
 

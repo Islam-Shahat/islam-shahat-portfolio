@@ -33,11 +33,14 @@ const saveFallbackTestimonials = (items) => {
 
 const isMongoReady = () => mongoose.connection.readyState === 1;
 
+const DEFAULT_JWT_SECRET = '6e66d8f540eaf88fbbf38ac4f38a3465c56fd4e9473fafb116f92772b6f26cdd31fb56c088c755ca8455e678914a4f57342e79f1775268dc57e6b31e605bf764';
+
 const isAuthorizedAdmin = (req) => {
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ') && process.env.JWT_SECRET) {
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      jwt.verify(token, process.env.JWT_SECRET);
+      const secret = process.env.JWT_SECRET || DEFAULT_JWT_SECRET;
+      jwt.verify(token, secret);
       return true;
     } catch {
       return false;

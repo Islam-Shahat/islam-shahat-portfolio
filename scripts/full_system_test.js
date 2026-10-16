@@ -125,27 +125,19 @@ async function runTests() {
     const data = await res.json();
     assert(data.success === true, 'API response has success: true');
     assert(Array.isArray(data.data), 'API data is an Array');
-    assert(data.count >= 4, `Projects count is at least 4 (actual: ${data.count})`);
     publicProjects = data.data;
 
-    // Verify key projects exist
-    const hasVeranda = publicProjects.some(p => p.title.includes('Veranda'));
-    const hasAqario = publicProjects.some(p => p.title.includes('Aqario'));
-    const hasAtm = publicProjects.some(p => p.title.includes('ATM'));
-    const hasBackend = publicProjects.some(p => p.title.includes('Backend') || p.title.includes('RESTful'));
-
-    assert(hasVeranda, 'Contains "Veranda Café" project');
-    assert(hasAqario, 'Contains "Aqario Luxe Real Estate" project');
-    assert(hasAtm, 'Contains "ATM Banking System" project');
-    assert(hasBackend, 'Contains "Scalable RESTful Backend Architecture" project');
-
-    // Verify structure of first project
-    const p1 = publicProjects[0];
-    assert(!!p1.title, `First project has title: "${p1.title}"`);
-    assert(!!p1.category, `First project has category: "${p1.category}"`);
-    assert(!!p1.description, 'First project has description');
-    assert(Array.isArray(p1.technologies) && p1.technologies.length > 0, `First project has technologies: [${p1.technologies.join(', ')}]`);
-    assert(!!p1.coverImage || !!p1.image, 'First project has valid cover image');
+    // Projects are fully dynamic now (no hardcoded samples). Validate shape only when present.
+    if (publicProjects.length > 0) {
+      const p1 = publicProjects[0];
+      assert(!!p1.title, `First project has title: "${p1.title}"`);
+      assert(!!p1.category, `First project has category: "${p1.category}"`);
+      assert(!!p1.description, 'First project has description');
+      assert(Array.isArray(p1.technologies), 'First project has technologies array');
+      assert(!!p1.coverImage || !!p1.image, 'First project has valid cover image');
+    } else {
+      assert(true, 'Public projects feed is empty (dynamic mode — no hardcoded samples)');
+    }
   } catch (err) {
     assert(false, 'GET /api/projects reachable', err.message);
   }
@@ -169,7 +161,51 @@ async function runTests() {
     assert(false, 'Admin authentication test', err.message);
   }
 
-  // Test 4.3: Draft projects security & visibility
+  // Test 4.3: Admin-created published project appears in the public portfolio feed
+  if (adminToken) {
+    let pubTestId = null;
+    try {
+      const createRes = await fetch(`${API_BASE}/projects`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: JSON.stringify({
+          title: 'Automated Public Project',
+          category: 'MERN Stack',
+          description: 'Verifies admin-created projects appear on the public portfolio.',
+          date: '2026',
+          status: 'published',
+          technologies: ['React', 'Node.js']
+        })
+      });
+      const createData = await createRes.json();
+      assert(createData.success, 'Admin can create a published project');
+      pubTestId = createData.data?._id || createData.data?.id;
+
+      const pubFeedRes = await fetch(`${API_BASE}/projects`);
+      const pubFeed = await pubFeedRes.json();
+      assert(pubFeed.data.some(p => p.title === 'Automated Public Project'), 'Admin-created project appears in public portfolio feed');
+
+      const cleanupRes = await fetch(`${API_BASE}/projects/${pubTestId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${adminToken}` }
+      });
+      const cleanupData = await cleanupRes.json();
+      assert(cleanupData.success, 'Cleanup: published test project deleted');
+    } catch (err) {
+      assert(false, 'Published project lifecycle test', err.message);
+      if (pubTestId) {
+        await fetch(`${API_BASE}/projects/${pubTestId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        }).catch(() => {});
+      }
+    }
+  }
+
+  // Test 4.4: Draft projects security & visibility
   if (adminToken) {
     let testDraftId = null;
     try {
@@ -248,14 +284,11 @@ async function runTests() {
     const rawFallback = fs.readFileSync(projectsJsonPath, 'utf8');
     const fallbackProjects = JSON.parse(rawFallback);
     assert(Array.isArray(fallbackProjects), 'projects.json contains a valid JSON array');
-    assert(fallbackProjects.length >= 4, `projects.json has at least 4 projects (actual: ${fallbackProjects.length})`);
-    
-    // Check that fallback projects match titles
-    const titles = fallbackProjects.map(p => p.title);
-    assert(titles.some(t => t.includes('Veranda')), 'projects.json has Veranda Café');
-    assert(titles.some(t => t.includes('Aqario')), 'projects.json has Aqario Luxe');
-    assert(titles.some(t => t.includes('ATM')), 'projects.json has ATM System');
-    assert(titles.some(t => t.includes('RESTful') || t.includes('Backend')), 'projects.json has RESTful Backend');
+    // Projects are fully dynamic now: the fallback mirror may legitimately be empty
+    // (no hardcoded sample projects). Only validate shape when entries exist.
+    fallbackProjects.forEach((p, i) => {
+      assert(typeof p.title === 'string' && p.title.length > 0, `projects.json[${i}] has a title`);
+    });
   } catch (err) {
     assert(false, 'Fallback JSON validation', err.message);
   }

@@ -15,7 +15,7 @@ const isMongoReady = () => mongoose.connection.readyState === 1;
 
 // Path to canonical static PDF
 const CLIENT_STATIC_PDF = path.resolve(__dirname, '../../client/assets/pdf/Islam_Shahat_CV.pdf');
-const CLIENT_STATIC_PDF_ALT = path.resolve(__dirname, '../client/assets/pdf/Islam_Shahat_CV.pdf');
+const CLIENT_STATIC_PDF_ALT = path.resolve(__dirname, '../../client/assets/pdf/Islam_Shahat_CV.pdf');
 const getStaticFallbackPdf = () => {
   if (fs.existsSync(CLIENT_STATIC_PDF)) return CLIENT_STATIC_PDF;
   if (fs.existsSync(CLIENT_STATIC_PDF_ALT)) return CLIENT_STATIC_PDF_ALT;

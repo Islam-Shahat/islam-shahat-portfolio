@@ -98,18 +98,28 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:id', async (req, res) => {
   try {
+    const allowDrafts = isAuthorizedAdmin(req);
+
     if (isMongoReady()) {
       const project = await Project.findById(req.params.id);
-      if (project) return res.json({ success: true, data: project });
+      if (project) {
+        if (project.status === 'draft' && !allowDrafts) {
+          return res.status(404).json({ success: false, message: 'Project not found' });
+        }
+        return res.json({ success: true, data: project });
+      }
     }
     
     const projects = getFallbackProjects();
     const project = projects.find(p => p.id === req.params.id || p._id === req.params.id);
-    if (!project) {
+    if (!project || (project.status === 'draft' && !allowDrafts)) {
       return res.status(404).json({ success: false, message: 'Project not found' });
     }
     res.json({ success: true, data: project });
   } catch (error) {
+    if (error && error.name === 'CastError') {
+      return res.status(404).json({ success: false, message: 'Project not found' });
+    }
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
