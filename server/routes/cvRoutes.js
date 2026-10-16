@@ -26,6 +26,7 @@ const getStaticFallbackPdf = () => {
 const formatCvItem = (item) => {
   if (!item) return item;
   const obj = typeof item.toObject === 'function' ? item.toObject() : { ...item };
+  delete obj.fileData;
   obj.url = obj.cloudinaryUrl || obj.pdfFile || `/api/cv/download/${obj._id || ''}`;
   obj.downloadUrl = `/api/cv/download/${obj._id || ''}`;
   obj.viewUrl = `/api/cv/view/${obj._id || ''}`;
@@ -239,9 +240,9 @@ const handleListCvs = async (req, res) => {
   }
 };
 
-router.get('/', handleListCvs);
-router.get('/all', handleListCvs);
-router.get('/admin/cv', handleListCvs);
+router.get('/', authMiddleware, handleListCvs);
+router.get('/all', authMiddleware, handleListCvs);
+router.get('/admin/cv', authMiddleware, handleListCvs);
 
 // ==========================================
 // 5. POST /api/cv - Create/Upload New CV

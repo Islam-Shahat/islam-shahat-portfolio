@@ -1,16 +1,18 @@
 const getApiBase = () => {
-    if (window.location.protocol === 'file:') return 'http://localhost:5050/api';
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        if (window.location.port && window.location.port !== '5050') {
-            return `http://${window.location.hostname}:5050/api`;
-        }
+    const host = window.location.hostname;
+    const port = window.location.port;
+    if (window.location.protocol === 'file:') return 'http://localhost:5000/api';
+    if (host === 'localhost' || host === '127.0.0.1') {
+        // Already on the Express server (default 5000, optional 5050)
+        if (!port || port === '5000' || port === '5050') return '/api';
+        // Live Server / other static hosts
+        return `http://${host}:5000/api`;
     }
     return '/api';
 };
 const API_BASE = getApiBase();
 
-// Checks if the API server (port 5000) is available
-const SERVER_BASE = API_BASE.replace('/api', '');
+const SERVER_BASE = API_BASE.replace(/\/api$/, '') || window.location.origin;
 let _serverAvailable = null; // null=unknown, true=up, false=down
 async function checkServerAvailable() {
     if (_serverAvailable !== null) return _serverAvailable;
@@ -45,7 +47,9 @@ function resolveLocalPdfUrl(pdfPath) {
 }
 
 /*=============== GSAP & SCROLLTRIGGER SETUP ===============*/
-gsap.registerPlugin(ScrollTrigger);
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 // Force scroll to top on refresh and disable browser scroll restoration
 history.scrollRestoration = 'manual';
@@ -363,17 +367,19 @@ function updateProjectFilterCounts(projects) {
 
     if (countAll) countAll.textContent = total;
 
-    const getMatchCount = (key) => projects.filter(p => {
+    if (countFrontend) countFrontend.textContent = projects.filter(p => (p.category || '').toLowerCase().includes('front') && !(p.category || '').toLowerCase().includes('mern')).length;
+    if (countMern) countMern.textContent = projects.filter(p => {
+        const c = (p.category || '').toLowerCase();
+        const tech = Array.isArray(p.technologies) ? p.technologies.join(' ').toLowerCase() : (p.technologies || '').toLowerCase();
+        return c.includes('mern') || (tech.includes('react') && (tech.includes('node') || tech.includes('mongo') || tech.includes('express')));
+    }).length;
+    if (countBackend) countBackend.textContent = projects.filter(p => (p.category || '').toLowerCase().includes('back') && !(p.category || '').toLowerCase().includes('mern')).length;
+    if (countCpp) countCpp.textContent = projects.filter(p => {
         const c = (p.category || '').toLowerCase();
         const t = (p.title || '').toLowerCase();
         const tech = Array.isArray(p.technologies) ? p.technologies.join(' ').toLowerCase() : (p.technologies || '').toLowerCase();
-        return c.includes(key) || t.includes(key) || tech.includes(key);
+        return c.includes('c++') || tech.includes('c++') || t.includes('atm');
     }).length;
-
-    if (countFrontend) countFrontend.textContent = getMatchCount('front');
-    if (countMern) countMern.textContent = getMatchCount('mern') || getMatchCount('react');
-    if (countBackend) countBackend.textContent = getMatchCount('back') || getMatchCount('node') || getMatchCount('api');
-    if (countCpp) countCpp.textContent = getMatchCount('c++') || getMatchCount('bank') || getMatchCount('system');
 }
 
 function filterPortfolioProjects(category, btnEl) {
@@ -389,9 +395,9 @@ function filterPortfolioProjects(category, btnEl) {
             const c = (p.category || '').toLowerCase();
             const t = (p.title || '').toLowerCase();
             const tech = Array.isArray(p.technologies) ? p.technologies.join(' ').toLowerCase() : (p.technologies || '').toLowerCase();
-            if (category === 'Frontend') return c.includes('front') || tech.includes('html') || tech.includes('css') || tech.includes('react');
-            if (category === 'MERN') return c.includes('mern') || tech.includes('mern') || tech.includes('react');
-            if (category === 'Backend') return c.includes('back') || tech.includes('node') || tech.includes('express') || tech.includes('api');
+            if (category === 'Frontend') return c.includes('front') && !c.includes('mern');
+            if (category === 'MERN') return c.includes('mern') || (tech.includes('react') && (tech.includes('node') || tech.includes('mongo') || tech.includes('express')));
+            if (category === 'Backend') return c.includes('back') && !c.includes('mern');
             if (category === 'C++') return c.includes('c++') || tech.includes('c++') || t.includes('atm');
             return c.includes(catLower) || t.includes(catLower) || tech.includes(catLower);
         });
@@ -670,9 +676,14 @@ async function initActiveCv() {
             const downloadHref = `${API_BASE}/cv/download`;
             const viewHref = `${API_BASE}/cv/view`;
             const fileName = cv.originalName || cv.name || 'Islam_Shahat_CV.pdf';
-            const directDownloadHref = (cv.cloudinaryUrl && (cv.cloudinaryUrl.startsWith('http://') || cv.cloudinaryUrl.startsWith('https://')))
+            const isHttpUrl = (p) => typeof p === 'string' && (p.startsWith('http://') || p.startsWith('https://'));
+            const isStaticAsset = (p) => {
+                if (!p || typeof p !== 'string' || p.startsWith('data:')) return false;
+                return p.replace(/^\/+/, '').startsWith('assets/');
+            };
+            const directDownloadHref = isHttpUrl(cv.cloudinaryUrl)
                 ? cv.cloudinaryUrl
-                : (cv.pdfFile && !cv.pdfFile.startsWith('data:') ? cv.pdfFile : downloadHref);
+                : (isStaticAsset(cv.pdfFile) ? cv.pdfFile : downloadHref);
 
             // 1. Home hero CV button
             const homeCvBtn = document.getElementById('home-cv-btn');
@@ -684,7 +695,9 @@ async function initActiveCv() {
             // 2. About section preview CV button
             const cvPreviewBtn = document.getElementById('cv-preview-btn');
             if (cvPreviewBtn) {
-                cvPreviewBtn.href = cv.cloudinaryUrl || cv.pdfFile || viewHref;
+                cvPreviewBtn.href = isHttpUrl(cv.cloudinaryUrl)
+                    ? cv.cloudinaryUrl
+                    : (isStaticAsset(cv.pdfFile) ? cv.pdfFile : viewHref);
                 cvPreviewBtn.target = '_blank';
                 cvPreviewBtn.rel = 'noopener noreferrer';
             }
@@ -1172,9 +1185,10 @@ function renderExperienceItems(items, container) {
     if (!container || !items) return;
     container.innerHTML = items
         .map((item) => {
+            const company = item.company || item.subtitle || '';
             const dateStr = item.startDate === item.endDate || item.endDate === '' 
-                ? item.startDate 
-                : `${item.startDate} - ${item.current ? 'Present' : (item.endDate || 'Present')}`;
+                ? (item.startDate || item.year || '')
+                : `${item.startDate || ''} - ${item.current ? 'Present' : (item.endDate || 'Present')}`;
             const certBtn = item.certificateFile
                 ? `<button onclick="openPdfModal('${item.certificateFile}', '${item.title.replace(/'/g, "\\'")}', '${(item.certificateOriginalName || item.title + '.pdf').replace(/'/g, "\\'")}')" class="work__link-btn"><i class="ri-file-pdf-2-line"></i> View Proof</button>`
                 : '';
@@ -1183,7 +1197,7 @@ function renderExperienceItems(items, container) {
             <div class="work__data">
                 <div>
                     <h1 class="work__title">${item.title}</h1>
-                    <h3 class="work__subtitle">${item.company} ${item.location ? `• ${item.location}` : ''}</h3>
+                    <h3 class="work__subtitle">${company} ${item.location ? `• ${item.location}` : ''}</h3>
                 </div>
                 <h2 class="work__year">${dateStr}</h2>
             </div>
@@ -1197,13 +1211,13 @@ function renderEducationItems(items, container) {
     if (!container || !items) return;
     container.innerHTML = items
         .map((item) => {
-            const dateStr = `${item.startDate} - ${item.endDate || 'Present'}`;
+            const dateStr = `${item.startDate || item.year || ''} - ${item.endDate || 'Present'}`;
             return `
         <div class="work__card">
             <div class="work__data">
                 <div>
-                    <h1 class="work__title">${item.degree}</h1>
-                    <h3 class="work__subtitle">${item.institution} ${item.gpa ? `(GPA: ${item.gpa})` : ''}</h3>
+                    <h1 class="work__title">${item.degree || item.title || ''}</h1>
+                    <h3 class="work__subtitle">${item.institution || item.subtitle || ''} ${item.gpa ? `(GPA: ${item.gpa})` : ''}</h3>
                 </div>
                 <h2 class="work__year">${dateStr}</h2>
             </div>
@@ -1216,13 +1230,13 @@ function renderVolunteeringItems(items, container) {
     if (!container || !items) return;
     container.innerHTML = items
         .map((item) => {
-            const dateStr = `${item.startDate} - ${item.endDate || 'Present'}`;
+            const dateStr = `${item.startDate || item.year || ''} - ${item.endDate || 'Present'}`;
             return `
         <div class="work__card">
             <div class="work__data">
                 <div>
-                    <h1 class="work__title">${item.role}</h1>
-                    <h3 class="work__subtitle">${item.organization} ${item.location ? `• ${item.location}` : ''}</h3>
+                    <h1 class="work__title">${item.role || item.title || ''}</h1>
+                    <h3 class="work__subtitle">${item.organization || item.subtitle || ''} ${item.location ? `• ${item.location}` : ''}</h3>
                 </div>
                 <h2 class="work__year">${dateStr}</h2>
             </div>
@@ -2153,14 +2167,13 @@ if (contactForm) {
             })
             .catch(error => {
                 console.warn("Backend API inquiry error, sending via fallback:", error);
-                // Fallback to formsubmit if local server endpoint unavailable
                 fetch("https://formsubmit.co/ajax/islam.shahat.net@gmail.com", {
                     method: "POST",
                     headers: { "Content-Type": "application/json", "Accept": "application/json" },
                     body: JSON.stringify({ name, email, message, _captcha: "false" })
                 })
                     .then(res => res.json())
-                    .then(resData => {
+                    .then(() => {
                         submitBtn.innerHTML = `Sent Successfully! <i class="ri-check-line"></i>`;
                         submitBtn.style.backgroundColor = "hsl(140, 60%, 40%)";
                         contactForm.reset();
@@ -2169,6 +2182,11 @@ if (contactForm) {
                             submitBtn.style.backgroundColor = "";
                             submitBtn.disabled = false;
                         }, 4000);
+                    })
+                    .catch(() => {
+                        alert("Failed to send message. Please try again later or email islam.shahat.net@gmail.com");
+                        submitBtn.innerHTML = originalBtnContent;
+                        submitBtn.disabled = false;
                     });
             });
     });
@@ -2739,12 +2757,15 @@ const scrambleText = (element) => {
 /*=============== THREEUI 3D WEBGL HERO SCENE (THREE.JS) ===============*/
 let _threeHeroInitialized = false;
 let _threeHeroAnimationId = null;
+let _threeHeroRetries = 0;
 
 const initThreeHeroScene = () => {
     if (_threeHeroInitialized) return;
     if (typeof THREE === "undefined") {
-        // Retry if Three.js is still loading
-        setTimeout(initThreeHeroScene, 150);
+        if (_threeHeroRetries < 25) {
+            _threeHeroRetries += 1;
+            setTimeout(initThreeHeroScene, 200);
+        }
         return;
     }
 

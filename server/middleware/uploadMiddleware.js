@@ -12,7 +12,8 @@ const dirs = {
   certificates: path.join(baseUploadDir, 'certificates'),
   projects: path.join(baseUploadDir, 'projects'),
   documents: path.join(baseUploadDir, 'documents'),
-  images: path.join(baseUploadDir, 'images')
+  images: path.join(baseUploadDir, 'images'),
+  videos: path.join(baseUploadDir, 'videos')
 };
 
 // Safe directory creator

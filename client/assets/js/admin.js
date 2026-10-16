@@ -1,9 +1,10 @@
 const getApiBase = () => {
-  if (window.location.protocol === 'file:') return 'http://localhost:5050/api';
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    if (window.location.port && window.location.port !== '5050') {
-      return `http://${window.location.hostname}:5050/api`;
-    }
+  const host = window.location.hostname;
+  const port = window.location.port;
+  if (window.location.protocol === 'file:') return 'http://localhost:5000/api';
+  if (host === 'localhost' || host === '127.0.0.1') {
+    if (!port || port === '5000' || port === '5050') return '/api';
+    return `http://${host}:5000/api`;
   }
   return '/api';
 };
@@ -1413,7 +1414,10 @@ function handleActiveCvDownload() {
 
 async function loadCVs() {
   try {
-    const res = await fetch(`${API_BASE}/cv`);
+    const token = localStorage.getItem('admin_token');
+    const res = await fetch(`${API_BASE}/cv`, {
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+    });
     const data = await res.json();
     if (data.success) {
       cvCache = data.data || [];

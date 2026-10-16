@@ -26,6 +26,7 @@ const Testimonial = require('./models/Testimonial');
 
 // Initialize Express App
 const app = express();
+app.set('trust proxy', 1);
 
 // 1. HTTP Security Headers with Helmet
 app.use(helmet({
@@ -182,7 +183,7 @@ async function seedInitialData() {
     const adminCount = await User.countDocuments();
     if (adminCount === 0) {
       const defaultUsername = process.env.ADMIN_USERNAME || 'admin';
-      const defaultPassword = process.env.ADMIN_PASSWORD || 'admin123';
+      const defaultPassword = process.env.ADMIN_PASSWORD || 'iLGCxZeBBg6eJE6I';
       const admin = new User({
         username: defaultUsername,
         password: defaultPassword,
@@ -351,9 +352,16 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
-// Catch-all: serve index.html for any unknown routes (SPA support)
+// Catch-all: unknown non-API routes get the 404 page
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ success: false, message: 'API endpoint not found' });
+  }
+  const notFoundPage = path.join(__dirname, '../client/404.html');
+  if (fs.existsSync(notFoundPage)) {
+    return res.status(404).sendFile(notFoundPage);
+  }
+  res.status(404).sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 // Error handling middleware
